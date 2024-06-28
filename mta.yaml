@@ -1,0 +1,165 @@
+_schema-version: "3.1"
+ID: management-plane
+description: Management Plane Application.
+version: 1.0.0
+modules:
+
+# ======================== Backend Nodejs Module ==============================
+- name: management-plane-srv
+# =============================================================================
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: management-plane-db
+  - name: management-plane-auth
+  - name: management-plane-dest
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
+  build-parameters:
+    builder: npm
+    ignore:
+      - default-env.json
+      - .env
+      - '**/*.ts'
+      - srv/**/*.ts
+      - srv/lib/**/*.ts
+
+# ========================== DB Deployer Module ===============================   
+- name: management-plane-db-deployer
+# =============================================================================
+  type: hdb
+  path: gen/db
+  requires:
+  - name: management-plane-db
+  parameters:
+    buildpack: nodejs_buildpack
+
+# =============================== Approuter ===================================    
+- name: management-plane-approuter
+# =============================================================================
+  type: approuter.nodejs
+  path: app
+  requires:
+  - name: management-plane-auth
+  - name: management-plane-repo-runtime
+  - name: management-plane-dest
+  - name: srv-api
+    group: destinations
+    properties:
+      name: backend-api
+      url: '~{srv-url}'
+      forwardAuthToken: true
+  parameters:
+    disk-quota: 1024M
+    keep-existing-routes: true
+    memory: 1024M
+
+# ============================= App Content ===================================     
+- name: management-plane-app-content
+# =============================================================================
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: management-plane-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - comndbsmanagementplaneui.zip
+      name: comndbsmanagementplaneui
+      target-path: resources/
+
+# ============================ HTML5 Module ===================================       
+- name: comndbsmanagementplaneui
+# =============================================================================
+  type: html5
+  path: app/management-plane-ui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+# =========================== HDI Container ===================================      
+- name: management-plane-db
+# =============================================================================
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+
+# =========================== XSUAA Service ===================================
+- name: management-plane-auth
+# =============================================================================    
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+
+# ============================= Destination ===================================     
+- name: management-plane-dest
+# =============================================================================
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: backend-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+    service: destination
+    service-plan: lite
+  requires:
+  - name: srv-api
+
+# ========================== HTML5 Repo Host ==================================     
+- name: management-plane-repo-host
+# =============================================================================
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: management-plane-html5-srv
+    service-plan: app-host
+
+# ========================== HTML5 Repo Runtime ===============================          
+- name: management-plane-repo-runtime
+# =============================================================================
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+
+# ========================== Build Parameters =================================  
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production
+    - npm run build-ts
