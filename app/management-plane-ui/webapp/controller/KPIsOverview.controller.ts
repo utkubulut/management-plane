@@ -30,8 +30,8 @@ export default class KPIsOverview extends BaseController {
     }
 
     public onCardPress(event: Button$PressEvent) {
-        const kpiID = event.getSource().getCustomData()[0].getValue();
-        const sectionID = event.getSource().getCustomData()[1].getValue();
+        const sectionID = event.getSource().getCustomData()[0].getValue();
+        const kpiID = event.getSource().getCustomData()[1].getValue();
         this.getRouter().navTo('RouteKPIs', {
             sectionID:sectionID,
             kpiID:kpiID
