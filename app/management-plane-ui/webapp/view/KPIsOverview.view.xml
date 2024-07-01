@@ -11,6 +11,8 @@
     <Page
         id="page"
         title="{i18n>title}"
+        showNavButton="true"
+        navButtonPress="onNavToHomepage"
     >
         <FlexBox
             justifyContent="Center"
@@ -59,7 +61,7 @@
                                         >
                                             <customData>
                                                 <core:CustomData
-                                                    key="sectionID"
+                                                    key="kpiID"
                                                     value="{ID}"
                                                 />
                                             </customData>

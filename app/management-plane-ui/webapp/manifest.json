@@ -87,13 +87,12 @@
     },
     "routing": {
       "config": {
-        "routerClass": "sap.m.routing.Router",
+        "routerClass": "sap.f.routing.Router",
         "viewType": "XML",
         "async": true,
         "viewPath": "com.ndbs.managementplaneui.view",
-        "controlAggregation": "pages",
-        "controlId": "app",
-        "clearControlAggregation": false
+        "controlId": "flexibleApp",
+        "transition":"slide"
       },
       "routes": [
         {
@@ -127,32 +126,32 @@
       ],
       "targets": {
         "TargetHomepage": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "Homepage",
-          "viewName": "Homepage"
+          "viewType": "XML",
+          "viewName": "Homepage",
+          "transition": "slide",
+          "controlAggregation": "beginColumnPages"
         },
         "TargetKPIsOverview": {
           "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "KPIsOverview",
-          "viewName": "KPIsOverview"
+          "viewName": "KPIsOverview",
+          "transition": "slide",
+          "controlAggregation": "beginColumnPages"
         },
         "TargetKPIs": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "KPIs",
-          "viewName": "KPIs"
+          "viewType": "XML",
+          "viewName": "KPIs",
+          "transition": "slide",
+          "controlAggregation": "beginColumnPages"
         },
         "TargetKPIDetails": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "KPIDetails",
-          "viewName": "KPIDetails"
+          "viewType": "XML",
+          "viewName": "KPIDetails",
+          "transition": "slide",
+          "controlAggregation": "midColumnPages"
         }
       }
     },

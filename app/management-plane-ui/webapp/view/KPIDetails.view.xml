@@ -1,7 +1,52 @@
-<mvc:View controllerName="com.ndbs.managementplaneui.controller.KPIDetails"
-    xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
-    <App id="app">
-    </App>
+<mvc:View
+    controllerName="com.ndbs.managementplaneui.controller.KPIDetails"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+>
+    <Page
+        id="pageKPIResults"
+        title="{i18n>titleKPIResults}"
+        showNavButton="true"
+        navButtonPress="onNavToHomepage"
+    >
+        <FlexBox
+            justifyContent="Center"
+            alignItems="Center"
+        >
+            <VBox width="95%">
+                <Panel class="sapUiSmallMarginTop">
+                    <content>
+                        <smartTable:SmartTable
+                            id="stKPIDetails"
+                            entitySet="KPIDetails"
+                            showPasteButton="false"
+                            showTablePersonalisation="false"
+                            showVariantManagement="false"
+                            showRowCount="false"
+                            enableAutoBinding="true"
+                            class="sapUiResponsiveContentPadding"
+                            editTogglable="false"
+                            enableExport="false"
+                            showFullScreenButton="false"
+                            enableCopy="false"
+                            beforeRebindTable=".onBeforeRebindTable"
+                            useVariantManagement="false"
+                            tableType="Table"
+                        >
+                            <Table>
+                                <ColumnListItem
+                                    type="Navigation"
+                                    press="onNavToKPIDetails"
+                                />
+                            </Table>
+                        </smartTable:SmartTable>
+                    </content>
+                </Panel>
+            </VBox>
+        </FlexBox>
+    </Page>
 </mvc:View>

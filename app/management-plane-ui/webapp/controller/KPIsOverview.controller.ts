@@ -5,6 +5,7 @@ import Card from "sap/f/Card";
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import ListBinding from "sap/ui/model/ListBinding";
+import { Button$PressEvent } from "sap/ui/commons/Button";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -27,6 +28,13 @@ export default class KPIsOverview extends BaseController {
     public onNavToHomepage(): void {
         this.getRouter().navTo("RouteHomepage");
     }
+
+    public onCardPress(event: Button$PressEvent) {
+        const sectionID = event.getSource().getCustomData()[0].getValue();
+        this.getRouter().navTo('Detailpage', {
+            sectionID:sectionID
+        });
+    } 
 
     /* ======================================================================================================================= */
     /* Private Functions                                                                                                       */
