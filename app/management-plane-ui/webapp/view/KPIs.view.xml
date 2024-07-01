@@ -23,8 +23,6 @@
                     <content>
                         <smartfilterbar:SmartFilterBar
                             id="sfbKPIs"
-                            basicSearch="true"
-                            enableBasicSearch="true"
                             entitySet="KPIs"
                         />
                         <smartTable:SmartTable
@@ -44,11 +42,12 @@
                             beforeRebindTable="onBeforeRebindTable"
                             useVariantManagement="false"
                             tableType="Table"
+                            requestAtLeastFields="subchapterID"
                         >
                             <Table>
                                 <ColumnListItem
                                     type="Navigation"
-                                    press="onNavToKPIDetails"
+                                    press="onItemPressed"
                                 />
                             </Table>
                         </smartTable:SmartTable>
