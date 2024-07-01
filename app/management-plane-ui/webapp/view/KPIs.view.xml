@@ -18,10 +18,10 @@
         >
             <VBox width="95%">
                 <FlexBox
-                    id="fbSections"
+                    id="fbKPIs"
                     justifyContent="Start"
                     wrap="Wrap"
-                    items="{path:'/KPIs'}"
+                    items="{path:'/KPIs', suspended:true}"
                 >
                     <HBox>
                         <f:Card

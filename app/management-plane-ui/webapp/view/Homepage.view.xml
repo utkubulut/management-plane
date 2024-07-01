@@ -22,7 +22,7 @@
                 class="sapUiLargeMarginBegin sapUiLargeMarginBottom sapUiLargeMarginTop sapUiLargeMarginEnd"
                 press="onNavToKPIs"
             >
-                <TileContent footer="{ID}">
+                <TileContent footer="{type}">
                     <FlexBox direction="Column">
                         <HBox justifyContent="Start">
                             <core:Icon

@@ -1,15 +1,15 @@
 entity Sections {
-    key ID        : UUID;
-        sectionID : String;
-        name      : String;
-        sapIcon   : String;
-        toKPIs    : Association to many KPIs
-                        on toKPIs.section_ID = $self.ID;
+    key ID      : UUID;
+        type    : String;
+        name    : String;
+        sapIcon : String;
+        toKPIs  : Association to many KPIs
+                      on toKPIs.sectionID = $self.ID;
 }
 
 entity KPIs {
     key ID          : UUID;
-        section_ID  : UUID;
+        sectionID  : UUID;
         name        : String;
         title       : String;
         description : String;
@@ -27,12 +27,12 @@ entity KPIDetails {
         reportDate     : DateTime;
         documentNumber : Integer;
         documents      : Association to many Documents
-                             on documents.KPIDetails_ID = $self.ID;
+                             on documents.KPIDetailsID = $self.ID;
 }
 
 entity Documents {
     key ID            : UUID;
-        KPIDetails_ID : UUID;
+        KPIDetailsID : UUID;
         title         : String;
         textLine      : String;
         page          : Integer;
