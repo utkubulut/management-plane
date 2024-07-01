@@ -1,11 +1,12 @@
 <mvc:View
     controllerName="com.ndbs.managementplaneui.controller.KPIs"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
     xmlns:l="sap.ui.layout"
     displayBlock="true"
     xmlns="sap.m"
-    xmlns:smartTable="sap.ui.comp.smarttable"
 >
     <Page
         id="pageKPIResults"
@@ -20,9 +21,16 @@
             <VBox width="95%">
                 <Panel class="sapUiSmallMarginTop">
                     <content>
+                        <smartfilterbar:SmartFilterBar
+                            id="sfbKPIs"
+                            basicSearch="true"
+                            enableBasicSearch="true"
+                            entitySet="KPIs"
+                        />
                         <smartTable:SmartTable
                             id="stKPIs"
                             entitySet="KPIs"
+                            smartFilterId="sfbKPIs"
                             showPasteButton="false"
                             showTablePersonalisation="false"
                             showVariantManagement="false"
