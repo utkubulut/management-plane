@@ -2,7 +2,7 @@
   "name": "management-plane",
   "version": "1.0.0",
   "description": "Management Plan",
-  "repository": "",
+  "repository": "https://github.com/gizemsoylu/management-plane.git",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
