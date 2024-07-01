@@ -104,15 +104,22 @@
           ]
         },
         {
+          "name": "RouteKPIsOverview",
+          "pattern": "KPIsOverview/sectionID={sectionID}",
+          "target": [
+            "TargetKPIsOverview"
+          ]
+        },
+        {
           "name": "RouteKPIs",
-          "pattern": "KPIs/sectionID={sectionID}",
+          "pattern": "KPIs/sectionID={sectionID}&kpiID={kpiID}",
           "target": [
             "TargetKPIs"
           ]
         },
         {
           "name": "RouteKPIDetails",
-          "pattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}",
+          "pattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}",
           "target": [
             "TargetKPIDetails"
           ]
@@ -125,6 +132,13 @@
           "clearControlAggregation": false,
           "viewId": "Homepage",
           "viewName": "Homepage"
+        },
+        "TargetKPIsOverview": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "KPIsOverview",
+          "viewName": "KPIsOverview"
         },
         "TargetKPIs": {
           "viewType": "XML",

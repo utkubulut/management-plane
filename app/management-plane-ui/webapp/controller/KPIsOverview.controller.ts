@@ -9,7 +9,7 @@ import ListBinding from "sap/ui/model/ListBinding";
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
-export default class KPIs extends BaseController {
+export default class KPIsOverview extends BaseController {
 
     private sectionID:string;
     /* ======================================================================================================================= */
@@ -17,7 +17,7 @@ export default class KPIs extends BaseController {
     /* ======================================================================================================================= */
 
     public onInit() {
-        this.getRouter().getRoute("RouteKPIs")!.attachMatched(this.onObjectMatched, this);
+        this.getRouter().getRoute("RouteKPIsOverview")!.attachMatched(this.onObjectMatched, this);
     }
 
     /* ======================================================================================================================= */
@@ -38,7 +38,7 @@ export default class KPIs extends BaseController {
     }
 
     private applySectionFilter(): void {
-        const tileBinding = (((this.getView() as View).byId("fbKPIs") as Card).getBinding("items") as ListBinding);
+        const tileBinding = (((this.getView() as View).byId("fbKPIsOverview") as Card).getBinding("items") as ListBinding);
         const filter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
 
         tileBinding.filter(filter);
