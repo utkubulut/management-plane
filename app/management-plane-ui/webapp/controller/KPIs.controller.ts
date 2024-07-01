@@ -1,17 +1,16 @@
-import View from "sap/ui/core/mvc/View";
 import BaseController from "./BaseController";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
-import Card from "sap/f/Card";
+import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
+import { IBindingParams } from '../types/global.types'
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
-import ListBinding from "sap/ui/model/ListBinding";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
 export default class KPIs extends BaseController {
 
-    private sectionID:string;
+    private sectionID: string;
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
     /* ======================================================================================================================= */
@@ -28,20 +27,23 @@ export default class KPIs extends BaseController {
         this.getRouter().navTo("RouteHomepage");
     }
 
+    public onBeforeRebindTable(event: SmartTable$BeforeRebindTableEvent) {
+        const binding = event.getParameter("bindingParams") as IBindingParams;
+        const filters = [new Filter("sectionID", FilterOperator.EQ, this.sectionID)];
+        binding.filters = filters;
+    }
+
     /* ======================================================================================================================= */
     /* Private Functions                                                                                                       */
     /* ======================================================================================================================= */
 
     private onObjectMatched(event: Route$PatternMatchedEvent) {
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
-        this.applySectionFilter();
-    }
+        const smartTable = this.byId("stKPIs") as SmartTable;
 
-    private applySectionFilter(): void {
-        const tileBinding = (((this.getView() as View).byId("fbKPIs") as Card).getBinding("items") as ListBinding);
-        const filter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
-
-        tileBinding.filter(filter);
+        if(smartTable.isInitialised()){
+            smartTable.rebindTable(true);
+        }
     }
 }
 

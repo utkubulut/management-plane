@@ -1,2 +1,4 @@
-
-using from './management-plane-ui/annotations';
+/***************************************************************
+ * LINE ITEMS                                                  *
+ ***************************************************************/
+using from './management-plane-ui/annotations/ui-lineitems.cds';

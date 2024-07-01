@@ -61,6 +61,10 @@
                                         >
                                             <customData>
                                                 <core:CustomData
+                                                    key="sectionID"
+                                                    value="{sectionID}"
+                                                />
+                                                <core:CustomData
                                                     key="kpiID"
                                                     value="{ID}"
                                                 />

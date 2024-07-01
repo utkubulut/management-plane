@@ -21,7 +21,7 @@
                 <Panel class="sapUiSmallMarginTop">
                     <content>
                         <smartTable:SmartTable
-                            id="stKPIDetails"
+                            id="stKPIs"
                             entitySet="KPIs"
                             showPasteButton="false"
                             showTablePersonalisation="false"
@@ -33,7 +33,7 @@
                             enableExport="false"
                             showFullScreenButton="false"
                             enableCopy="false"
-                            beforeRebindTable=".onBeforeRebindTable"
+                            beforeRebindTable="onBeforeRebindTable"
                             useVariantManagement="false"
                             tableType="Table"
                         >
