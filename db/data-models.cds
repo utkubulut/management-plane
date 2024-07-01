@@ -1,8 +1,10 @@
 entity Sections {
-    key ID     : UUID;
-        name   : String;
-        toKPIs : Association to many KPIs
-                     on toKPIs.section_ID = $self.ID;
+    key ID        : UUID;
+        sectionID : String;
+        name      : String;
+        sapIcon   : String;
+        toKPIs    : Association to many KPIs
+                        on toKPIs.section_ID = $self.ID;
 }
 
 entity KPIs {

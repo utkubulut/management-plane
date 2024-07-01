@@ -43,7 +43,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.125.1",
       "libs": {
@@ -102,6 +102,20 @@
           "target": [
             "TargetHomepage"
           ]
+        },
+        {
+          "name": "RouteKPIs",
+          "pattern": "KPIs/sectionID={sectionID}",
+          "target": [
+            "TargetKPIs"
+          ]
+        },
+        {
+          "name": "RouteKPIDetails",
+          "pattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}",
+          "target": [
+            "TargetKPIDetails"
+          ]
         }
       ],
       "targets": {
@@ -111,6 +125,20 @@
           "clearControlAggregation": false,
           "viewId": "Homepage",
           "viewName": "Homepage"
+        },
+        "TargetKPIs": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "KPIs",
+          "viewName": "KPIs"
+        },
+        "TargetKPIDetails": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "KPIDetails",
+          "viewName": "KPIDetails"
         }
       }
     },

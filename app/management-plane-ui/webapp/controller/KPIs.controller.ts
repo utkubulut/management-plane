@@ -1,33 +1,32 @@
-
 import BaseController from "./BaseController";
-import formatter from '../model/formatter';
-import { GenericTile$PressEvent } from "sap/m/GenericTile";
-import Context from "sap/ui/model/Context";
+import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
-export default class Homepage extends BaseController {
-
-    public formatter=formatter
-
+export default class KPIDetails extends BaseController {
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
     /* ======================================================================================================================= */
 
-    public onInit(): void {
-
+    public onInit() {
+        this.getRouter().getRoute("RouteKPIs")!.attachMatched(this.onObjectMatched, this);
     }
 
     /* ======================================================================================================================= */
     /* Event Handlers                                                                                                          */
     /* ======================================================================================================================= */
 
-    public onNavToKPIs(event: GenericTile$PressEvent) {
-        const sectionID=((event.getSource().getBindingContext() as Context).getObject() as { ID: string }).ID;
+    public onNavToHomepage(): void {
+        this.getRouter().navTo("RouteHomepage");
+    }
 
-        this.getRouter().navTo("RouteKPIs", {
-            sectionID: sectionID
-        });
+    /* ======================================================================================================================= */
+    /* Private Functions                                                                                                       */
+    /* ======================================================================================================================= */
+
+    private onObjectMatched(event: Route$PatternMatchedEvent) {
+
     }
 }
+
