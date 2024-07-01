@@ -29,8 +29,8 @@ export default class KPIs extends BaseController {
 
     public onBeforeRebindTable(event: SmartTable$BeforeRebindTableEvent) {
         const binding = event.getParameter("bindingParams") as IBindingParams;
-        const filters = [new Filter("sectionID", FilterOperator.EQ, this.sectionID)];
-        binding.filters = filters;
+        const filters = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
+        binding.filters.push(filters);
     }
 
     /* ======================================================================================================================= */
