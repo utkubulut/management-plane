@@ -13,12 +13,11 @@ entity KPIs : managed {
     key ID             : UUID;
     key paragraph      : String;
         sectionID      : UUID;
-        chapteID       : String;
+        chapterID       : String;
         chapterName    : String;
         subchapterID   : String;
         subchapterName : String;
-        title          : String;
-        description    : String;
+        subDescription : String;
         state          : String;
         AIStatus       : String;
         userStatus     : String;

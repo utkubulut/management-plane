@@ -32,8 +32,11 @@
                         >
                             <f:header>
                                 <card:Header
-                                    title="{name}"
+                                    title="{chapterID}-{chapterName}"
                                     iconSrc="{sapIcon}"
+                                    subtitle="{subDescription}"
+                                    iconBackgroundColor="Random"
+                                    iconDisplayShape="Circle"
                                 />
                             </f:header>
                             <f:content>
@@ -46,7 +49,7 @@
                                     wrap="Wrap"
                                 >
                                     <HBox justifyContent="SpaceBetween">
-                                        <Text text="{description}" />
+                                        <Text text="{subDescription}" />
                                     </HBox>
                                     <HBox
                                         renderType="Bare"
