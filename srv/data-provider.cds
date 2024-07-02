@@ -30,6 +30,9 @@ service ManagementPlane {
                     'sap-icon://official-service'
                 else
                     'sap-icon://e-care'
-            end as sapIcon    : String
+            end as sapIcon    : String,
+            (select count(distinct state) from DBKPIs) as stateCount : Integer
+
         };
+
 }
