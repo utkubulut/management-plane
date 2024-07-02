@@ -17,15 +17,15 @@ service ManagementPlane {
             )   as subChapter : String,
             case
                 when
-                    chapterID = 'E'
+                    chapterID LIKE 'E%'
                 then
                     'sap-icon://e-care'
                 when
-                    chapterID = 'S'
+                    chapterID LIKE 'S%'
                 then
                     'sap-icon://jam'
                 when
-                    chapterID = 'G'
+                    chapterID LIKE 'G%'
                 then
                     'sap-icon://official-service'
                 else
