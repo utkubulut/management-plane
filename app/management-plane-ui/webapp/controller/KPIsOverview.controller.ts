@@ -6,6 +6,7 @@ import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import ListBinding from "sap/ui/model/ListBinding";
 import { Button$PressEvent } from "sap/ui/commons/Button";
+import { ODataListBinding$DataReceivedEvent } from "sap/ui/model/odata/v4/ODataListBinding";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -46,12 +47,16 @@ export default class KPIsOverview extends BaseController {
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
         this.applySectionFilter();
     }
+    private ondataReceived(event:ODataListBinding$DataReceivedEvent){
+        let x=6;
+    }
 
     private applySectionFilter(): void {
-        const tileBinding = (((this.getView() as View).byId("fbKPIsOverview") as Card).getBinding("items") as ListBinding);
+        const listBinding = (((this.getView() as View).byId("fbKPIsOverview") as Card).getBinding("items") as ListBinding);
+        const tileBinding = (((this.getView() as View).byId("fbKPIsDetail") as Card).getBinding("items") as ListBinding);
         const filter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
-
         tileBinding.filter(filter);
+        listBinding.filter(filter);
     }
 }
 
