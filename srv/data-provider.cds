@@ -47,19 +47,20 @@ service ManagementPlane {
             
             key kpi.ID      as kpiID : UUID,
             kpi.sectionID   as sectionID: UUID,
-            sec.type        as SectionType :String,
-            sec.name        as SectionName :String,
-            kpi.chapterID   as KPIChapterID :String,
-            kpi.chapterName as KPIChapterName:String,
-            kpi.state       as KPIState:String
+            sec.type        as sectionType :String,
+            sec.name        as sectionName :String,
+            kpi.chapterID   as kpiChapterID :String,
+            kpi.chapterName as kpiChapterName:String,
+            kpi.state       as kpiState:String,
+            kpi.reportDate as kpiReportDate:Date
         }
 
         entity VKPIStateCount as select  from VKPIs as kpi{
         key kpi.sectionID,
-            kpi.SectionType,
-            kpi.KPIState,
-            count(kpi.KPIState) as KPIStateCount:Integer
+            kpi.sectionType,
+            kpi.kpiState,
+            count(kpi.kpiState) as kpiStateCount:Integer
              
-        }group by kpi.SectionType,kpi.KPIState,kpi.sectionID ;
+        }group by kpi.sectionType,kpi.kpiState,kpi.sectionID ;
 
 }

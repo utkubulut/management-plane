@@ -1,8 +1,8 @@
 using ManagementPlane as service from '../../../srv/data-provider';
 
 annotate service.VKPIStateCount with @(sap.semantics: 'aggregate') {
-    KPIState      @sap.aggregation.role: 'dimension';
-    KPIStateCount @sap.aggregation.role: 'measure';
+    kpiState      @sap.aggregation.role: 'dimension';
+    kpiStateCount @sap.aggregation.role: 'measure';
 };
 
 annotate service.VKPIStateCount with @(UI.Chart: {
@@ -10,7 +10,7 @@ annotate service.VKPIStateCount with @(UI.Chart: {
     Description: '{i18n>kpisDistributionOverview}',
     ChartType  : #Pie,
     Measures   : [
-        KPIStateCount,
+        kpiStateCount,
     ],
-    Dimensions : [KPIState]
+    Dimensions : [kpiState]
 });

@@ -1,5 +1,6 @@
 import View from "sap/ui/core/mvc/View";
 import BaseController from "./BaseController";
+import formatter from "../model/formatter";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import Card from "sap/f/Card";
 import Filter from "sap/ui/model/Filter";
@@ -11,12 +12,15 @@ import List from "sap/m/List";
 import Table from "sap/m/Table";
 import SmartChart, { SmartChart$AfterVariantInitialiseEvent, SmartChart$BeforeRebindChartEvent } from "sap/ui/comp/smartchart/SmartChart";
 import { IBindingParams } from "../types/global.types";
+import Header from "sap/f/cards/Header";
+import SmartTable from "sap/ui/comp/smarttable/SmartTable";
+import Context from "sap/ui/model/Context";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
 export default class KPIsOverview extends BaseController {
-
+    public formatter = formatter;
     private sectionID: string;
     private sectionType: string;
     private sectionName: string;
@@ -75,11 +79,11 @@ export default class KPIsOverview extends BaseController {
         this.rebindChart();
     }
     private onKPIUpdateFinished(event: ListBase$UpdateFinishedEvent) {
-        this.sectionType = ((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as any).getObject().SectionType;
-        this.sectionName = ((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as any).getObject().SectionName;
+        this.sectionType = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as {sectionType: string}).sectionType;
+        this.sectionName = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as {sectionName: string}).sectionName;
 
-        ((this.byId("cardHKPIsOverview") as any).setTitle(this.sectionType + " - " + this.sectionName) as any);
-        ((this.byId("cardHKPIsState") as any).setTitle(this.sectionType + " - " + this.sectionName) as any);
+        (((this.byId("cardHKPIsOverview") as Header).setTitle(this.sectionType + " - " + this.sectionName)));
+        ((this.byId("stKPIs") as SmartTable).setHeader(this.sectionType + " - " + this.sectionName));
     }
 
     private applySectionFilter(): void {
