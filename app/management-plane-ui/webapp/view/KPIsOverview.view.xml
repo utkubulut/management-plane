@@ -17,171 +17,200 @@
         showNavButton="true"
         navButtonPress="onNavToHomepage"
     >
-        <FlexBox
-            justifyContent="Center"
-            alignItems="Center"
-        >
-            <VBox width="95%">
+        <HBox>
+            <VBox>
                 <FlexBox
-                    id="fbKPIsOverview"
                     justifyContent="Start"
                     wrap="Wrap"
-                    items="{path:'/VKPIs', suspended:true}"
                 >
-                    <HBox>
-                        <f:Card
-                            class="sapUiSmallMargin"
-                            width="300px"
-                        >
-                            <f:header>
-                                <card:Header
-                                    title="{SectionType} - {SectionName}"
-                                />
-                            </f:header>
-
-                            <f:content>
-                                <List
-                                    class="sapUiSmallMarginBottom"
-                                    showSeparators="None"
-                                    items="{                       
-                                    path: '/VKPIs',
-                                    parameters: {
-                                        event: {
-                                            dataReceived: 'ondataReceived' 
-                                        }
-                                    }
-
-				                    }"
-                                    
-                                >
-                                    <CustomListItem>
-                                        <HBox alignItems="Center">
-                                            <VBox class="sapUiSmallMargin">
-                                                <Text
-                                                    text="{KPIChapterID} - {KPIChapterName}"
-                                                />
-                                            </VBox>
-                                        </HBox>
-                                    </CustomListItem>
-                                </List>
-                            </f:content>
-                        </f:Card>
-                    </HBox>
+                    <f:Card
+                        class="sapUiSmallMargin"
+                        width="300px"
+                    >
+                        <f:header>
+                            <card:Header
+                               id="cardHKPIsOverview"
+                            />
+                        </f:header>
+                        <f:content>
+                            <List id="fbKPIsOverview" 
+                            items="{path:'/VKPIs', suspended:true}" updateFinished="onKPIUpdateFinished">
+                                <CustomListItem class="sapUiSmallMarginBottom">
+                                    <HBox alignItems="Center">
+                                        <VBox class="sapUiSmallMargin">
+                                            <Text
+                                                text="{KPIChapterID} - {KPIChapterName}"
+                                            />
+                                        </VBox>
+                                    </HBox>
+                                </CustomListItem>
+                            </List>
+                        </f:content>
+                    </f:Card>
                 </FlexBox>
-                <f:Card
-                    class="sapUiSmallMargin"
-                    width="300px"
+                <FlexBox>
+                    <f:Card
+                        class="sapUiSmallMargin"
+                        width="300px"
+                    >
+                        <f:header>
+                            <card:Header
+                                title="KPIs Distribution"
+                                subtitle="Overview"
+                            />
+                        </f:header>
+                        <f:content>
+                            <viz:VizFrame
+                                id="idVizFrame"
+                                uiConfig="{applicationSet:'fiori'}"
+                                vizType="pie"
+                                height="300px"
+                                width="380px"
+                            >
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset
+                                        data="{
+                                        path: '/VKPIStateCount'
+                                       
+                                        }"
+                                    >
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition
+                                                name="State"
+                                                value="{KPIState}"
+                                            />
+                                        </viz.data:dimensions>
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition
+                                                name="Count"
+                                                value="{KPIStateCount}"
+                                            />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem
+                                        uid="size"
+                                        type="Measure"
+                                        values="Count"
+                                    />
+                                    <viz.feeds:FeedItem
+                                        uid="color"
+                                        type="Dimension"
+                                        values="State"
+                                    />
+                                </viz:feeds>
+                            </viz:VizFrame>
+                        </f:content>
+                    </f:Card>
+                </FlexBox>
+            </VBox>
+            <HBox>
+                <FlexBox
+                    justifyContent="SpaceBetween"
+                    wrap="Wrap"
                 >
-                    <f:header>
-                        <card:Header
-                            title="KPIs Distribution"
-                            subtitle="Overview"
-                        />
-                    </f:header>
-                    <f:content>
-                        <viz:VizFrame
-                            id="idVizFrame"
-                            uiConfig="{applicationSet:'fiori'}"
-                            vizType="pie"
-                            height="300px"
-                            width="380px"
-                        >
-                            <viz:dataset>
-                                <viz.data:FlattenedDataset
-                                    data="{path: '/KPIs'}"
-                                >
-                                    <viz.data:dimensions>
-                                        <viz.data:DimensionDefinition
-                                            name="Value"
-                                            value="{state}"
-                                        />
-                                    </viz.data:dimensions>
-                                    <viz.data:measures>
-                                        <viz.data:MeasureDefinition
-                                            name="Chapter"
-                                            value="{stateCount}"
-                                        />
-                                    </viz.data:measures>
-                                </viz.data:FlattenedDataset>
-                            </viz:dataset>
-                            <viz:feeds>
-                                <viz.feeds:FeedItem
-                                    uid="size"
-                                    type="Measure"
-                                    values="Chapter"
-                                />
-                                <viz.feeds:FeedItem
-                                    uid="color"
-                                    type="Dimension"
-                                    values="Value"
-                                />
-                            </viz:feeds>
-                        </viz:VizFrame>
-                    </f:content>
-                </f:Card>
+                    <f:Card
+                        class="sapUiSmallMargin"
+                        width="auto"
+                        height="auto"
+                    >
+                        <f:header>
+                            <card:Header
+                               id="cardHKPIsState"
+                            />
+                        </f:header>
 
-                <VBox />
+                        <f:content>
+                            
+                            <Table id="tableKPIsOverview" class="sapUiSmallMarginBottom" items="{path: '/VKPIs'}" width="100%" growing="true" growingThreshold="20">
+                            <columns>
+                                <Column>
+                                      <Text text="KPI Name" />
+                                </Column>
+                                <Column>
+                                        <Text text="Date of Processing" />
+                                </Column>
+                                 <Column>
+                                        <Text text="State" />
+                                </Column>
+                                 <Column>
+                                        <Text text="Lorem Ipsum" />
+                                </Column>
+                            </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{KPIChapterID} - {KPIChapterName}" />
+                                            <Text text="{KPIDateofProcessing}" />
+                                            <Text text="{KPIState}" />
+                                            <Text text="{KPISubDescription}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                             </Table>
+                        </f:content>
+                    </f:Card>
+                </FlexBox>
                 <FlexBox
                     id="fbKPIsDetail"
                     justifyContent="Start"
                     wrap="Wrap"
                     items="{path:'/KPIs'}"
                 >
-                    <HBox>
-                        <f:Card
-                            class="sapUiSmallMargin"
-                            width="300px"
-                        >
-                            <f:header>
-                                <card:Header
-                                    title="{chapterID}-{chapterName}"
-                                    iconSrc="{sapIcon}"
-                                    subtitle="{subDescription}"
-                                    iconBackgroundColor="Random"
-                                    iconDisplayShape="Circle"
-                                />
-                            </f:header>
-                            <f:content>
-                                <VBox
-                                    height="110px"
-                                    width="380px"
-                                    class="sapUiSmallMargin"
-                                    justifyContent="SpaceAround"
-                                    fitContainer="false"
-                                    wrap="Wrap"
+                    <f:Card
+                        class="sapUiSmallMargin"
+                        width="300px"
+                    >
+                        <f:header>
+                            <card:Header
+                                title="{chapterID}-{chapterName}"
+                                iconSrc="{sapIcon}"
+                                subtitle="{subDescription}"
+                                iconBackgroundColor="Random"
+                                iconDisplayShape="Circle"
+                            />
+                        </f:header>
+                        <f:content>
+                            <VBox
+                                height="110px"
+                                width="380px"
+                                class="sapUiSmallMargin"
+                                justifyContent="SpaceAround"
+                                fitContainer="false"
+                                wrap="Wrap"
+                            >
+                                <HBox justifyContent="SpaceBetween">
+                                    <Text text="{subDescription}" />
+                                </HBox>
+                                <HBox
+                                    renderType="Bare"
+                                    justifyContent="End"
                                 >
-                                    <HBox justifyContent="SpaceBetween">
-                                        <Text text="{subDescription}" />
-                                    </HBox>
-                                    <HBox
-                                        renderType="Bare"
-                                        justifyContent="End"
+                                    <Button
+                                        id="btnCard"
+                                        text="Open"
+                                        press="onCardPress"
+                                        type="Emphasized"
+                                        class="sapUiTinyMarginBegin"
                                     >
-                                        <Button
-                                            id="btnCard"
-                                            text="Open"
-                                            press="onCardPress"
-                                            type="Emphasized"
-                                            class="sapUiTinyMarginBegin"
-                                        >
-                                            <customData>
-                                                <core:CustomData
-                                                    key="sectionID"
-                                                    value="{sectionID}"
-                                                />
-                                                <core:CustomData
-                                                    key="kpiID"
-                                                    value="{ID}"
-                                                />
-                                            </customData>
-                                        </Button>
-                                    </HBox>
-                                </VBox>
-                            </f:content>
-                        </f:Card>
-                    </HBox>
+                                        <customData>
+                                            <core:CustomData
+                                                key="sectionID"
+                                                value="{sectionID}"
+                                            />
+                                            <core:CustomData
+                                                key="kpiID"
+                                                value="{ID}"
+                                            />
+                                        </customData>
+                                    </Button>
+                                </HBox>
+                            </VBox>
+                        </f:content>
+                    </f:Card>
                 </FlexBox>
-            </VBox>
-        </FlexBox>
+            </HBox>
+        </HBox>
     </Page>
 </mvc:View>

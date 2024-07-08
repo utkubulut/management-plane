@@ -7,6 +7,10 @@ import FilterOperator from "sap/ui/model/FilterOperator";
 import ListBinding from "sap/ui/model/ListBinding";
 import { Button$PressEvent } from "sap/ui/commons/Button";
 import { ODataListBinding$DataReceivedEvent } from "sap/ui/model/odata/v4/ODataListBinding";
+import { ListBase$UpdateFinishedEvent } from "sap/m/ListBase";
+import List from "sap/m/List";
+import Table from "sap/m/Table";
+import VizFrame from "sap/viz/ui5/controls/VizFrame";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -14,12 +18,15 @@ import { ODataListBinding$DataReceivedEvent } from "sap/ui/model/odata/v4/ODataL
 export default class KPIsOverview extends BaseController {
 
     private sectionID:string;
+    private sectionType:string;
+    private sectionName:string;
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
     /* ======================================================================================================================= */
 
     public onInit() {
         this.getRouter().getRoute("RouteKPIsOverview")!.attachMatched(this.onObjectMatched, this);
+        
     }
 
     /* ======================================================================================================================= */
@@ -47,16 +54,23 @@ export default class KPIsOverview extends BaseController {
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
         this.applySectionFilter();
     }
-    private ondataReceived(event:ODataListBinding$DataReceivedEvent){
-        let x=6;
+    private onKPIUpdateFinished(event:ListBase$UpdateFinishedEvent){
+        this.sectionType=((this.byId("fbKPIsOverview")as List).getItems()[0].getBindingContext()as any).getObject().SectionType;
+        this.sectionName=((this.byId("fbKPIsOverview")as List).getItems()[0].getBindingContext()as any).getObject().SectionName;
+        ((this.byId("cardHKPIsOverview")as any).setTitle(this.sectionType + " - " +this.sectionName)as any);
+        ((this.byId("cardHKPIsState")as any).setTitle(this.sectionType + " - " +this.sectionName)as any);
     }
 
     private applySectionFilter(): void {
         const listBinding = (((this.getView() as View).byId("fbKPIsOverview") as Card).getBinding("items") as ListBinding);
         const tileBinding = (((this.getView() as View).byId("fbKPIsDetail") as Card).getBinding("items") as ListBinding);
+        const tableBinding= (((this.getView() as View).byId("tableKPIsOverview") as Table).getBinding("items") as ListBinding);
+        const vizBinding =(((this.getView() as View).byId("idVizFrame") as VizFrame).getBinding("items") as ListBinding);
         const filter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
         tileBinding.filter(filter);
         listBinding.filter(filter);
+        tableBinding.filter(filter);
+        vizBinding.filter(filter);
     }
 }
 

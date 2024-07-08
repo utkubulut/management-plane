@@ -50,7 +50,15 @@ service ManagementPlane {
             sec.type        as SectionType :String,
             sec.name        as SectionName :String,
             kpi.chapterID   as KPIChapterID :String,
-            kpi.chapterName as KPIChapterName:String
+            kpi.chapterName as KPIChapterName:String,
+            kpi.state       as KPIState:String
         }
+
+        entity VKPIStateCount as select  from VKPIs as kpi{
+            kpi.SectionType,
+            kpi.KPIState,
+            count(kpi.KPIState) as KPIStateCount:Integer
+             
+        }group by kpi.SectionType,kpi.KPIState ;
 
 }
