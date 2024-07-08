@@ -23,12 +23,10 @@
                     class="sapUiResponsiveContentPadding"
                     enableExport="false"
                     showTablePersonalisation="false"
+                    beforeRebindTable="onBeforeRebindTable"
                 >
                     <Table
                         id="tableKPIsOverview"
-                        class="sapUiSmallMarginBottom"
-                        items="{path: '/VKPIs'}"
-                        width="100%"
                         growing="true"
                         growingThreshold="5"
                     >

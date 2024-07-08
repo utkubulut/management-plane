@@ -13,7 +13,7 @@ import Table from "sap/m/Table";
 import SmartChart, { SmartChart$AfterVariantInitialiseEvent, SmartChart$BeforeRebindChartEvent } from "sap/ui/comp/smartchart/SmartChart";
 import { IBindingParams } from "../types/global.types";
 import Header from "sap/f/cards/Header";
-import SmartTable from "sap/ui/comp/smarttable/SmartTable";
+import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
 import Context from "sap/ui/model/Context";
 
 /**
@@ -68,6 +68,12 @@ export default class KPIsOverview extends BaseController {
         binding.filters.push(sectionFilter);
     }
 
+    public onBeforeRebindTable(event: SmartTable$BeforeRebindTableEvent) {
+        const binding = event.getParameter("bindingParams") as IBindingParams
+        const sectionFilter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
+        binding.filters.push(sectionFilter);
+    }
+
 
     /* ======================================================================================================================= */
     /* Private Functions                                                                                                       */
@@ -76,11 +82,11 @@ export default class KPIsOverview extends BaseController {
     private onObjectMatched(event: Route$PatternMatchedEvent) {
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
         this.applySectionFilter();
-        this.rebindChart();
+        this.rebindSmartComponent();
     }
     private onKPIUpdateFinished(event: ListBase$UpdateFinishedEvent) {
-        this.sectionType = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as {sectionType: string}).sectionType;
-        this.sectionName = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as {sectionName: string}).sectionName;
+        this.sectionType = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as { sectionType: string }).sectionType;
+        this.sectionName = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as { sectionName: string }).sectionName;
 
         (((this.byId("cardHKPIsOverview") as Header).setTitle(this.sectionType + " - " + this.sectionName)));
         ((this.byId("stKPIs") as SmartTable).setHeader(this.sectionType + " - " + this.sectionName));
@@ -89,19 +95,22 @@ export default class KPIsOverview extends BaseController {
     private applySectionFilter(): void {
         const listBinding = (((this.getView() as View).byId("fbKPIsOverview") as Card).getBinding("items") as ListBinding);
         const tileBinding = (((this.getView() as View).byId("fbKPIsDetail") as Card).getBinding("items") as ListBinding);
-        const tableBinding = (((this.getView() as View).byId("tableKPIsOverview") as Table).getBinding("items") as ListBinding);
         const filter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
 
         tileBinding.filter(filter);
         listBinding.filter(filter);
-        tableBinding.filter(filter);
     }
 
-    private rebindChart() {
+    private rebindSmartComponent() {
         const smartChart = (this.getView() as View).byId("scKPIState") as SmartChart;
+        const smartTable = (this.getView() as View).byId("stKPIs") as SmartTable;
 
         if (smartChart.isInitialised()) {
             smartChart.rebindChart();
+        }
+
+        if (smartTable.isInitialised()) {
+            smartTable.rebindTable(true);
         }
     }
 }
