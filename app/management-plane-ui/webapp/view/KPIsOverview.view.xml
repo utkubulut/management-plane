@@ -6,9 +6,7 @@
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards"
     xmlns:core="sap.ui.core"
-    xmlns:viz="sap.viz.ui5.controls"
-    xmlns:viz.data="sap.viz.ui5.data"
-    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:smartChart="sap.ui.comp.smartchart"
     height="100%"
 >
     <Page
@@ -51,7 +49,8 @@
                 <FlexBox>
                     <f:Card
                         class="sapUiSmallMargin"
-                        width="300px"
+                        width="550px"
+                        height="500px"
                     >
                         <f:header>
                             <card:Header
@@ -60,47 +59,15 @@
                             />
                         </f:header>
                         <f:content>
-                            <viz:VizFrame
-                                id="idVizFrame"
-                                uiConfig="{applicationSet:'fiori'}"
-                                vizType="pie"
-                                height="300px"
-                                width="380px"
-                            >
-                                <viz:dataset>
-                                    <viz.data:FlattenedDataset
-                                        data="{
-                                        path: '/VKPIStateCount'
-                                       
-                                        }"
-                                    >
-                                        <viz.data:dimensions>
-                                            <viz.data:DimensionDefinition
-                                                name="State"
-                                                value="{KPIState}"
-                                            />
-                                        </viz.data:dimensions>
-                                        <viz.data:measures>
-                                            <viz.data:MeasureDefinition
-                                                name="Count"
-                                                value="{KPIStateCount}"
-                                            />
-                                        </viz.data:measures>
-                                    </viz.data:FlattenedDataset>
-                                </viz:dataset>
-                                <viz:feeds>
-                                    <viz.feeds:FeedItem
-                                        uid="size"
-                                        type="Measure"
-                                        values="Count"
-                                    />
-                                    <viz.feeds:FeedItem
-                                        uid="color"
-                                        type="Dimension"
-                                        values="State"
-                                    />
-                                </viz:feeds>
-                            </viz:VizFrame>
+                               <smartChart:SmartChart
+                               id="scKPIState"
+                                entitySet="VKPIStateCount"
+                                selectionMode="None"
+                                initialized="onChartInit"
+                                beforeRebindChart="onBeforerebindChart"
+                                enableAutoBinding="true"
+                                showDetailsButton="true">
+                            </smartChart:SmartChart>
                         </f:content>
                     </f:Card>
                 </FlexBox>

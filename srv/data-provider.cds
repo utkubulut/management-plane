@@ -55,10 +55,11 @@ service ManagementPlane {
         }
 
         entity VKPIStateCount as select  from VKPIs as kpi{
+        key kpi.sectionID,
             kpi.SectionType,
             kpi.KPIState,
             count(kpi.KPIState) as KPIStateCount:Integer
              
-        }group by kpi.SectionType,kpi.KPIState ;
+        }group by kpi.SectionType,kpi.KPIState,kpi.sectionID ;
 
 }
