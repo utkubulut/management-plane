@@ -38,7 +38,7 @@
                                         value='\{"columnKey": "kpiState", "leadingProperty": "kpiState", "columnIndex": 99}'
                                     />
                                 </customData>
-                                <Text text="{i18n>State}"/>
+                                <Text text="{i18n>State}" />
                             </Column>
                         </columns>
                         <items>

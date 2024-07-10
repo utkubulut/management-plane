@@ -3,7 +3,6 @@
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards"
     xmlns:core="sap.ui.core"
-    
 >
     <FlexBox
         id="fbKPIsDetail"

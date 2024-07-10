@@ -5,29 +5,29 @@
     xmlns:core="sap.ui.core"
     xmlns:smartChart="sap.ui.comp.smartchart"
 >
-<FlexBox>
-                    <f:Card
-                        class="sapUiSmallMargin"
-                        width="550px"
-                        height="500px"
-                    >
-                        <f:header>
-                            <card:Header
-                                title="KPIs Distribution"
-                                subtitle="Overview"
-                            />
-                        </f:header>
-                        <f:content>
-                               <smartChart:SmartChart
-                               id="scKPIState"
-                                entitySet="VKPIStateCount"
-                                selectionMode="None"
-                                initialized="onChartInit"
-                                beforeRebindChart="onBeforerebindChart"
-                                enableAutoBinding="true"
-                                showDetailsButton="true">
-                            </smartChart:SmartChart>
-                        </f:content>
-                    </f:Card>
-                </FlexBox>
+    <FlexBox>
+        <f:Card
+            class="sapUiSmallMargin"
+            width="550px"
+            height="500px"
+        >
+            <f:header>
+                <card:Header
+                    title="KPIs Distribution"
+                    subtitle="Overview"
+                />
+            </f:header>
+            <f:content>
+                <smartChart:SmartChart
+                    id="scKPIState"
+                    entitySet="VKPIStateCount"
+                    selectionMode="None"
+                    initialized="onChartInit"
+                    beforeRebindChart="onBeforerebindChart"
+                    enableAutoBinding="true"
+                    showDetailsButton="true"
+                />
+            </f:content>
+        </f:Card>
+    </FlexBox>
 </core:FragmentDefinition>
