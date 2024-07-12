@@ -39,3 +39,35 @@ annotate service.VKPIs @(UI: {
         }
     ]
 });
+
+annotate service.VKPIsReports @(UI: {
+    
+    LineItem       : [
+        {
+            $Type: 'UI.DataField',
+            Value: contentAI  
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: contentEdited
+        }
+    ]
+});
+
+annotate service.Documents@(UI: {
+    
+    LineItem       : [
+        {
+            $Type: 'UI.DataField',
+            Value: title  
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: type
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: reportLine
+        }
+    ]
+});

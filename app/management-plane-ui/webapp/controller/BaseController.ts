@@ -38,6 +38,10 @@ export default class BaseController extends Controller {
         this.getView()?.setModel(oModel, modelName);
     }
 
+    public getCurrentView(): View {
+        return this.getView() as View
+    }
+
     public getResourceBundle(): ResourceBundle {
         return (((this.getOwnerComponent() as UIComponent).getModel("i18n") as ResourceModel).getResourceBundle() as ResourceBundle);
     }

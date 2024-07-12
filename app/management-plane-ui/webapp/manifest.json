@@ -118,7 +118,7 @@
         },
         {
           "name": "RouteKPIDetails",
-          "pattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&layout={layout}",
+          "pattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
           "target": [
             "TargetKPIDetails"
           ]

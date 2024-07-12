@@ -9,7 +9,6 @@ import ListBinding from "sap/ui/model/ListBinding";
 import { Button$PressEvent } from "sap/ui/commons/Button";
 import { ListBase$UpdateFinishedEvent } from "sap/m/ListBase";
 import List from "sap/m/List";
-import Table from "sap/m/Table";
 import SmartChart, { SmartChart$AfterVariantInitialiseEvent, SmartChart$BeforeRebindChartEvent } from "sap/ui/comp/smartchart/SmartChart";
 import { IBindingParams } from "../types/global.types";
 import Header from "sap/f/cards/Header";

@@ -13,7 +13,7 @@ entity KPIs : managed {
     key ID             : UUID;
     key paragraph      : String;
         sectionID      : UUID;
-        chapterID       : String;
+        chapterID      : String;
         chapterName    : String;
         subchapterID   : String;
         subchapterName : String;
@@ -22,7 +22,8 @@ entity KPIs : managed {
         AIStatus       : String;
         userStatus     : String;
         totalStatus    : String;
-        content        : String;
+        contentAI      : String;
+        contentEdited  : String;
         reportDate     : DateTime;
         documentNumber : Integer;
         documents      : Association to many Documents
@@ -37,5 +38,5 @@ entity Documents {
         page      : Integer;
         type      : String;
         AIMatch   : Integer;
-        categorie : String;
+        reportLine: String;
 }

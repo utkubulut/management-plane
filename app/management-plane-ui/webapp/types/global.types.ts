@@ -5,5 +5,18 @@ export enum ApplicationModels {
 }
 
 export interface IBindingParams {
-    filters:Filter[]
+    filters:Filter[];
+    events: { [key: string]: Function };
+    arguments:{
+        sectionID: string,
+        kpiID: string,
+        subKPI: string,
+        paragraph: string
+    };
+}
+
+export interface IKPIs {
+    ID:string;
+    subChapter:string;
+    subchapterName:string;
 }

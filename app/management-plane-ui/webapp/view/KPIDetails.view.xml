@@ -8,21 +8,32 @@
     xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
     xmlns:smartTable="sap.ui.comp.smarttable"
     xmlns:core="sap.ui.core"
+    xmlns:smartForm="sap.ui.comp.smartform"
+    xmlns:smartField="sap.ui.comp.smartfield"
     displayBlock="true"
     height="100%"
 >
     <m:Page showHeader="false">
+        <f:ShellBar
+            id="sbKPIs"
+            showSearch="false"
+            showNavButton="true"
+            showNotifications="false"
+            navButtonPressed="onNavToKPIs"
+        />
         <ObjectPageLayout
             id="oplKpi"
             showTitleInHeaderContent="true"
             upperCaseAnchorBar="false"
+            navigate="onNavToKPIs"
         >
             <headerTitle>
                 <ObjectPageDynamicHeaderTitle>
                     <expandedHeading>
                         <m:Title
-                            text="{title}"
+                            id="kpiDetailTitle"
                             wrapping="true"
+                            title="dfsfsdfsd"
                         />
                     </expandedHeading>
                     <snappedHeading>
@@ -62,6 +73,7 @@
 
             <headerContent>
                 <m:FlexBox
+                    id="fbKPIsHeader"
                     wrap="Wrap"
                     fitContainer="true"
                 >
@@ -112,23 +124,31 @@
                     </m:VBox>
                     <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
                         <m:Title
-                            text="{i18n>reportStatus}"
+                            text="{i18n>kpiStatus}"
                             class="sapUiTinyMarginBottom"
                         />
                         <m:ObjectStatus
-                            text="Successfully"
+                            text="{state}"    
+                        />
+                    </m:VBox>
+                    <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
+                        <m:Title
+                            text="{i18n>userStatus}"
+                            class="sapUiTinyMarginBottom"
+                        />
+                        <m:ObjectStatus
+                            text="{userStatus}"
                             state="Success"
                             class="sapMObjectStatusLarge"
                         />
                     </m:VBox>
                     <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
                         <m:Title
-                            text="{i18n>exportOfReport}"
+                            text="{i18n>totalStatus}"
                             class="sapUiTinyMarginBottom"
                         />
                         <m:ObjectStatus
-                            text="{i18n>toBeSelected}"
-                            state="Error"
+                            text="{totalStatus}"
                             class="sapMObjectStatusLarge"
                         />
                     </m:VBox>
@@ -145,11 +165,32 @@
                             showTitle="false"
                         >
                             <blocks>
-                                <m:Panel headerText="{i18n>reportOfTheKPI}">
-                                    <m:HBox direction="Column">
-                                        <m:Label text="{title}" />
-                                        <m:Text text="{content/}" />
-                                    </m:HBox>
+                                <m:Panel
+                                    headerText="{i18n>reportOfTheKPI}"
+                                    class="sapUiNoMarginBegin"
+                                >
+                                    <smartForm:SmartForm id="sfKPIsReport">
+                                        <smartForm:layout>
+                                            <smartForm:ColumnLayout
+                                                emptyCellsLarge="4"
+                                                columnsL="2"
+                                                columnsM="2"
+                                                columnsXL="2"
+                                            />
+                                        </smartForm:layout>
+                                        <smartForm:Group>
+                                            <smartForm:GroupElement>
+                                                <smartField:SmartField
+                                                    value="{contentAI}"
+                                                />
+                                            </smartForm:GroupElement>
+                                            <smartForm:GroupElement>
+                                                <smartField:SmartField
+                                                    value="{contentEdited}"
+                                                />
+                                            </smartForm:GroupElement>
+                                        </smartForm:Group>
+                                    </smartForm:SmartForm>
                                 </m:Panel>
                             </blocks>
                         </ObjectPageSubSection>
@@ -171,12 +212,13 @@
                                     smartFilterId="sfbDocuments"
                                     header="{i18n>stDocuments}"
                                     tableType="ResponsiveTable"
-                                    entitySet="VKPIs"
+                                    entitySet="Documents"
                                     enableAutoBinding="false"
                                     class="sapUiResponsiveContentPadding"
                                     showPasteButton="true"
                                     showFullScreenButton="true"
                                     beforeRebindTable="onBeforeRebindTable"
+                                    requestAtLeastFields="kpiID"
                                 >
                                     <m:Table
                                         id="idDocumentTable"
@@ -190,21 +232,21 @@
                                                 <m:customData>
                                                     <core:CustomData
                                                         key="p13nData"
+                                                        value='\{"columnKey": "AIMatch", "leadingProperty": "AIMatch", "columnIndex": 1}'
+                                                    />
+                                                </m:customData>
+                                                <m:Text text="{i18n>AIMatch}" />
+                                            </m:Column>
+                                            <m:Column>
+                                                <m:customData>
+                                                    <core:CustomData
+                                                        key="p13nData"
                                                         value='\{"columnKey": "page", "leadingProperty": "page,textLine", "columnIndex": 99}'
                                                     />
                                                 </m:customData>
                                                 <m:Text
                                                     text="{i18n>textLineAndPage}"
                                                 />
-                                            </m:Column>
-                                            <m:Column>
-                                                <m:customData>
-                                                    <core:CustomData
-                                                        key="p13nData"
-                                                        value='\{"columnKey": "AIMatch", "leadingProperty": "AIMatch", "columnIndex": 3}'
-                                                    />
-                                                </m:customData>
-                                                <m:Text text="{i18n>AIMatch}" />
                                             </m:Column>
                                         </m:columns>
                                         <m:items>
@@ -214,13 +256,13 @@
                                                 highlight="{path:'AIMatch', formatter:'.formatter.formatRowHighlight'}"
                                             >
                                                 <m:ObjectStatus
-                                                    text="{parts:['page','textLine'], formatter:'.formatter.formatPageTextLine'}"
-                                                    state="Information"
+                                                    text="{AIMatch}%"
+                                                    state="{path:'AIMatch', formatter:'.formatter.formatRowHighlight'}"
                                                     class="sapMObjectStatusMedium"
                                                 />
                                                 <m:ObjectStatus
-                                                    text="{AIMatch}"
-                                                    state="{path:'AIMatch', formatter:'.formatter.formatRowHighlight'}"
+                                                    text="{parts:['page','textLine'], formatter:'.formatter.formatPageTextLine'}"
+                                                    state="Information"
                                                     class="sapMObjectStatusMedium"
                                                 />
                                             </m:ColumnListItem>

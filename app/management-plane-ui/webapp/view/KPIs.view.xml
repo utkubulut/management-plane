@@ -10,7 +10,6 @@
 >
     <Page
         id="pageKPIResults"
-        title="{i18n>titleKPIResults}"
         showNavButton="true"
         navButtonPress="onNavKPIsOverview"
     >
@@ -42,13 +41,34 @@
                             beforeRebindTable="onBeforeRebindTable"
                             useVariantManagement="false"
                             tableType="Table"
-                            requestAtLeastFields="subchapterID"
+                            requestAtLeastFields="subchapterID,subchapterName"
                         >
                             <Table>
-                                <ColumnListItem
-                                    type="Navigation"
-                                    press="onItemPressed"
-                                />
+                                <columns>
+                                    <Column>
+                                        <customData>
+                                            <core:CustomData
+                                                key="p13nData"
+                                                value='\{"columnKey": "state", "leadingProperty": "state", "columnIndex": 1}'
+                                            />
+                                        </customData>
+                                        <Text text="{i18n>State}" />
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem
+                                        type="Navigation"
+                                        press="onItemPressed"
+                                    >
+                                        <cells>
+                                            <ObjectStatus
+                                                text="{state}"
+                                                state="{path:'state', formatter:'.formatter.formatRowHighlight'}"
+                                                class="sapMObjectStatusMedium"
+                                            />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
                             </Table>
                         </smartTable:SmartTable>
                     </content>

@@ -52,9 +52,17 @@ service ManagementPlane {
             kpi.chapterID   as kpiChapterID :String,
             kpi.chapterName as kpiChapterName:String,
             kpi.state       as kpiState:String,
-            kpi.reportDate as kpiReportDate:Date
+            kpi.reportDate  as kpiReportDate:Date,
+            kpi.subchapterName as kpiSubChapterName:String,
+            kpi.contentAI as contentAI:String,
+            kpi.contentEdited as contentEdited:String
         }
-
+        entity VKPIsReports as select from KPIs as vkpi{
+            key vkpi.ID as kpiID:UUID,
+            key vkpi.paragraph as kpiParagraph:String,
+            vkpi.contentAI as contentAI:String,
+            vkpi.contentEdited as contentEdited:String
+        }
         entity VKPIStateCount as select  from VKPIs as kpi{
         key kpi.sectionID,
             kpi.sectionType,

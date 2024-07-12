@@ -24,4 +24,17 @@ annotate service.VKPIs with {
     kpiReportDate    @Common.Label: '{i18n>kpiReportDate}';
     kpiChapterID     @Common.Label: '{i18n>kpiChapterID}';
 }
+annotate service.VKPIsReports with {
+   
+    contentAI          @Common.Label: '{i18n>reportAI}';
+    contentEdited      @Common.Label: '{i18n>reportEdited}';
+         
+}
+annotate service.Documents with {
+   
+    title          @Common.Label: '{i18n>docTitle}';
+    type           @Common.Label: '{i18n>docType}';
+    reportLine     @Common.Label: '{i18n>docReportLine}';
+}
+
 
