@@ -14,6 +14,10 @@ import ShellBar from "sap/f/ShellBar";
 import SmartForm from "sap/ui/comp/smartform/SmartForm";
 import FlexBox from "sap/m/FlexBox";
 import ListBinding from "sap/ui/model/ListBinding";
+import { Menu$ItemSelectEvent, Menu$ItemSelectEventParameters } from "sap/ui/unified/Menu";
+import MenuItemBase from "sap/ui/unified/MenuItemBase";
+import ItemBase from "sap/m/table/columnmenu/ItemBase";
+import { LayoutType } from "sap/f/library";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -26,6 +30,7 @@ export default class KPIDetails extends BaseController {
     private sectionID: string;
     private kpiID: string;
     private subKPI: string;
+    private paragraph:string;
     public subChapterName: string;
     public onInit() {
         this.getRouter().getRoute("RouteKPIDetails")!.attachMatched(this.onObjectMatched, this);
@@ -58,18 +63,18 @@ export default class KPIDetails extends BaseController {
     private onObjectMatched(event: Route$PatternMatchedEvent) {
         this.sectionID = (event.getParameters() as IBindingParams).arguments.sectionID;
         this.kpiID = (event.getParameters() as IBindingParams).arguments.kpiID;
-        const subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
-        const paragraph = (event.getParameters() as IBindingParams).arguments.paragraph;
+        this.subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
+        this.paragraph = (event.getParameters() as IBindingParams).arguments.paragraph;
         const navigation = window.performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
 
         if (navigation.type == "reload") {
             this.onNavToKPIs();
         }
 
-        (this.byId("kpiDetailTitle") as Title).setText(subKPI + "para." + paragraph);
-        (this.byId("sfKPIsReport") as SmartForm).bindElement("/VKPIsReports(kpiID=guid'" + this.kpiID + "',kpiParagraph='" + paragraph + "')");
+        (this.byId("kpiDetailTitle") as Title).setText(this.subKPI + "para." + this.paragraph);
+        (this.byId("sfKPIsReport") as SmartForm).bindElement("/VKPIsReports(kpiID=guid'" + this.kpiID + "',kpiParagraph='" + this.paragraph + "')");
 
-        ((this.getView() as View).getModel() as ODataModel).read("/KPIs(ID=guid'" + (this.kpiID) + "',paragraph='" + paragraph + "')", {
+        ((this.getView() as View).getModel() as ODataModel).read("/KPIs(ID=guid'" + (this.kpiID) + "',paragraph='" + this.paragraph + "')", {
             urlParameters: {
                 "$expand": "documents",
             },
@@ -77,9 +82,9 @@ export default class KPIDetails extends BaseController {
                 this.subChapterName = data.subchapterName;
                 (this.byId("sbKPIs") as ShellBar).setTitle("Details of " + this.subChapterName);
                 (this.byId("oplKpi") as ObjectPageLayout).bindElement({
-                    path: "/KPIs(ID=guid'" + (this.kpiID) + "',paragraph='" + paragraph + "')",
+                    path: "/VKPIDocuments(ID=guid'" + (this.kpiID) + "',paragraph='" + this.paragraph + "')",
                     events: {
-                        dataReceived: (event: Binding$DataReceivedEvent) => {
+                        dataReceived: () => {
                             (this.byId("stDocuments") as SmartTable).rebindTable(true);
                         }
                     }
@@ -91,6 +96,20 @@ export default class KPIDetails extends BaseController {
                  */
             }
         });
+    }
+
+    private onMenuAction(event: Menu$ItemSelectEvent){
+        const action = ((event.getParameter("item")as any).getText()as string);
+        if(action ==="Change History"){
+            this.getRouter().navTo("RouteChangeHistory", {
+            layout: LayoutType.ThreeColumnsMidExpanded,
+            sectionID: this.sectionID,
+            kpiID: this.kpiID,
+            subKPI: this.subKPI,
+            paragraph: this.paragraph
+            });
+        }
+
     }
 }
 

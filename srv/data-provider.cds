@@ -63,6 +63,7 @@ service ManagementPlane {
             vkpi.contentAI as contentAI:String,
             vkpi.contentEdited as contentEdited:String
         }
+        entity VKPIDocuments as projection on KPIs;
         entity VKPIStateCount as select  from VKPIs as kpi{
         key kpi.sectionID,
             kpi.sectionType,

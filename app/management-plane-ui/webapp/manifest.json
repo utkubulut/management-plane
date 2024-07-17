@@ -122,6 +122,13 @@
           "target": [
             "TargetKPIDetails"
           ]
+        },
+        {
+          "name": "RouteChangeHistory",
+          "pattern": "TimeLine/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
+          "target": [
+            "TargetChangeHistory"
+          ]
         }
       ],
       "targets": {
@@ -152,6 +159,13 @@
           "viewName": "KPIDetails",
           "transition": "slide",
           "controlAggregation": "midColumnPages"
+        },
+        "TargetChangeHistory": {
+          "viewId": "ChangeHistory",
+          "viewType": "XML",
+          "viewName": "ChangeHistory",
+          "transition": "slide",
+          "controlAggregation": "endColumnPages"
         }
       }
     },

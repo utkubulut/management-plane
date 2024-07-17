@@ -8,6 +8,11 @@
       "authenticationType": "xsuaa"
     },
     {
+      "source": "^/user-api(.*)",
+      "target": "$1",
+      "service": "sap-approuter-userapi"
+    },
+    {
       "source": "^/resources/xlsx(.*)$",
       "target": "/resources/xlsx.js",
       "service": "html5-apps-repo-rt",

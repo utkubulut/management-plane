@@ -1,0 +1,43 @@
+<mvc:View
+    controllerName="com.ndbs.managementplaneui.controller.ChangeHistory"
+    xmlns="sap.suite.ui.commons"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:m="sap.m"
+    xmlns:f="sap.f"
+    height="100%"
+>
+    <m:Page>
+        <f:ShellBar
+            id="sbKPIs"
+            title="Change History"
+            showSearch="false"
+            showNavButton="true"
+            showNotifications="false"
+            navButtonPressed="onNavToKPIsDetails"
+        />
+        <m:content>
+            <Timeline
+                id="idTimeline"
+                enableDoubleSided="true"
+                groupBy="reportDate"
+                growingThreshold="0"
+                filterTitle="Job Title"
+                sortOldestFirst="true"
+                content="{/KPIs}"
+            >
+                <content>
+                    <TimelineItem
+                        id="idTemplateItem"
+                        dateTime="{reportDate}"
+                        title="{chapterName}"
+                        userNameClickable="true"
+                        userNameClicked="onUserNameClick"
+                        select="onPressItems"
+                        text="JobResponsibilities"
+                    />
+                </content>
+            </Timeline>
+        </m:content>
+    </m:Page>
+</mvc:View>

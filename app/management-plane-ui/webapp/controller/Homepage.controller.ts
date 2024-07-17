@@ -3,6 +3,8 @@ import BaseController from "./BaseController";
 import formatter from '../model/formatter';
 import { GenericTile$PressEvent } from "sap/m/GenericTile";
 import Context from "sap/ui/model/Context";
+import UserAPI from "../utils/session/UserAPI";
+import { IUserAPI } from "../types/global.types";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -16,8 +18,10 @@ export default class Homepage extends BaseController {
     /* ======================================================================================================================= */
 
     public onInit(): void {
-
+        
     }
+    
+    
 
     /* ======================================================================================================================= */
     /* Event Handlers                                                                                                          */

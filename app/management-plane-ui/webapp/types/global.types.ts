@@ -14,6 +14,12 @@ export interface IBindingParams {
         paragraph: string
     };
 }
+export interface IUserAPI {
+    name: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+}
 
 export interface IKPIs {
     ID:string;
