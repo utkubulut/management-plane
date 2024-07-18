@@ -1,13 +1,15 @@
 using {
     Sections  as DBSections,
     KPIs      as DBKPIs,
-    Documents as DBDocuments
+    Documents as DBDocuments,
+    ReportHistory as DBReportHistory
 } from '../db/data-models';
 
-@require: 'authenticated-user'
+@requires: 'authenticated-user'
 service ManagementPlane {
     entity Sections  as projection on DBSections;
     entity Documents as projection on DBDocuments;
+    entity ReportHistory as projection on DBReportHistory;
 
     entity KPIs      as
         projection on DBKPIs {

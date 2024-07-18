@@ -31,12 +31,23 @@ entity KPIs : managed {
 }
 
 entity Documents {
-    key ID        : UUID;
-        kpiID     : UUID;
-        title     : String;
-        textLine  : String;
-        page      : Integer;
-        type      : String;
-        AIMatch   : Integer;
-        reportLine: String;
+    key ID         : UUID;
+        kpiID      : UUID;
+        title      : String;
+        textLine   : String;
+        page       : Integer;
+        type       : String;
+        AIMatch    : Integer;
+        reportLine : String;
+}
+
+entity ReportHistory {
+    key fullName        : String;
+    key modifiedType    : String;
+        reportDate      : DateTime @cds.on.insert:$now;
+        modifiedContent : String;
+        avatar          : String;
+        iconType        : String;
+
+
 }
