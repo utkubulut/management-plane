@@ -42,9 +42,10 @@ entity Documents {
 }
 
 entity ReportHistory {
+    key ID              : UUID;
     key fullName        : String;
     key modifiedType    : String;
-        reportDate      : DateTime @cds.on.insert:$now;
+        reportDate      : DateTime @cds.on.insert: $now;
         modifiedContent : String;
         avatar          : String;
         iconType        : String;

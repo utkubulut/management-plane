@@ -3,21 +3,18 @@ import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import formatter from "../model/formatter";
 import View from "sap/ui/core/mvc/View";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
-import { IBindingParams, IKPIs } from "com/ndbs/managementplaneui/types/global.types"
+import { IBindingParams, IKPIs, IUserAPI } from "com/ndbs/managementplaneui/types/global.types"
 import Title from "sap/m/Title";
 import ObjectPageLayout from "sap/uxap/ObjectPageLayout";
-import { Binding$DataReceivedEvent } from "sap/ui/model/Binding";
 import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import ShellBar from "sap/f/ShellBar";
 import SmartForm from "sap/ui/comp/smartform/SmartForm";
-import FlexBox from "sap/m/FlexBox";
-import ListBinding from "sap/ui/model/ListBinding";
-import { Menu$ItemSelectEvent, Menu$ItemSelectEventParameters } from "sap/ui/unified/Menu";
-import MenuItemBase from "sap/ui/unified/MenuItemBase";
-import ItemBase from "sap/m/table/columnmenu/ItemBase";
+import { Menu$ItemSelectEvent } from "sap/ui/unified/Menu";
 import { LayoutType } from "sap/f/library";
+import UserAPI from "../utils/session/UserAPI";
+import ODataCreateCL from "ui5/antares/odata/v2/ODataCreateCL";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -70,6 +67,7 @@ export default class KPIDetails extends BaseController {
         if (navigation.type == "reload") {
             this.onNavToKPIs();
         }
+        this.setReportChangeHistory();
 
         (this.byId("kpiDetailTitle") as Title).setText(this.subKPI + "para." + this.paragraph);
         (this.byId("sfKPIsReport") as SmartForm).bindElement("/VKPIsReports(kpiID=guid'" + this.kpiID + "',kpiParagraph='" + this.paragraph + "')");
@@ -109,6 +107,22 @@ export default class KPIDetails extends BaseController {
             paragraph: this.paragraph
             });
         }
+
+    }
+    private async setReportChangeHistory() {
+        const user = new UserAPI(this);
+        const session = await user.getLoggedOnUser();
+        const userSession :IUserAPI = {
+                    ID: session.ID as string,
+                    firstname: session.firstname as string,
+                    lastname: session.lastname as string,
+                    email: session.email as string,
+                    nameAbbreviation: session.nameAbbreviation as string
+        };
+        const creator = new ODataCreateCL<IUserAPI>(this, "ReportHistory");
+
+        creator.setData(userSession);
+        creator.create();
 
     }
 }

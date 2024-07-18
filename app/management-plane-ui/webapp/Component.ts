@@ -6,6 +6,7 @@ import { LayoutType } from "sap/f/library";
 import FlexibleColumnLayout from "sap/f/FlexibleColumnLayout";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import UserAPI from "./utils/session/UserAPI";
+import { IUserAPI } from "./types/global.types";
 
 /**
  * @namespace com.ndbs.managementplaneui
@@ -32,11 +33,6 @@ export default class Component extends BaseComponent {
         this.setModel(new JSONModel, "userSessionInfo")
         this.setModel(createDeviceModel(), "device");
         this.setModel(new JSONModel(), "flexibleColumnLayout");
-
-        //get user session info
-        this.getUserInfo();
-        let x =1
-
     }
 
     public getHelper(): FlexibleColumnLayoutSemanticHelper {
@@ -48,9 +44,5 @@ export default class Component extends BaseComponent {
 
         return FlexibleColumnLayoutSemanticHelper.getInstanceFor(flexibleColumnLayout, settings);
     }
-    private async getUserInfo() {
-        const user = new UserAPI(this);
-        const session = await user.getLoggedOnUser();
-        (this.getModel("userSessionInfo") as JSONModel).setData(session)
-    }
+
 }

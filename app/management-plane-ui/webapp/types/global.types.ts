@@ -1,3 +1,4 @@
+import { UUID } from "crypto";
 import Filter from "sap/ui/model/Filter";
 
 export enum ApplicationModels {
@@ -5,9 +6,9 @@ export enum ApplicationModels {
 }
 
 export interface IBindingParams {
-    filters:Filter[];
+    filters: Filter[];
     events: { [key: string]: Function };
-    arguments:{
+    arguments: {
         sectionID: string,
         kpiID: string,
         subKPI: string,
@@ -15,14 +16,15 @@ export interface IBindingParams {
     };
 }
 export interface IUserAPI {
-    name: string;
+    ID: String;
     firstname: string;
     lastname: string;
     email: string;
+    nameAbbreviation:string;
 }
 
 export interface IKPIs {
-    ID:string;
-    subChapter:string;
-    subchapterName:string;
+    ID: string;
+    subChapter: string;
+    subchapterName: string;
 }
