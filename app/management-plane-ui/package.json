@@ -9,9 +9,6 @@
     "sapui5"
   ],
   "main": "webapp/index.html",
-  "dependencies": {
-    "ui5-antares": "^1.124.999005"
-  },
   "devDependencies": {
     "@sap-ux/eslint-plugin-fiori-tools": "^0.4.0",
     "@sap/ui5-builder-webide-extension": "^1.1.9",
@@ -41,5 +38,8 @@
       "ui5-task-zipper",
       "mbt"
     ]
+  },
+  "dependencies": {
+    "ui5-antares": "^1.124.999005"
   }
 }
