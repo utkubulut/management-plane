@@ -13,8 +13,8 @@
       "service": "sap-approuter-userapi"
     },
     {
-      "source": "^/resources/xlsx(.*)$",
-      "target": "/resources/xlsx.js",
+      "source": "^/resources/ui5/antares/(.*)$",
+      "target": "/resources/ui5/antares/$1",
       "service": "html5-apps-repo-rt",
       "authenticationType": "xsuaa",
       "cacheControl": "no-cache"
