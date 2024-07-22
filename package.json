@@ -39,8 +39,5 @@
       "destinations": true,
       "html5-repo": true
     }
-  },
-  "workspaces": [
-    "app/*"
-  ]
+  }
 }
