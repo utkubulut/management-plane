@@ -24,7 +24,7 @@ export default class UserAPI {
                 method: "GET",
                 success: (data: string | IUserAPI) => {
                     const user = typeof data === "string" ? JSON.parse(data) as IUserAPI : data;
-                    this.ID = user.name;
+                    // this.ID = user.name;
                     this.firstName = user.firstname;
                     this.lastName = user.lastname;
                     this.email = user.email;
