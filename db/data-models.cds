@@ -49,6 +49,4 @@ entity ReportHistory {
         modifiedContent : String;
         avatar          : String;
         iconType        : String;
-
-
 }

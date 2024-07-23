@@ -1,5 +1,5 @@
 import BaseController from "./BaseController";
-import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
+import Route, { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import formatter from "../model/formatter";
 import View from "sap/ui/core/mvc/View";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
@@ -30,7 +30,7 @@ export default class KPIDetails extends BaseController {
     private paragraph:string;
     public subChapterName: string;
     public onInit() {
-        this.getRouter().getRoute("RouteKPIDetails")!.attachMatched(this.onObjectMatched, this);
+        (this.getRouter().getRoute("RouteKPIDetails") as Route).attachMatched(this.onObjectMatched, this);
     }
 
     /* ======================================================================================================================= */
@@ -113,11 +113,14 @@ export default class KPIDetails extends BaseController {
         const user = new UserAPI(this);
         const session = await user.getLoggedOnUser();
         const userSession :IUserAPI = {
-                    ID: session.ID as string,
-                    firstname: session.firstname as string,
-                    lastname: session.lastname as string,
-                    email: session.email as string,
-                    nameAbbreviation: session.nameAbbreviation as string
+            fullName: session.firstname + " "+session.lastname,
+            modifiedType: "Regenerate the report",
+            modifiedContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Curabitur aliquet quam id dui posuere blandit. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus. Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat.",
+            avatar: session.firstname.substring(0, 1) + session.lastname.substring(0, 1) as string,
+            iconType: "sap-icon://user-edit",
+            firstname: session.firstname,
+            lastname: session.firstname,
+            email: session.firstname
         };
         const creator = new ODataCreateCL<IUserAPI>(this, "ReportHistory");
 

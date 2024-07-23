@@ -43,7 +43,7 @@ export default class KPIs extends BaseController {
         const binding = event.getParameter("bindingParams") as IBindingParams;
         const filters = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
         binding.filters.push(filters);
-        this.addBindingListener(binding, "dataReceived", this.onBindingDataReceivedListener.bind(this));
+        // this.addBindingListener(binding, "dataReceived", this.onBindingDataReceivedListener.bind(this));
     }
 
     public onItemPressed(event: Event<ListItemBase$PressEventParameters, ColumnListItem>) {

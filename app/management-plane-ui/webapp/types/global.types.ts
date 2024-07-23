@@ -16,11 +16,14 @@ export interface IBindingParams {
     };
 }
 export interface IUserAPI {
-    ID: String;
-    firstname: string;
-    lastname: string;
-    email: string;
-    nameAbbreviation:string;
+    fullName:string;
+    firstname:string;
+    lastname:string;
+    email:string;
+    modifiedType:string;
+    modifiedContent:string;
+    avatar:string;
+    iconType:string;
 }
 
 export interface IKPIs {

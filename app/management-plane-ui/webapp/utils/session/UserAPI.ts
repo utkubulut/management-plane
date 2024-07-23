@@ -7,7 +7,7 @@ import Controller from "sap/ui/core/mvc/Controller";
  */
 export default class UserAPI {
     private sourceController:Controller | UIComponent
-    public ID: string;
+    public avatar: string;
     public firstName: string;
     public lastName: string;
     public email: string;
@@ -25,10 +25,10 @@ export default class UserAPI {
                 success: (data: string | IUserAPI) => {
                     const user = typeof data === "string" ? JSON.parse(data) as IUserAPI : data;
                     // this.ID = user.name;
-                    this.firstName = user.firstname;
-                    this.lastName = user.lastname;
-                    this.email = user.email;
-                    this.nameAbbreviation = this.firstName.substring(0, 1) + this.lastName.substring(0, 1);
+                    this.firstName = user.firstname as string;
+                    this.lastName = user.lastname as string;
+                    this.email = user.email as string;
+                    this.avatar = user.firstname.substring(0, 1) + user.lastname.substring(0, 1);
                     resolve(user);
                 }
             });
