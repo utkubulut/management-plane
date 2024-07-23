@@ -1,3 +1,4 @@
+
 export interface IUserAPI {
     fullName:string;
     firstname:string;
@@ -12,4 +13,13 @@ export interface IKPIs {
     ID: string;
     subChapter: string;
     subchapterName: string;
+};
+export interface IBindingParams {
+    events: { [key: string]: Function };
+    arguments: {
+        sectionID: string,
+        kpiID: string,
+        subKPI: string,
+        paragraph: string
+    };
 };
