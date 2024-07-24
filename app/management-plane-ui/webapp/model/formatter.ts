@@ -1,5 +1,5 @@
 export default {
-   formatRowHighlight: function(status: string): string {
+    formatRowHighlight: function (status: string): string {
         if (status === "AI Proposal") {
             return "Error";
         } else if (status === "In Progress") {
@@ -67,6 +67,10 @@ export default {
 
     formatPageTextLine(page: string, text: string): string {
         return `${page}, ${text}`;
+    },
+
+    formatContent(modifiedType: string, modifiedContent: string) {
+        return `<b>${modifiedType}</b>: ${modifiedContent}`;
     }
 
 }

@@ -3,7 +3,7 @@ import Route, { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import formatter from "../model/formatter";
 import View from "sap/ui/core/mvc/View";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
-import { IBindingParams, IKPIs, IUserAPI } from "com/ndbs/managementplaneui/types/global.types"
+import { IBindingParams, IKPIs, IReportHistory, IUserAPI } from "com/ndbs/managementplaneui/types/global.types"
 import Title from "sap/m/Title";
 import ObjectPageLayout from "sap/uxap/ObjectPageLayout";
 import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
@@ -67,7 +67,7 @@ export default class KPIDetails extends BaseController {
         if (navigation.type == "reload") {
             this.onNavToKPIs();
         }
-        this.setReportChangeHistory();
+        //this.setReportChangeHistory();
 
         (this.byId("kpiDetailTitle") as Title).setText(this.subKPI + "para." + this.paragraph);
         (this.byId("sfKPIsReport") as SmartForm).bindElement("/VKPIsReports(kpiID=guid'" + this.kpiID + "',kpiParagraph='" + this.paragraph + "')");
@@ -112,21 +112,17 @@ export default class KPIDetails extends BaseController {
     private async setReportChangeHistory() {
         const user = new UserAPI(this);
         const session = await user.getLoggedOnUser();
-        const userSession :IUserAPI = {
+        const userSession :IReportHistory = {
             fullName: session.firstname + " "+session.lastname,
             modifiedType: "Regenerate the report",
             modifiedContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Curabitur aliquet quam id dui posuere blandit. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus. Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat.",
             avatar: session.firstname.substring(0, 1) + session.lastname.substring(0, 1) as string,
-            iconType: "sap-icon://user-edit",
-            firstname: session.firstname,
-            lastname: session.firstname,
-            email: session.firstname
+            iconType: "sap-icon://user-edit"
         };
-        const creator = new ODataCreateCL<IUserAPI>(this, "ReportHistory");
+        const creator = new ODataCreateCL<IReportHistory>(this, "ReportHistory");
 
         creator.setData(userSession);
         creator.create();
-
     }
 }
 

@@ -24,18 +24,20 @@
                 growingThreshold="0"
                 filterTitle="Job Title"
                 sortOldestFirst="true"
-                content="{/KPIs}"
+                content="{/ReportHistory}"
             >
                 <content>
                     <TimelineItem
                         id="idTemplateItem"
                         dateTime="{reportDate}"
-                        title="{chapterName}"
+                        userName="{fullName}"
                         userNameClickable="true"
                         userNameClicked="onUserNameClick"
                         select="onPressItems"
-                        text="JobResponsibilities"
-                    />
+                        text="{modifiedType}: {modifiedContent}"
+                        icon="{iconType}"
+                    >
+                    </TimelineItem>
                 </content>
             </Timeline>
         </m:content>

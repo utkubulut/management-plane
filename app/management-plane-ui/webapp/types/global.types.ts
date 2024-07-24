@@ -25,6 +25,13 @@ export interface IUserAPI {
     avatar:string;
     iconType:string;
 }
+export interface IReportHistory {
+    fullName:string;
+    modifiedType:string;
+    modifiedContent:string;
+    avatar:string;
+    iconType:string;
+}
 
 export interface IKPIs {
     ID: string;
