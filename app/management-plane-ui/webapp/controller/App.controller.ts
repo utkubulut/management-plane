@@ -46,11 +46,15 @@ export default class App extends Controller {
                     break;
                 case "RouteKPIs":
                     (this.byId("sbApp") as ShellBar).setShowNavButton(true);
-                    (this.byId("sbApp") as ShellBar).setTitle("KPIs");
+                    (this.byId("sbApp") as ShellBar).setTitle("KPI Details");
                     break;
                 case "RouteKPIsOverview":
                     (this.byId("sbApp") as ShellBar).setShowNavButton(true);
-                    (this.byId("sbApp") as ShellBar).setTitle("KPIs Overview");
+                    (this.byId("sbApp") as ShellBar).setTitle("KPI Overview");
+                    break;    
+                case "RouteChangeHistory":
+                    (this.byId("sbApp") as ShellBar).setShowNavButton(true);
+                    (this.byId("sbApp") as ShellBar).setTitle("KPI Details");
                     break;    
             default:
                 (this.byId("sbApp") as ShellBar).setShowNavButton(true);
