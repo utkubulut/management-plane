@@ -95,7 +95,7 @@ export default class KPIsOverview extends BaseController implements IPage {
         this.sectionType = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as { sectionType: string }).sectionType;
         this.sectionName = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as { sectionName: string }).sectionName;
 
-        (((this.byId("cardHKPIsOverview") as Header).setTitle(this.sectionType + " - " + this.sectionName)));
+        // (((this.byId("cardHKPIsOverview") as Header).setTitle(this.sectionType + " - " + this.sectionName)));
         ((this.byId("stKPIs") as SmartTable).setHeader(this.sectionType + " - " + this.sectionName));
     }
 

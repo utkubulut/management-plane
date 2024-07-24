@@ -72,7 +72,7 @@ export default class KPIDetails extends BaseController implements IPage {
         }
         //this.setReportChangeHistory();
 
-        (this.byId("kpiDetailTitle") as Title).setText(this.subKPI + "para." + this.paragraph);
+        // (this.byId("kpiDetailTitle") as Title).setText(this.subKPI + "para." + this.paragraph);
         (this.byId("sfKPIsReport") as SmartForm).bindElement("/VKPIsReports(kpiID=guid'" + this.kpiID + "',kpiParagraph='" + this.paragraph + "')");
 
         ((this.getView() as View).getModel() as ODataModel).read("/KPIs(ID=guid'" + (this.kpiID) + "',paragraph='" + this.paragraph + "')", {
@@ -81,7 +81,7 @@ export default class KPIDetails extends BaseController implements IPage {
             },
             success: (data: IKPIs) =>  {
                 this.subChapterName = data.subchapterName;
-                (this.byId("sbKPIs") as ShellBar).setTitle("Details of " + this.subChapterName);
+                // (this.byId("sbKPIs") as ShellBar).setTitle("Details of " + this.subChapterName);
                 (this.byId("oplKpi") as ObjectPageLayout).bindElement({
                     path: "/VKPIDocuments(ID=guid'" + (this.kpiID) + "',paragraph='" + this.paragraph + "')",
                     events: {
