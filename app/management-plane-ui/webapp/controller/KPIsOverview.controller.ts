@@ -10,10 +10,13 @@ import { Button$PressEvent } from "sap/ui/commons/Button";
 import { ListBase$UpdateFinishedEvent } from "sap/m/ListBase";
 import List from "sap/m/List";
 import SmartChart, { SmartChart$AfterVariantInitialiseEvent, SmartChart$BeforeRebindChartEvent } from "sap/ui/comp/smartchart/SmartChart";
-import { IBindingParams } from "../types/global.types";
+import { IBindingParams } from "../types/kpis.types";
 import Header from "sap/f/cards/Header";
 import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
 import Context from "sap/ui/model/Context";
+import { Routes } from "../types/global.types";
+import PageCL from "../utils/common/PageCL";
+import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -28,8 +31,8 @@ export default class KPIsOverview extends BaseController {
     /* ======================================================================================================================= */
 
     public onInit() {
-        this.getRouter().getRoute("RouteKPIsOverview")!.attachMatched(this.onObjectMatched, this);
-
+        const page = new PageCL<KPIsOverview>(this, Routes.KPIS_OVERVIEW);
+        page.initialize();
     }
 
     /* ======================================================================================================================= */
@@ -72,17 +75,22 @@ export default class KPIsOverview extends BaseController {
         const sectionFilter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
         binding.filters.push(sectionFilter);
     }
+    public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
+        const oDataModel = this.getComponentModel();
+        oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
+        this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
+        this.applySectionFilter();
+        this.rebindSmartComponent();
+    }
 
+    public onODataRequestFail(event: Model$RequestFailedEvent): void {
+        this.openMessagePopover();
+    }
 
     /* ======================================================================================================================= */
     /* Private Functions                                                                                                       */
     /* ======================================================================================================================= */
 
-    private onObjectMatched(event: Route$PatternMatchedEvent) {
-        this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
-        this.applySectionFilter();
-        this.rebindSmartComponent();
-    }
     private onKPIUpdateFinished(event: ListBase$UpdateFinishedEvent) {
         this.sectionType = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as { sectionType: string }).sectionType;
         this.sectionName = (((this.byId("fbKPIsOverview") as List).getItems()[0].getBindingContext() as Context).getObject() as { sectionName: string }).sectionName;

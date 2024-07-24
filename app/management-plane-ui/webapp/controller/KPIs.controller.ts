@@ -2,7 +2,7 @@ import BaseController from "./BaseController";
 import formatter from "../model/formatter";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
-import { IBindingParams, IKPIs } from '../types/global.types'
+import { IBindingParams, IKPIs } from '../types/kpis.types'
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
 import { ListItemBase$PressEventParameters } from "sap/m/ListItemBase";
@@ -13,6 +13,9 @@ import { LayoutType } from "sap/f/library";
 import Page from "sap/m/Page";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import { ODataListBinding$DataReceivedEvent } from "sap/ui/model/odata/v4/ODataListBinding";
+import PageCL from "../utils/common/PageCL";
+import { Routes } from "../types/global.types";
+import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -21,12 +24,14 @@ export default class KPIs extends BaseController {
     public formatter = formatter;
     private sectionID: string;
     private kpiID: string;
+    
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
     /* ======================================================================================================================= */
 
     public onInit() {
-        this.getRouter().getRoute("RouteKPIs")!.attachMatched(this.onObjectMatched, this);
+        const page = new PageCL<KPIs>(this, Routes.KPIS);
+        page.initialize();
     }
 
     /* ======================================================================================================================= */
@@ -58,12 +63,9 @@ export default class KPIs extends BaseController {
         });
     }
 
-
-    /* ======================================================================================================================= */
-    /* Private Functions                                                                                                       */
-    /* ======================================================================================================================= */
-
-    private onObjectMatched(event: Route$PatternMatchedEvent) {
+    public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
+        const oDataModel = this.getComponentModel();
+        oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
         this.kpiID = (event.getParameters().arguments as { kpiID: string }).kpiID;
         const smartTable = this.byId("stKPIs") as SmartTable;
@@ -72,6 +74,14 @@ export default class KPIs extends BaseController {
             smartTable.rebindTable(true);
         }
     }
+
+    public onODataRequestFail(event: Model$RequestFailedEvent): void {
+        this.openMessagePopover();
+    }
+
+    /* ======================================================================================================================= */
+    /* Private Functions                                                                                                       */
+    /* ======================================================================================================================= */
 
     private setPageTitle(pageTitle?: string) {
         const page = (this.byId("pageKPIResults") as Page);

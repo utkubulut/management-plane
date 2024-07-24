@@ -3,7 +3,7 @@ import Route, { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import formatter from "../model/formatter";
 import View from "sap/ui/core/mvc/View";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
-import { IBindingParams, IKPIs, IReportHistory, IUserAPI } from "com/ndbs/managementplaneui/types/global.types"
+import { IBindingParams, IKPIs, IReportHistory, IUserAPI } from "com/ndbs/managementplaneui/types/kpis.types"
 import Title from "sap/m/Title";
 import ObjectPageLayout from "sap/uxap/ObjectPageLayout";
 import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
@@ -15,23 +15,29 @@ import { Menu$ItemSelectEvent } from "sap/ui/unified/Menu";
 import { LayoutType } from "sap/f/library";
 import UserAPI from "../utils/session/UserAPI";
 import ODataCreateCL from "ui5/antares/odata/v2/ODataCreateCL";
+import ChangeHistory from "./ChangeHistory.controller";
+import { Routes } from "../types/global.types";
+import PageCL from "../utils/common/PageCL";
+import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
 export default class KPIDetails extends BaseController {
-    /* ======================================================================================================================= */
-    /* Lifecycle methods                                                                                                       */
-    /* ======================================================================================================================= */
     public formatter = formatter;
     private sectionID: string;
     private kpiID: string;
     private subKPI: string;
     private paragraph:string;
     public subChapterName: string;
+
+    /* ======================================================================================================================= */
+    /* Lifecycle methods                                                                                                       */
+    /* ======================================================================================================================= */
+
     public onInit() {
-        (this.getRouter().getRoute("RouteKPIDetails") as Route).attachMatched(this.onObjectMatched, this);
-    }
+        const page = new PageCL<KPIDetails>(this, Routes.KPI_DETAILS);
+        page.initialize();    }
 
     /* ======================================================================================================================= */
     /* Event Handlers                                                                                                          */
@@ -53,11 +59,9 @@ export default class KPIDetails extends BaseController {
         binding.filters.push(kpiFilters);
     }
 
-    /* ======================================================================================================================= */
-    /* Private Functions                                                                                                       */
-    /* ======================================================================================================================= */
-
-    private onObjectMatched(event: Route$PatternMatchedEvent) {
+    public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
+        const oDataModel = this.getComponentModel();
+        oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
         this.sectionID = (event.getParameters() as IBindingParams).arguments.sectionID;
         this.kpiID = (event.getParameters() as IBindingParams).arguments.kpiID;
         this.subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
@@ -87,14 +91,17 @@ export default class KPIDetails extends BaseController {
                         }
                     }
                 });
-            },
-            error: () => {
-                /**
-                 * Add error messages
-                 */
             }
         });
     }
+
+    public onODataRequestFail(event: Model$RequestFailedEvent): void {
+        this.openMessagePopover();
+    }
+
+    /* ======================================================================================================================= */
+    /* Private Functions                                                                                                       */
+    /* ======================================================================================================================= */
 
     private onMenuAction(event: Menu$ItemSelectEvent){
         const action = ((event.getParameter("item")as any).getText()as string);

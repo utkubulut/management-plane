@@ -13,7 +13,10 @@
     displayBlock="true"
     height="100%"
 >
-    <m:Page showHeader="false" enableScrolling="false">
+    <m:Page
+        showHeader="false"
+        enableScrolling="false"
+    >
         <f:ShellBar
             id="sbKPIs"
             showSearch="false"
@@ -61,15 +64,32 @@
                             type="Default"
                         />
                         <m:Button text="{i18n>RegenerateReportBtn}" />
-                        <m:OverflowToolbarMenuButton  type="Transparent" icon= "sap-icon://action" tooltip="Options" buttonMode="Split" text= "Options" beforeMenuOpen="onBeforeMenuOpen" useDefaultActionOnly="true">
-							<m:menu>
-								<m:Menu itemSelected="onMenuAction">
-									<m:MenuItem text="Export as PDF" icon="sap-icon://pdf-attachment" />
-									<m:MenuItem text="Export Word" icon="sap-icon://excel-attachment" />
-                                    <m:MenuItem text="Change History" icon="sap-icon://history" />
-								</m:Menu>
-							</m:menu>
-						</m:OverflowToolbarMenuButton>
+                        <m:OverflowToolbarMenuButton
+                            type="Transparent"
+                            icon="sap-icon://action"
+                            tooltip="Options"
+                            buttonMode="Split"
+                            text="Options"
+                            beforeMenuOpen="onBeforeMenuOpen"
+                            useDefaultActionOnly="true"
+                        >
+                            <m:menu>
+                                <m:Menu itemSelected="onMenuAction">
+                                    <m:MenuItem
+                                        text="Export as PDF"
+                                        icon="sap-icon://pdf-attachment"
+                                    />
+                                    <m:MenuItem
+                                        text="Export Word"
+                                        icon="sap-icon://excel-attachment"
+                                    />
+                                    <m:MenuItem
+                                        text="Change History"
+                                        icon="sap-icon://history"
+                                    />
+                                </m:Menu>
+                            </m:menu>
+                        </m:OverflowToolbarMenuButton>
                     </actions>
                 </ObjectPageDynamicHeaderTitle>
             </headerTitle>
@@ -131,9 +151,9 @@
                             class="sapUiTinyMarginBottom"
                         />
                         <m:ObjectStatus
-                            text="{state}" 
+                            text="{state}"
                             class="sapMObjectStatusLarge"
-                            state="Success"   
+                            state="Success"
                         />
                     </m:VBox>
                     <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
@@ -305,5 +325,11 @@
                 </ObjectPageSection>
             </sections>
         </ObjectPageLayout>
+        <m:footer>
+            <core:Fragment
+                fragmentName="com.ndbs.managementplaneui.fragments.common.MessageToolbar"
+                type="XML"
+            />
+        </m:footer>
     </m:Page>
 </mvc:View>
