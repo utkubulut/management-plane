@@ -3,19 +3,19 @@ import BaseController from "./BaseController";
 import { IBindingParams } from "../types/kpis.types";
 import { LayoutType } from "sap/f/library";
 import PageCL from "../utils/common/PageCL";
-import { Routes } from "../types/global.types";
+import { IPage, Routes } from "../types/global.types";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
-export default class ChangeHistory extends BaseController {
+export default class ChangeHistory extends BaseController implements IPage {
 
     private sectionID: string;
     private kpiID: string;
     private subKPI: string;
-    private paragraph:string;
+    private paragraph: string;
     public subChapterName: string;
 
     /* ======================================================================================================================= */
@@ -52,5 +52,13 @@ export default class ChangeHistory extends BaseController {
             subKPI: this.subKPI,
             paragraph: this.paragraph
         });
+    }
+
+    /* ======================================================================================================================= */
+    /* Private Functions                                                                                                       */
+    /* ======================================================================================================================= */
+
+    private onCloseColumnLayout() {
+        this.onNavToKPIsDetails();
     }
 }

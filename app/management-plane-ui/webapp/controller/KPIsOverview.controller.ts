@@ -14,14 +14,14 @@ import { IBindingParams } from "../types/kpis.types";
 import Header from "sap/f/cards/Header";
 import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
 import Context from "sap/ui/model/Context";
-import { Routes } from "../types/global.types";
+import { IPage, Routes } from "../types/global.types";
 import PageCL from "../utils/common/PageCL";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
-export default class KPIsOverview extends BaseController {
+export default class KPIsOverview extends BaseController implements IPage {
     public formatter = formatter;
     private sectionID: string;
     private sectionType: string;

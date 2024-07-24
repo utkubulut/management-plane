@@ -1,5 +1,5 @@
 import BaseController from "./BaseController";
-import Route, { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
+import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import formatter from "../model/formatter";
 import View from "sap/ui/core/mvc/View";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
@@ -15,15 +15,14 @@ import { Menu$ItemSelectEvent } from "sap/ui/unified/Menu";
 import { LayoutType } from "sap/f/library";
 import UserAPI from "../utils/session/UserAPI";
 import ODataCreateCL from "ui5/antares/odata/v2/ODataCreateCL";
-import ChangeHistory from "./ChangeHistory.controller";
-import { Routes } from "../types/global.types";
+import { IPage, Routes } from "../types/global.types";
 import PageCL from "../utils/common/PageCL";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
-export default class KPIDetails extends BaseController {
+export default class KPIDetails extends BaseController implements IPage {
     public formatter = formatter;
     private sectionID: string;
     private kpiID: string;
@@ -114,8 +113,8 @@ export default class KPIDetails extends BaseController {
             paragraph: this.paragraph
             });
         }
-
     }
+    
     private async setReportChangeHistory() {
         const user = new UserAPI(this);
         const session = await user.getLoggedOnUser();
@@ -130,6 +129,10 @@ export default class KPIDetails extends BaseController {
 
         creator.setData(userSession);
         creator.create();
+    }
+
+    private onCloseColumnLayout() {
+        this.onNavToKPIs();
     }
 }
 

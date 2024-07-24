@@ -7,6 +7,8 @@ import PageCL from "../utils/common/PageCL";
 import { IPage, Routes } from "../types/global.types";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
+import Component from "sap/ui/core/Component";
+import JSONModel from "sap/ui/model/json/JSONModel";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller

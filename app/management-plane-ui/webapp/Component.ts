@@ -5,8 +5,6 @@ import View from "sap/ui/core/mvc/View";
 import { LayoutType } from "sap/f/library";
 import FlexibleColumnLayout from "sap/f/FlexibleColumnLayout";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import UserAPI from "./utils/session/UserAPI";
-import { IUserAPI } from "./types/global.types";
 
 /**
  * @namespace com.ndbs.managementplaneui

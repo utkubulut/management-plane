@@ -14,13 +14,13 @@ import Page from "sap/m/Page";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import { ODataListBinding$DataReceivedEvent } from "sap/ui/model/odata/v4/ODataListBinding";
 import PageCL from "../utils/common/PageCL";
-import { Routes } from "../types/global.types";
+import { IPage, Routes } from "../types/global.types";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
-export default class KPIs extends BaseController {
+export default class KPIs extends BaseController implements IPage {
     public formatter = formatter;
     private sectionID: string;
     private kpiID: string;

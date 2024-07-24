@@ -49,6 +49,10 @@ export default class BaseController extends Controller {
         return (((this.getOwnerComponent() as UIComponent).getModel("i18n") as ResourceModel).getResourceBundle() as ResourceBundle);
     }
 
+    public onNavToView(target: string): void {
+        this.getRouter().navTo(target);
+    }
+
     public openMessagePopover(): void {
         const view = this.getView() as View;
         (view.byId("btnMessages") as Button).firePress();

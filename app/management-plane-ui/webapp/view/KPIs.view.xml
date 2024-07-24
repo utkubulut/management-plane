@@ -10,9 +10,11 @@
 >
     <Page
         id="pageKPIResults"
-        showNavButton="true"
-        navButtonPress="onNavKPIsOverview"
-    >
+        showFooter="false"
+        showHeader="false"
+        showNavButton="false"
+        showSubHeader="false"
+   >
         <FlexBox
             justifyContent="Center"
             alignItems="Center"
@@ -75,11 +77,5 @@
                 </Panel>
             </VBox>
         </FlexBox>
-        <footer>
-            <core:Fragment
-                fragmentName="com.ndbs.managementplaneui.fragments.common.MessageToolbar"
-                type="XML"
-            />
-        </footer>
     </Page>
 </mvc:View>

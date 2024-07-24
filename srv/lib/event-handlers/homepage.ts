@@ -1,6 +1,5 @@
 import { EventHandler, TypedRequest, utils } from "@sap/cds";
-import { IUserAPI } from "../../types/homepage.types";
-import { IKPIs } from "../../types/homepage.types";
+
 import { connect } from "@sap/cds";
 const onBeforeCreateReportHistory: EventHandler = async function (req:TypedRequest<{
     modifiedType: string;

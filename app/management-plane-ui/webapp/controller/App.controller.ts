@@ -4,6 +4,7 @@ import Component from "../Component";
 import Router, { Router$BeforeRouteMatchedEvent, Router$RouteMatchedEvent } from "sap/ui/core/routing/Router";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { FlexibleColumnLayout$StateChangeEvent } from "sap/f/FlexibleColumnLayout";
+import ShellBar from "sap/f/ShellBar";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -29,9 +30,21 @@ export default class App extends Controller {
     }
 
     public onRouteMatched(event: Router$RouteMatchedEvent) {
+        const component = this.getOwnerComponent() as Component;
         const routeName = event.getParameter("name");
         const routeArguments = event.getParameter("arguments");
         this.updateUIElements();
+
+        switch (routeName) {
+            case "RouteHomepage":
+                (this.byId("sbApp") as ShellBar).setShowNavButton(false);
+                (this.byId("sbApp") as ShellBar).setTitle("Homepage");
+                break;
+           
+            default:
+                (this.byId("sbApp") as ShellBar).setShowNavButton(true);
+                (this.byId("sbApp") as ShellBar).setTitle("Homepage");
+        }
 
         this.currentRouteName = routeName as string;
     }
@@ -53,5 +66,9 @@ export default class App extends Controller {
         const component = this.getOwnerComponent() as Component;
         const uiState = component.getHelper().getCurrentUIState();
         (component.getModel("flexibleColumnLayout") as JSONModel).setData(uiState);
+    }
+
+    public onNavToView(target: string): void {
+        (this.getOwnerComponent() as UIComponent).getRouter().navTo(target);
     }
 }

@@ -10,69 +10,71 @@
     <m:Page
         showFooter="false"
         showHeader="false"
-        showNavButton="false"
         showSubHeader="false"
+        showNavButton="true"
+        navButtonPress="onNavToKPIsDetails"
+        class="sapUiSmallMarginEnd"
     >
-        <f:ShellBar
-            id="sbKPIs"
-            title="Change History"
-            showSearch="false"
-            showNavButton="true"
-            showNotifications="false"
-            navButtonPressed="onNavToKPIsDetails"
-        />
-        <m:content>
-            <Timeline
-                id="idTimeline"
-                enableDoubleSided="true"
-                groupBy="reportDate"
-                growingThreshold="0"
-                filterTitle="Job Title"
-                sortOldestFirst="true"
-                content="{/ReportHistory}"
-            >
-                <content>
-                    <TimelineItem
-                        id="idTemplateItem"
-                        select="onPressItems"
-                        icon="{iconType}"
-                    >
-                        <m:HBox>
-                            <m:Avatar
-                                initials="{avatar}"
-                                displayShape="Circle"
-                                displaySize="S"
-                            />
-                            <m:VBox class="sapUiTinyMarginBegin">
-                                <m:Text
-                                    text="{fullName}"
-                                    class="boldBlueText"
+        <m:FlexBox
+            justifyContent="Center"
+            alignItems="Center"
+        >
+            <m:VBox width="95%"  class="sapUiSmallMarginTop">
+                <m:Toolbar design="Transparent">
+                    <m:ToolbarSpacer />
+                    <m:OverflowToolbarButton
+                        type="Transparent"
+                        icon="sap-icon://decline"
+                        press=".onCloseColumnLayout"
+                        tooltip="{i18n>closeColumnLayout}"
+                    />
+                </m:Toolbar>
+                <Timeline
+                    id="idTimeline"
+                    enableDoubleSided="true"
+                    groupBy="reportDate"
+                    growingThreshold="5"
+                    filterTitle="Job Title"
+                    sortOldestFirst="true"
+                    content="{/ReportHistory}"
+                >
+                    <content>
+                        <TimelineItem
+                            id="idTemplateItem"
+                            select="onPressItems"
+                            icon="{iconType}"
+                        >
+                            <m:HBox>
+                                <m:Avatar
+                                    initials="{avatar}"
+                                    displayShape="Circle"
+                                    displaySize="S"
                                 />
-                                <m:Text
-                                    text="{
+                                <m:VBox class="sapUiTinyMarginBegin">
+                                    <m:Text
+                                        text="{fullName}"
+                                        class="boldBlueText"
+                                    />
+                                    <m:Text
+                                        text="{
                                         path: 'reportDate',
                                         type: 'sap.ui.model.type.DateTime',
                                         formatOptions: {
                                             style: 'medium'
                                         }
                                     }"
-                                    class="sapUiTinyMarginTop"
-                                />
-                                <m:Text
-                                    text="{modifiedType}: {modifiedContent}"
-                                    class="sapUiSmallMarginTop"
-                                />
-                            </m:VBox>
-                        </m:HBox>
-                    </TimelineItem>
-                </content>
-            </Timeline>
-        </m:content>
-        <m:footer>
-            <core:Fragment
-                fragmentName="com.ndbs.managementplaneui.fragments.common.MessageToolbar"
-                type="XML"
-            />
-        </m:footer>
+                                        class="sapUiTinyMarginTop"
+                                    />
+                                    <m:Text
+                                        text="{modifiedType}: {modifiedContent}"
+                                        class="sapUiSmallMarginTop"
+                                    />
+                                </m:VBox>
+                            </m:HBox>
+                        </TimelineItem>
+                    </content>
+                </Timeline>
+            </m:VBox>
+        </m:FlexBox>
     </m:Page>
 </mvc:View>

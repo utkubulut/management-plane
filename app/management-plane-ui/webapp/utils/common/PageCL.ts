@@ -4,7 +4,6 @@ import UIComponent from "sap/ui/core/UIComponent";
 import View from "sap/ui/core/mvc/View";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import { PageController, Routes } from "com/ndbs/managementplaneui/types/global.types";
-import MenuItem from "sap/m/MenuItem";
 
 /**
  * @namespace com.ndbs.managementplaneui.util.common
@@ -15,13 +14,6 @@ export default class PageCL<T extends PageController> extends BaseObject {
     private sourceController: T;
     private sourceView: View;
     private oDataModel: ODataModel;
-    private readonly menuItems = [{
-        route: "RouteHomepage",
-        itemID: "mnitHomepage"
-    },{
-        route: "RoutePortletsConfiguration",
-        itemID: "mnitPortletsConfiguration"
-    }];
 
     constructor(sourceController: T, pageRoute: Routes) {
         super();
@@ -56,18 +48,6 @@ export default class PageCL<T extends PageController> extends BaseObject {
             route.attachPatternMatched(this.sourceController.onObjectMatched, this.sourceController);
         }
 
-        // this.setMenuItemVisibility();
-
         this.pageInitialized = true;
     }
-
-    // private setMenuItemVisibility() {
-    //     for (const item of this.menuItems) {
-    //         if (this.pageRoute === item.route) {
-    //             (this.sourceView.byId(item.itemID) as MenuItem).setVisible(false);
-    //         } else {
-    //             (this.sourceView.byId(item.itemID) as MenuItem).setVisible(true);
-    //         }
-    //     }
-    // }
 }

@@ -2,18 +2,36 @@
     controllerName="com.ndbs.managementplaneui.controller.App"
     xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
     displayBlock="true"
     xmlns:f="sap.f"
     xmlns="sap.m"
 >
     <App id="app">
-        <f:FlexibleColumnLayout
-            id="flexibleApp"
-            stateChange="onStateChanged"
-            restoreFocusOnBackNavigation="true"
-            layout="{flexibleColumnLayout>/layout}"
-            backgroundDesign="Translucent"
-            autoFocus="true"
-        />
+        <Page>
+            <customHeader>
+                <f:ShellBar
+                    id="sbApp"
+                    showSearch="false"
+                    showNavButton="true"
+                    showNotifications="false"
+                    navButtonPressed="onNavToView('RouteHomepage')"
+                />
+            </customHeader>
+            <f:FlexibleColumnLayout
+                id="flexibleApp"
+                stateChange="onStateChanged"
+                restoreFocusOnBackNavigation="true"
+                layout="{flexibleColumnLayout>/layout}"
+                backgroundDesign="Translucent"
+                autoFocus="true"
+            />
+            <footer>
+                <core:Fragment
+                    fragmentName="com.ndbs.managementplaneui.fragments.common.MessageToolbar"
+                    type="XML"
+                />
+            </footer>
+        </Page>
     </App>
 </mvc:View>
