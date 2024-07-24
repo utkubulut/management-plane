@@ -7,7 +7,7 @@
     xmlns:f="sap.f"
     height="100%"
 >
-    <m:Page>
+    <m:Page showFooter="false" showHeader="false" showNavButton="false" showSubHeader="false">
         <f:ShellBar
             id="sbKPIs"
             title="Change History"
@@ -29,14 +29,33 @@
                 <content>
                     <TimelineItem
                         id="idTemplateItem"
-                        dateTime="{reportDate}"
-                        userName="{fullName}"
-                        userNameClickable="true"
-                        userNameClicked="onUserNameClick"
                         select="onPressItems"
-                        text="{modifiedType}: {modifiedContent}"
                         icon="{iconType}"
                     >
+                        <m:HBox>
+                            <m:Avatar
+                                initials="{avatar}"
+                                displayShape="Circle"
+                                displaySize="S"
+                            />
+                            <m:VBox class="sapUiTinyMarginBegin">
+                                <m:Text
+                                    text="{fullName}"
+                                    class="boldBlueText"/>
+                                <m:Text
+                                    text="{
+                                        path: 'reportDate',
+                                        type: 'sap.ui.model.type.DateTime',
+                                        formatOptions: {
+                                            style: 'medium'
+                                        }
+                                    }"
+                                    class="sapUiTinyMarginTop"/>
+                                <m:Text
+                                    text="{modifiedType}: {modifiedContent}"
+                                    class="sapUiSmallMarginTop"/>
+                            </m:VBox>
+                        </m:HBox>
                     </TimelineItem>
                 </content>
             </Timeline>

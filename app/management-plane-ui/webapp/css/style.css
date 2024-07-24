@@ -1,1 +1,8 @@
-/* Enter your custom styles here */
+.boldBlueText {
+    color: rgb(0, 119, 255);
+    font-weight: bold;
+}
+
+.marginLeft {
+    margin-left: 8px;
+}
