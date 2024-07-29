@@ -5,6 +5,11 @@ import { LayoutType } from "sap/f/library";
 import PageCL from "../utils/common/PageCL";
 import { IPage, Routes } from "../types/global.types";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
+import Component from "../Component";
+import ShellBar from "sap/f/ShellBar";
+import View from "sap/ui/core/mvc/View";
+
+
 
 
 /**
@@ -38,6 +43,9 @@ export default class ChangeHistory extends BaseController implements IPage {
         this.kpiID = (event.getParameters() as IBindingParams).arguments.kpiID;
         this.subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
         this.paragraph = (event.getParameters() as IBindingParams).arguments.paragraph;
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("Change History");
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
+
     }
 
     public onODataRequestFail(event: Model$RequestFailedEvent): void {

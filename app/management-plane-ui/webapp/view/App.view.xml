@@ -15,7 +15,7 @@
                     showSearch="false"
                     showNavButton="true"
                     showNotifications="false"
-                    navButtonPressed="onNavToView('RouteHomepage')"
+                    navButtonPressed="onNavToView"
                 />
             </customHeader>
             <f:FlexibleColumnLayout

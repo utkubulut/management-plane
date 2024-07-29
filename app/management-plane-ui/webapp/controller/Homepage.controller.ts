@@ -7,8 +7,11 @@ import PageCL from "../utils/common/PageCL";
 import { IPage, Routes } from "../types/global.types";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
-import Component from "sap/ui/core/Component";
-import JSONModel from "sap/ui/model/json/JSONModel";
+import Component from "../Component";
+import View from "sap/ui/core/mvc/View";
+import ShellBar from "sap/f/ShellBar";
+
+
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -34,6 +37,8 @@ export default class Homepage extends BaseController implements IPage {
     public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
         const oDataModel = this.getComponentModel();
         oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("Homepage");
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(false);
     }
 
     public onODataRequestFail(event: Model$RequestFailedEvent): void {

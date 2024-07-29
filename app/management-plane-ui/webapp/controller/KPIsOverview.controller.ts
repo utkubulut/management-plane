@@ -17,6 +17,8 @@ import Context from "sap/ui/model/Context";
 import { IPage, Routes } from "../types/global.types";
 import PageCL from "../utils/common/PageCL";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
+import Component from "../Component";
+import ShellBar from "sap/f/ShellBar";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -81,6 +83,9 @@ export default class KPIsOverview extends BaseController implements IPage {
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
         this.applySectionFilter();
         this.rebindSmartComponent();
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("KPI Overview");
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
+
     }
 
     public onODataRequestFail(event: Model$RequestFailedEvent): void {

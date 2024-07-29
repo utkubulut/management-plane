@@ -5,6 +5,7 @@ import Router, { Router$BeforeRouteMatchedEvent, Router$RouteMatchedEvent } from
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { FlexibleColumnLayout$StateChangeEvent } from "sap/f/FlexibleColumnLayout";
 import ShellBar from "sap/f/ShellBar";
+import { LayoutType } from "sap/f/library";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -12,6 +13,10 @@ import ShellBar from "sap/f/ShellBar";
 export default class App extends Controller {
     private router: Router;
     private currentRouteName: string;
+    private sectionID: string;
+    private kpiID: string;
+    private subKPI:string;
+    private paragraph:string;
 
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
@@ -34,34 +39,11 @@ export default class App extends Controller {
         const routeName = event.getParameter("name");
         const routeArguments = event.getParameter("arguments");
         this.updateUIElements();
-
-        switch (routeName) {
-            case "RouteHomepage":
-                (this.byId("sbApp") as ShellBar).setShowNavButton(false);
-                (this.byId("sbApp") as ShellBar).setTitle("Homepage");
-                break;
-                case "RouteKPIDetails":
-                    (this.byId("sbApp") as ShellBar).setShowNavButton(true);
-                    (this.byId("sbApp") as ShellBar).setTitle("KPI Details");
-                    break;
-                case "RouteKPIs":
-                    (this.byId("sbApp") as ShellBar).setShowNavButton(true);
-                    (this.byId("sbApp") as ShellBar).setTitle("KPI Details");
-                    break;
-                case "RouteKPIsOverview":
-                    (this.byId("sbApp") as ShellBar).setShowNavButton(true);
-                    (this.byId("sbApp") as ShellBar).setTitle("KPI Overview");
-                    break;    
-                case "RouteChangeHistory":
-                    (this.byId("sbApp") as ShellBar).setShowNavButton(true);
-                    (this.byId("sbApp") as ShellBar).setTitle("KPI Details");
-                    break;    
-            default:
-                (this.byId("sbApp") as ShellBar).setShowNavButton(true);
-                (this.byId("sbApp") as ShellBar).setTitle("Homepage");
-        }
-
         this.currentRouteName = routeName as string;
+        this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
+        this.kpiID = (event.getParameters().arguments as { kpiID: string }).kpiID;
+        this.subKPI = (event.getParameters().arguments as { subKPI: string }).subKPI;
+        this.paragraph = (event.getParameters().arguments as { paragraph: string }).paragraph;
     }
 
     public onStateChanged(event: FlexibleColumnLayout$StateChangeEvent) {
@@ -84,6 +66,37 @@ export default class App extends Controller {
     }
 
     public onNavToView(target: string): void {
-        (this.getOwnerComponent() as UIComponent).getRouter().navTo(target);
+       
+  
+ 
+        switch (this.currentRouteName) {
+            case "RouteKPIs":
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteKPIsOverview",{
+                        sectionID: this.sectionID
+                    });
+                break;
+            case "RouteKPIsOverview":
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteHomepage");
+                break;
+            case "RouteKPIDetails":
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteKPIs", {
+                    sectionID: this.sectionID,
+                    kpiID:this.kpiID
+                });
+                break;
+            case "RouteChangeHistory":
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteKPIDetails", {
+                    layout: LayoutType.TwoColumnsMidExpanded,
+                    sectionID: this.sectionID,
+                    kpiID: this.kpiID,
+                    subKPI: this.subKPI,
+                    paragraph:this.paragraph
+                });
+                break;
+            default:
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteHomepage");
+                break;
+        }
+    
     }
 }

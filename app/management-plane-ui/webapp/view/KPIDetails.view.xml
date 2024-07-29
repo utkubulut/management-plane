@@ -15,7 +15,7 @@
 >
     <m:Page
         showHeader="false"
-        enableScrolling="false"
+        enableScrolling="true"
         showFooter="false"
         showSubHeader="false"
         showNavButton="false"
@@ -31,6 +31,7 @@
                     upperCaseAnchorBar="false"
                     navigate="onNavToKPIs"
                     class="sapUiSmallMarginTop"
+                    
                 >
                     <headerTitle>
                         <ObjectPageDynamicHeaderTitle>

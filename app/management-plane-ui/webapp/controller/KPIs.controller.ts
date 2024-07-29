@@ -16,6 +16,9 @@ import { ODataListBinding$DataReceivedEvent } from "sap/ui/model/odata/v4/ODataL
 import PageCL from "../utils/common/PageCL";
 import { IPage, Routes } from "../types/global.types";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
+import View from "sap/ui/core/mvc/View";
+import ShellBar from "sap/f/ShellBar";
+import Component from "../Component";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -69,6 +72,8 @@ export default class KPIs extends BaseController implements IPage {
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
         this.kpiID = (event.getParameters().arguments as { kpiID: string }).kpiID;
         const smartTable = this.byId("stKPIs") as SmartTable;
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("KPIs");
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
 
         if (smartTable.isInitialised()) {
             smartTable.rebindTable(true);

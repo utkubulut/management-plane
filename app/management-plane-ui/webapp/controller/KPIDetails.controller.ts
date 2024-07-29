@@ -18,6 +18,7 @@ import ODataCreateCL from "ui5/antares/odata/v2/ODataCreateCL";
 import { IPage, Routes } from "../types/global.types";
 import PageCL from "../utils/common/PageCL";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
+import Component from "../Component";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -66,10 +67,13 @@ export default class KPIDetails extends BaseController implements IPage {
         this.subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
         this.paragraph = (event.getParameters() as IBindingParams).arguments.paragraph;
         const navigation = window.performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("KPI Details");
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
 
-        if (navigation.type == "reload") {
-            this.onNavToKPIs();
-        }
+
+        // if (navigation.type == "reload") {
+        //     this.onNavToKPIs();
+        // }
         //this.setReportChangeHistory();
 
         // (this.byId("kpiDetailTitle") as Title).setText(this.subKPI + "para." + this.paragraph);

@@ -37,6 +37,7 @@ export default class Component extends BaseComponent {
         const flexibleColumnLayout = ((this.getRootControl() as View).byId("flexibleApp") as FlexibleColumnLayout),
             settings = {
                 defaultTwoColumnLayoutType: LayoutType.TwoColumnsMidExpanded,
+                defaultThreeColumnLayoutType: LayoutType.ThreeColumnsMidExpanded,
                 maxColumnsCount: window.location.hash.includes("details") ? 2 : 1
             };
 
