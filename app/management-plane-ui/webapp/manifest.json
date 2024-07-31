@@ -125,7 +125,8 @@
           "pattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
           "layout": "TwoColumnsMidExpanded",
           "target": [
-            "TargetKPIDetails"
+            "TargetKPIDetails",
+            "TargetKPIs"
           ]
         },
         {
@@ -133,12 +134,15 @@
           "pattern": "TimeLine/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
           "layout":"ThreeColumnsMidExpanded",
           "target": [
-            "TargetChangeHistory"
+            "TargetChangeHistory",
+            "TargetKPIDetails",
+            "TargetKPIs"
           ]
         }
       ],
       "targets": {
         "TargetHomepage": {
+          "type" :"Component",
           "viewId": "Homepage",
           "viewType": "XML",
           "viewName": "Homepage",
@@ -146,6 +150,7 @@
           "controlAggregation": "beginColumnPages"
         },
         "TargetKPIsOverview": {
+          "type" :"Component",
           "viewType": "XML",
           "viewId": "KPIsOverview",
           "viewName": "KPIsOverview",
@@ -153,25 +158,31 @@
           "controlAggregation": "beginColumnPages"
         },
         "TargetKPIs": {
+          "type" :"Component",
           "viewId": "KPIs",
           "viewType": "XML",
           "viewName": "KPIs",
           "transition": "slide",
-          "controlAggregation": "beginColumnPages"
+          "controlAggregation": "beginColumnPages",
+          "contextPattern": "KPIs/sectionID={sectionID}&kpiID={kpiID}"
         },
         "TargetKPIDetails": {
+          "type" :"Component",
           "viewId": "KPIDetails",
           "viewType": "XML",
           "viewName": "KPIDetails",
           "transition": "slide",
-          "controlAggregation": "midColumnPages"
+          "controlAggregation": "midColumnPages",
+          "contextPattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}"
         },
         "TargetChangeHistory": {
+          "type" :"Component",
           "viewId": "ChangeHistory",
           "viewType": "XML",
           "viewName": "ChangeHistory",
           "transition": "slide",
-          "controlAggregation": "endColumnPages"
+          "controlAggregation": "endColumnPages",
+          "contextPattern": "TimeLine/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}"
         }
       }
     },

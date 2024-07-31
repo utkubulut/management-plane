@@ -25,7 +25,7 @@ entity KPIs : managed {
         contentAI      : String;
         contentEdited  : String;
         reportDate     : DateTime;
-        documentNumber : Integer;
+        documentCount  : Integer;
         documents      : Association to many Documents
                              on documents.kpiID = $self.ID;
 }

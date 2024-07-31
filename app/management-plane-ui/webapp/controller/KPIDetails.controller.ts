@@ -5,7 +5,7 @@ import View from "sap/ui/core/mvc/View";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import { IBindingParams, IKPIs, IReportHistory, IUserAPI } from "com/ndbs/managementplaneui/types/kpis.types"
 import Title from "sap/m/Title";
-import ObjectPageLayout from "sap/uxap/ObjectPageLayout";
+import ObjectPageLayout, { ObjectPageLayout$BeforeNavigateEvent } from "sap/uxap/ObjectPageLayout";
 import SmartTable, { SmartTable$BeforeRebindTableEvent } from "sap/ui/comp/smarttable/SmartTable";
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
@@ -19,6 +19,7 @@ import { IPage, Routes } from "../types/global.types";
 import PageCL from "../utils/common/PageCL";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 import Component from "../Component";
+import ObjectPageSection from "sap/uxap/ObjectPageSection";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -30,6 +31,7 @@ export default class KPIDetails extends BaseController implements IPage {
     private subKPI: string;
     private paragraph:string;
     public subChapterName: string;
+    
 
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
@@ -37,7 +39,10 @@ export default class KPIDetails extends BaseController implements IPage {
 
     public onInit() {
         const page = new PageCL<KPIDetails>(this, Routes.KPI_DETAILS);
-        page.initialize();    }
+        page.initialize();
+        const oOPL = (this.getView()as View).byId("oplKpi") as ObjectPageLayout;
+        oOPL.attachBeforeNavigate(this.onBeforeNavigate.bind(this));
+    }
 
     /* ======================================================================================================================= */
     /* Event Handlers                                                                                                          */
@@ -57,6 +62,13 @@ export default class KPIDetails extends BaseController implements IPage {
         const binding = event.getParameter("bindingParams") as IBindingParams;
         const kpiFilters = new Filter("kpiID", FilterOperator.EQ, this.kpiID);
         binding.filters.push(kpiFilters);
+    }
+    public onBeforeNavigate(event: ObjectPageLayout$BeforeNavigateEvent) {
+        const oOPL = ((this.getView() as View).byId("oplKpi")as ObjectPageLayout);
+        const oSection = (event.getParameter("section")as ObjectPageSection);
+        event.preventDefault();
+        oOPL.setSelectedSection(oSection);
+
     }
 
     public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {

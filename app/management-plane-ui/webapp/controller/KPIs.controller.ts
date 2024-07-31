@@ -10,9 +10,6 @@ import ColumnListItem from "sap/m/ColumnListItem";
 import Context from "sap/ui/model/Context";
 import Event from "sap/ui/base/Event";
 import { LayoutType } from "sap/f/library";
-import Page from "sap/m/Page";
-import ODataModel from "sap/ui/model/odata/v2/ODataModel";
-import { ODataListBinding$DataReceivedEvent } from "sap/ui/model/odata/v4/ODataListBinding";
 import PageCL from "../utils/common/PageCL";
 import { IPage, Routes } from "../types/global.types";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
@@ -88,28 +85,28 @@ export default class KPIs extends BaseController implements IPage {
     /* Private Functions                                                                                                       */
     /* ======================================================================================================================= */
 
-    private setPageTitle(pageTitle?: string) {
-        const page = (this.byId("pageKPIResults") as Page);
-        page.setTitle(pageTitle);
-    }
+    // private setPageTitle(pageTitle?: string) {
+    //     const page = (this.byId("pageKPIResults") as Page);
+    //     page.setTitle(pageTitle);
+    // }
 
-    private addBindingListener(bindingInfo: IBindingParams, eventName: string, handler: Function) {
-        if (!bindingInfo.events[eventName]) {
-            bindingInfo.events[eventName] = handler;
-        } else {
-            const originalHandler = bindingInfo.events[eventName];
-            bindingInfo.events[eventName] = function () {
-                handler.apply(this, arguments);
-                originalHandler.apply(this, arguments);
-            };
-        }
-    }
-    private onBindingDataReceivedListener(event: ODataListBinding$DataReceivedEvent) {
-        const results = (event.getParameter("data") as unknown as { results: IKPIs[] }).results;
-        const kpiData = results.filter((data) =>data.ID == this.kpiID);
-        const pageTitle = kpiData[0].subchapterName;
+    // private addBindingListener(bindingInfo: IBindingParams, eventName: string, handler: Function) {
+    //     if (!bindingInfo.events[eventName]) {
+    //         bindingInfo.events[eventName] = handler;
+    //     } else {
+    //         const originalHandler = bindingInfo.events[eventName];
+    //         bindingInfo.events[eventName] = function () {
+    //             handler.apply(this, arguments);
+    //             originalHandler.apply(this, arguments);
+    //         };
+    //     }
+    // }
+    // private onBindingDataReceivedListener(event: ODataListBinding$DataReceivedEvent) {
+    //     const results = (event.getParameter("data") as unknown as { results: IKPIs[] }).results;
+    //     const kpiData = results.filter((data) =>data.ID == this.kpiID);
+    //     const pageTitle = kpiData[0].subchapterName;
 
-        this.setPageTitle(pageTitle);
-    }
+    //     this.setPageTitle(pageTitle);
+    // }
 }
 
