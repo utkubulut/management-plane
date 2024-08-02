@@ -9,10 +9,12 @@
         justifyContent="Start"
         wrap="Wrap"
         items="{path:'/KPIs'}"
+        height="80px"
     >
         <f:Card
             class="sapUiSmallMargin"
             width="300px"
+            height="auto"
         >
             <f:header>
                 <card:Header

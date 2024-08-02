@@ -16,13 +16,11 @@
         showSubHeader="false"
         showNavButton="false"
     >
-        <f:GridContainer>
+        <f:GridContainer containerQuery="true">
             <f:layout>
-                <f:GridContainerSettings
-                    columns="5"
-                    columnSize="20%"
-                />
+                <f:GridContainerSettings columnSize="0%"/>
             </f:layout>
+
             <HBox>
                 <layoutData>
                     <f:GridContainerItemLayoutData columns="1" />
@@ -33,7 +31,7 @@
                 />
                 <VBox>
                     <layoutData>
-                        <f:GridContainerItemLayoutData columns="2" />
+                        <f:GridContainerItemLayoutData columns="1" />
                     </layoutData>
                     <core:Fragment
                         fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsTable"
@@ -46,7 +44,7 @@
                 </VBox>
                 <HBox>
                     <layoutData>
-                        <f:GridContainerItemLayoutData columns="2" />
+                        <f:GridContainerItemLayoutData columns="1" />
                     </layoutData>
                     <core:Fragment
                         fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsList"
@@ -55,6 +53,5 @@
                 </HBox>
             </HBox>
         </f:GridContainer>
-
     </Page>
 </mvc:View>
