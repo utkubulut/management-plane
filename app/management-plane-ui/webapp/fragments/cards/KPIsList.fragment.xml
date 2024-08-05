@@ -19,7 +19,11 @@
             <f:content>
                 <List
                     id="fbKPIsOverview"
-                    items="{path:'/VKPIs', suspended:true}"
+                    items="{
+                    path: '/VKPIs',
+                    sorter: {
+                    path: 'kpiChapterID',
+                    descending: false}, suspended:true}"
                     updateFinished="onKPIUpdateFinished"
                 >
                     <CustomListItem class="sapUiSmallMarginBottom">

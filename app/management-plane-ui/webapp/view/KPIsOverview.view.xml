@@ -16,42 +16,27 @@
         showSubHeader="false"
         showNavButton="false"
     >
-        <f:GridContainer containerQuery="true">
-            <f:layout>
-                <f:GridContainerSettings columnSize="0%"/>
-            </f:layout>
-
-            <HBox>
-                <layoutData>
-                    <f:GridContainerItemLayoutData columns="1" />
-                </layoutData>
+        <HBox>
+            <core:Fragment
+                fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsCard"
+                type="XML"
+            />
+            <VBox>
                 <core:Fragment
-                    fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsCard"
+                    fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsTable"
                     type="XML"
                 />
-                <VBox>
-                    <layoutData>
-                        <f:GridContainerItemLayoutData columns="1" />
-                    </layoutData>
-                    <core:Fragment
-                        fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsTable"
-                        type="XML"
-                    />
-                    <core:Fragment
-                        fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsChart"
-                        type="XML"
-                    />
-                </VBox>
-                <HBox>
-                    <layoutData>
-                        <f:GridContainerItemLayoutData columns="1" />
-                    </layoutData>
-                    <core:Fragment
-                        fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsList"
-                        type="XML"
-                    />
-                </HBox>
+                <core:Fragment
+                    fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsChart"
+                    type="XML"
+                />
+            </VBox>
+            <HBox>
+                <core:Fragment
+                    fragmentName="com.ndbs.managementplaneui.fragments.cards.KPIsList"
+                    type="XML"
+                />
             </HBox>
-        </f:GridContainer>
+        </HBox>
     </Page>
 </mvc:View>

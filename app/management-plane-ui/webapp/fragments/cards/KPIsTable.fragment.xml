@@ -11,7 +11,7 @@
     >
         <f:Card
             class="sapUiSmallMargin"
-            width="auto"
+            width="550px"
             height="auto"
         >
             <f:content>
