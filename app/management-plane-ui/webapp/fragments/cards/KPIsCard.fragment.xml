@@ -8,7 +8,13 @@
         id="fbKPIsDetail"
         justifyContent="Start"
         wrap="Wrap"
-        items="{path:'/KPIs'}"
+        items="{
+            path: '/KPIs',
+            sorter: {
+                path: 'chapterID',
+                descending: false
+            }
+        }"
         height="80px"
     >
         <f:Card
