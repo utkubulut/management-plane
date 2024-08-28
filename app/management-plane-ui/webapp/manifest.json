@@ -138,6 +138,13 @@
             "TargetKPIDetails",
             "TargetKPIs"
           ]
+        },
+        {
+          "name": "RouteUpload",
+          "pattern": "Upload",
+          "target": [
+            "TargetUpload"
+          ]
         }
       ],
       "targets": {
@@ -183,6 +190,14 @@
           "transition": "slide",
           "controlAggregation": "endColumnPages",
           "contextPattern": "TimeLine/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}"
+        },
+        "TargetUpload": {
+          "type" :"Component",
+          "viewType": "XML",
+          "viewId": "Upload",
+          "viewName": "Upload",
+          "transition": "slide",
+          "controlAggregation": "beginColumnPages"
         }
       }
     },

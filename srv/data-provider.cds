@@ -30,6 +30,10 @@ service ManagementPlane {
                     chapterID like 'G%'
                 then
                     'sap-icon://official-service'
+                 when
+                    chapterID like 'U%'
+                then
+                    'sap-icon://upload'
                 else
                     'sap-icon://e-care'
             end   as sapIcon    : String,
