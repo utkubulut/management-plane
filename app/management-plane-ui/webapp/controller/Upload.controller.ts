@@ -1,12 +1,25 @@
-import Controller from "sap/ui/core/mvc/Controller";
-import Dialog from "sap/m/Dialog";
+import BaseController from "./BaseController";
 import UserAPI from "../utils/session/UserAPI";
-import Element from "sap/ui/core/Element";
 import { UploadCollection$UploadTerminatedEvent } from "sap/m/UploadCollection";
 import UploadSet from "sap/m/upload/UploadSet";
 import MessageBox from "sap/m/MessageBox";
-export default class Upload extends Controller {
+import PageCL from "../utils/common/PageCL";
+import { IPage, Routes } from "../types/global.types";
+import { Model$RequestFailedEvent } from "sap/ui/model/Model";
+import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
+import Component from "../Component";
+import View from "sap/ui/core/mvc/View";
+import ShellBar from "sap/f/ShellBar";
 
+/**
+ * @namespace com.ndbs.managementplaneui.controller
+ */
+export default class Upload extends BaseController implements IPage{
+
+    public onInit() {
+        const page = new PageCL<Upload>(this, Routes.Upload);
+        page.initialize();
+    }
 private async onFileUpload(event: UploadCollection$UploadTerminatedEvent) {
     const user = new UserAPI(this);
     const session = await user.getLoggedOnUser();
@@ -55,6 +68,16 @@ private async onFileUpload(event: UploadCollection$UploadTerminatedEvent) {
     } else {
         MessageBox.error(`All ${failureCount} file(s) failed to upload.`);
     }
+}
+public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
+    const oDataModel = this.getComponentModel();
+    oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
+    (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("Upload");
+    (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
+
+}
+public onODataRequestFail(event: Model$RequestFailedEvent): void {
+    this.openMessagePopover();
 }
 
 }
