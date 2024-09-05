@@ -1,35 +1,46 @@
-<mvc:View
-    controllerName="com.ndbs.managementplaneui.controller.Upload"
+<mvc:View controllerName="com.ndbs.managementplaneui.controller.Upload"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:u="sap.ui.unified"
     xmlns:core="sap.ui.core"
-    xmlns:upload="sap.m.upload"
->
-    <Page
-        id="page"
-        showFooter="false"
-        showHeader="false"
-        showNavButton="false"
-        showSubHeader="false"
-    >
+    xmlns:upload="sap.m.upload">
+    <Page id="uploadPage" showFooter="false" showHeader="false" showNavButton="false" showSubHeader="false">
         <VBox>
-            <upload:UploadSet 
-                id="usFileAttachments" 
-                instantUpload="false" 
-                uploadEnabled="true" 
-                beforeItemAdded="onCheckFileCount"
-                fileTypeMismatch="onFileTypeMismatch" 
-                fileTypes="XLSX,DOCX,PPT,PDF" 
-                multiple="true" 
-                httpRequestMethod="Put" 
-                mode="None"
-            />
-            
-            <HBox justifyContent="SpaceBetween">
+            <upload:UploadSet id="usFileAttachments" instantUpload="false" uploadEnabled="true" beforeItemAdded="onCheckFileCount" fileTypeMismatch="onFileTypeMismatch" fileTypes="XLSX,DOCX,PPT,PDF" multiple="true" httpRequestMethod="Put" mode="None" />
+
+            <HBox justifyContent="End">
                 <Button text="{i18n>btnExcelUpload}" press="onFileUpload"/>
-                <Button text="{i18n>btnClose}" press="onCloseFileUpload"/>
+                <!-- <Button text="{i18n>btnClose}" press="onCloseFileUpload"/> -->
             </HBox>
+            
+            <VBox >
+            
+                <Table id="fileTable" items="{/files}" mode="MultiSelect">
+                    <columns>
+                        <Column>
+                            <Text text="File Name"/>
+                        </Column>
+                        <Column>
+                            <Text text="Uploaded By"/>
+                        </Column>
+                        <Column>
+                            <Text text="File URL"/>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{fileName}"/>
+                                <Text text="{uploadedBy}"/>
+                                <Link text="Download" target="_blank" href="{url}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <HBox justifyContent="End">
+                <Button text="Delete Selected" press="onDeleteSelectedFiles" type="Reject"/>
+                </HBox>
+            </VBox>
         </VBox>
     </Page>
 </mvc:View>

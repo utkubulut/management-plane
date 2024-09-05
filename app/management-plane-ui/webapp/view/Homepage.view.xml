@@ -3,7 +3,7 @@
     xmlns="sap.m"
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core" height="100%">
-    <Page id="page" showFooter="false" showHeader="false" showNavButton="false" showSubHeader="false">
+    <Page id="Homepage" showFooter="false" showHeader="false" showNavButton="false" showSubHeader="false">
         <FlexBox direction="Row" id="fbUpload">
             <GenericTile id="uploadTile" header="{i18n>uploadHeader}" class="sapUiLargeMarginBegin sapUiLargeMarginBottom sapUiLargeMarginTop sapUiLargeMarginEnd" press="onNavToKPIsOverview">
                 <TileContent>
