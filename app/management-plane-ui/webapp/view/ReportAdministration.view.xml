@@ -1,0 +1,58 @@
+<mvc:View
+    controllerName="com.ndbs.managementplaneui.controller.ReportAdministration"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+>
+    <Page
+        title="Report Overview"
+        showHeader="true"
+    >
+        <smartFilterBar:SmartFilterBar
+            id="smartFilterBar"
+            entitySet="ReportSet"
+            liveMode="true"
+            useToolbar="true"
+        />
+        <smartTable:SmartTable
+            id="smartTable"
+            entitySet="ReportSet"
+            tableType="Table"
+            enableExport="true"
+            header="Reportings"
+            showRowCount="true"
+            useVariantManagement="true"
+            enableAutoBinding="true"
+            enableCopy="false"
+        >
+            <smartTable:customToolbar>
+                <OverflowToolbar design="Transparent">
+                    <ToolbarSpacer />
+                    <Button text="Create" type="Emphasized" press="onNavToUploadReport"/>
+                    <Button text="Delete" type="Transparent" press="onDeleteReport"/>
+                    <Button text="Edit" type="Transparent" press="onEditReport"/>
+                </OverflowToolbar>
+            </smartTable:customToolbar>
+            <Table
+                id="reportTable"
+                mode="MultiSelect"
+            >
+                <items>
+                    <ColumnListItem
+                                        type="Navigation"
+                                        press="onItemPressed"
+                                    >
+                        <cells>
+                            <Text text="{reportTitle}" />
+                            <Text text="{description}" />
+                            <Text text="{status}" />
+                            <Text text="{path: 'lastModified',type: 'sap.ui.model.type.Date',formatOptions: {pattern: 'yyyy/MM/dd'}}" />
+                            <Text text="{creator}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </smartTable:SmartTable>
+    </Page>
+</mvc:View>

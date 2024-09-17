@@ -11,18 +11,30 @@ import Component from "../Component";
 import View from "sap/ui/core/mvc/View";
 import ShellBar from "sap/f/ShellBar";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import { table } from "sap/m/library";
 import Table from "sap/m/Table";
+import Input from "sap/m/Input";
+import Wizard from "sap/m/Wizard";
+import WizardStep from "sap/m/WizardStep";
+import NavContainer from "sap/m/NavContainer";
+import Page from "sap/m/Page";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
 export default class Upload extends BaseController implements IPage {
+    private _wizard: Wizard;
+    private model: JSONModel;
+    private _oNavContainer: NavContainer;
+    private _oWizardContentPage: Page;
 
     public onInit() {
-        const page = new PageCL<Upload>(this, Routes.Upload);
+        const page = new PageCL<Upload>(this, Routes.UPLOAD);
         page.initialize();
-        
+        this._wizard = (this.byId("CreateReportWizard") as Wizard);
+        this._oNavContainer = (this.byId("wizardNavContainer") as NavContainer);
+        this._oWizardContentPage = (this.byId("wizardContentPage") as Page);
+        this.model = new JSONModel();
+
     }
     private async onFileUpload(event: UploadCollection$UploadTerminatedEvent) {
         const user = new UserAPI(this);
@@ -38,6 +50,7 @@ export default class Upload extends BaseController implements IPage {
         const promises = uploadItems.map(async (item) => {
             const fileName = item.getProperty("fileName");
             const fileType = item.getProperty("mediaType");
+            this.model.setProperty("/fileName", `${fileName}`);
             const blobName = `${session.email}|||${fileName}`;
             const uploadURL = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
             const headers = new Headers();
@@ -115,7 +128,6 @@ export default class Upload extends BaseController implements IPage {
             MessageBox.error("Error fetching blob list: " + error);
         }
     }
-
     private async loadFiles() {
         const fileList = await this.getBlobList();
 
@@ -136,42 +148,175 @@ export default class Upload extends BaseController implements IPage {
     public onODataRequestFail(event: Model$RequestFailedEvent): void {
         this.openMessagePopover();
     }
-   public onDeleteSelectedFiles() {
-        const oTable = (this.byId("fileTable")as Table);
+    public onDeleteSelectedFiles() {
+        const oTable = (this.byId("fileTable") as Table);
         const aSelectedItems = oTable.getSelectedItems();
         if (aSelectedItems.length === 0) {
             MessageBox.error("Please select at least one file to delete.");
             return;
         }
-    
-        const oModel = ((this.getView()as View).getModel() as JSONModel);
+
+        const oModel = ((this.getView() as View).getModel() as JSONModel);
         const aFiles = oModel.getProperty("/files");
-    
+
         // Get URLs of selected files to delete
         const aSelectedFileUrls = aSelectedItems.map(item => {
             return (item.getBindingContext() as any).getProperty("url"); // anyyy 
         });
-    
+
         // Filter out the files that are not selected
-        const aUpdatedFiles = aFiles.filter((file: { url: any; })  => !aSelectedFileUrls.includes(file.url));
-    
+        const aUpdatedFiles = aFiles.filter((file: { url: any; }) => !aSelectedFileUrls.includes(file.url));
+
         // Update the model with the remaining files
         oModel.setProperty("/files", aUpdatedFiles);
-    
+
         // // Optionally, delete the selected files from Azure Blob Storage
         aSelectedFileUrls.forEach(this._deleteFileFromServer.bind(this));
-    
+
         // // Clear selection
         oTable.removeSelections();
     }
-    
+    private additionalInfoValidation() {
+        const titleInput = this.byId("reportTitle") as Input;
+        const descriptionInput = this.byId("reportDescription") as Input;
+
+        const title = titleInput.getValue();
+        const description = descriptionInput.getValue();
+
+        // Validate title and description - mark as error if they are empty
+        let isValid = true;
+
+        if (!title.trim()) {  // If title is empty or contains only whitespace
+            this.model.setProperty("/reportTitleState", "Error");
+            isValid = false;
+        } else {
+            this.model.setProperty("/reportTitleState", "None");
+        }
+
+        if (!description.trim()) {  // If description is empty or contains only whitespace
+            this.model.setProperty("/reportDescriptionState", "Error");
+            isValid = false;
+        } else {
+            this.model.setProperty("/reportDescriptionState", "None");
+        }
+
+        // Set step status based on validation result
+        const reportDetailsStep = this.byId("ReportDetailsStep") as WizardStep;
+
+        if (isValid) {
+            this._wizard.validateStep(reportDetailsStep);
+        } else {
+            this._wizard.invalidateStep(reportDetailsStep);
+            this._wizard.setCurrentStep(reportDetailsStep);  // Optionally, return user to the step if validation fails
+        }
+    }
+    private additionalReportInfoValidation() {
+        // Fetch values from inputs in the ReportInfoStep
+        const apiTitleInput = this.byId("apiTitle") as Input;
+        const dataDirectoryInput = this.byId("dataDirectory") as Input;
+        const urlAddressInput = this.byId("urlAddress") as Input;
+        const passwordInput = this.byId("passwordID") as Input;
+
+        const apiTitle = apiTitleInput.getValue();
+        const dataDirectory = dataDirectoryInput.getValue();
+        const urlAddress = urlAddressInput.getValue();
+        const password = passwordInput.getValue();
+
+        let isValid = true;
+
+        // Validate API Title
+        if (!apiTitle.trim()) {
+            this.model.setProperty("/apiTitleState", "Error");
+            isValid = false;
+        } else {
+            this.model.setProperty("/apiTitleState", "None");
+        }
+
+        // Validate Data Directory
+        if (!dataDirectory.trim()) {
+            this.model.setProperty("/dataDirectoryState", "Error");
+            isValid = false;
+        } else {
+            this.model.setProperty("/dataDirectoryState", "None");
+        }
+
+        // Validate URL Address
+        if (!urlAddress.trim()) {
+            this.model.setProperty("/urlAddressState", "Error");
+            isValid = false;
+        } else {
+            this.model.setProperty("/urlAddressState", "None");
+        }
+
+        // Validate Password
+        if (!password.trim()) {
+            this.model.setProperty("/passwordState", "Error");
+            isValid = false;
+        } else {
+            this.model.setProperty("/passwordState", "None");
+        }
+
+        // Get the reference to the ReportInfoStep
+        const reportInfoStep = this.byId("ReportInfoStep") as WizardStep;
+
+        // Set step status based on validation result
+        if (isValid) {
+            this._wizard.validateStep(reportInfoStep);
+        } else {
+            this._wizard.invalidateStep(reportInfoStep);
+            this._wizard.setCurrentStep(reportInfoStep);  // Optionally return the user to the step if validation fails
+        }
+    }
+    private backToWizardContent() {
+        this._oNavContainer.backToPage(this._oWizardContentPage.getId());
+    }
+    private wizardCompletedHandler () {
+        this._oNavContainer.to(this.byId("wizardReviewPage") as Page);
+    }
+    public handleWizardCancel() {
+        this._handleMessageBoxOpen("Are you sure you want to cancel your report?", "warning");
+    }
+    public editStepOne () {
+        this._handleNavigationToStep(0);
+    }
+
+    public editStepTwo () {
+        this._handleNavigationToStep(1);
+    }
+
+    public editStepThree () {
+        this._handleNavigationToStep(2);
+    }
+
+    private _handleNavigationToStep(iStepNumber: number) {
+        const fnAfterNavigate = () => {
+            this._wizard.goToStep(this._wizard.getSteps()[iStepNumber], true);
+            this._oNavContainer.detachAfterNavigate(fnAfterNavigate);
+        };
+
+        this._oNavContainer.attachAfterNavigate(fnAfterNavigate);
+        this.backToWizardContent();
+    }
+
+    private _handleMessageBoxOpen(sMessage: string, sMessageBoxType: "warning" | "error" | "information" | "success" | "confirm"){
+        MessageBox[sMessageBoxType](sMessage, {
+            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+            onClose: (oAction: string) => {
+                if (oAction === MessageBox.Action.YES) {
+                    this._handleNavigationToStep(0);
+                    this._wizard.discardProgress(this._wizard.getSteps()[0], true);
+                }
+            }
+        });
+    }
+
     private async _deleteFileFromServer(sFileUrl: string) {
         try {
             // Send a DELETE request to Azure Blob Storage
             const response = await fetch(sFileUrl, {
                 method: 'DELETE'
             });
-    
+
             if (response.ok) {
                 MessageBox.success(`File deleted successfully from Azure Blob Storage.`);
             } else {
@@ -181,5 +326,5 @@ export default class Upload extends BaseController implements IPage {
             MessageBox.error(`Error occurred while deleting the file: ${error}`);
         }
     }
-    
+
 }

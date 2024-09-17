@@ -140,12 +140,31 @@
           ]
         },
         {
-          "name": "RouteUpload",
-          "pattern": "Upload",
+          "name": "RouteReportAdministration",
+          "pattern": "ReportAdministration",
           "target": [
-            "TargetUpload"
+            "TargetReportAdministration"
+          ]
+        },
+        {
+          "name": "RouteUploadReport",
+          "pattern": "UploadReport",
+          "layout": "TwoColumnsMidExpanded",
+          "target": [
+            "TargetUploadReport",
+            "TargetReportAdministration"
+          ]
+        },
+        {
+          "name": "RouteReportDetails",
+          "pattern": "ReportDetails/reportID={reportID}&{layout}",
+          "layout": "TwoColumnsMidExpanded",
+          "target": [
+            "TargetReportDetails",
+            "TargetReportAdministration"
           ]
         }
+
       ],
       "targets": {
         "TargetHomepage": {
@@ -191,13 +210,30 @@
           "controlAggregation": "endColumnPages",
           "contextPattern": "TimeLine/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}"
         },
-        "TargetUpload": {
+        "TargetReportAdministration": {
+          "type" :"Component",
+          "viewType": "XML",
+          "viewId": "ReportAdministration",
+          "viewName": "ReportAdministration",
+          "transition": "slide",
+          "controlAggregation": "beginColumnPages"
+        },
+        "TargetUploadReport": {
           "type" :"Component",
           "viewType": "XML",
           "viewId": "Upload",
           "viewName": "Upload",
           "transition": "slide",
-          "controlAggregation": "beginColumnPages"
+          "controlAggregation": "midColumnPages"
+        },
+        "TargetReportDetails": {
+          "type" :"Component",
+          "viewType": "XML",
+          "viewId": "ReportDetails",
+          "viewName": "ReportDetails",
+          "transition": "slide",
+          "controlAggregation": "midColumnPages",
+           "contextPattern": "ReportDetails/reportID{reportID}&{layout}"
         }
       }
     },

@@ -31,14 +31,20 @@ entity KPIs : managed {
 }
 
 entity Documents {
-    key ID         : UUID;
-        kpiID      : UUID;
-        title      : String;
-        textLine   : String;
-        page       : Integer;
-        type       : String;
-        AIMatch    : Integer;
-        reportLine : String;
+    key ID           : UUID;
+        kpiID        : UUID;
+        reportID     : UUID;
+        title        : String;
+        textLine     : String;
+        page         : Integer;
+        type         : String;
+        AIMatch      : Integer;
+        reportLine   : String;
+        tags         : String;
+        directory    : String;
+        url          : String;
+        lastModified : DateTime @cds.on.insert: $now;
+
 }
 
 entity ReportHistory {
@@ -49,4 +55,15 @@ entity ReportHistory {
         modifiedContent : String;
         avatar          : String;
         iconType        : String;
+}
+
+entity ReportSet {
+    key reportID     : UUID;
+        reportTitle  : String(255);
+        description  : String(500);
+        status       : String(20);
+        lastModified : DateTime;
+        creator      : String(100);
+        documents    : Association to many Documents
+                           on documents.reportID = $self.reportID;
 }

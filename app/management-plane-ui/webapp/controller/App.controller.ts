@@ -93,6 +93,12 @@ export default class App extends Controller {
                     paragraph:this.paragraph
                 });
                 break;
+                case "RouteUploadReport":
+                    (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteReportAdministration");
+                    break;
+                case "RouteReportDetails":
+                    (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteReportAdministration");
+                    break;
             default:
                 (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteHomepage");
                 break;

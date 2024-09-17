@@ -9,6 +9,16 @@ export default {
         }
         return "Success";
     },
+    formatStatusHighlight: function (status: string): string {
+        if (status === "In Preparation") {
+            return "Error";
+        } else if (status === "Under Review") {
+            return "Warning";
+        } else if (status === "New") {
+            return "Success";
+        }
+        return "Success";
+    },
     formatIcons(sKpi: string): string {
         let sIcon = "";
         switch (sKpi) {

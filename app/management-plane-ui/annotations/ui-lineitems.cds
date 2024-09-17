@@ -68,6 +68,44 @@ annotate service.Documents@(UI: {
         {
             $Type: 'UI.DataField',
             Value: reportLine
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: tags  
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: lastModified  
+        }
+    ]
+});
+annotate service.ReportSet @(UI: {
+    SelectionFields: [
+        reportTitle,
+        status,
+        creator,
+        lastModified
+    ],
+    LineItem       : [
+        {
+            $Type: 'UI.DataField',
+            Value: reportTitle,
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: description
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: status,
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: lastModified,
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: creator
         }
     ]
 });

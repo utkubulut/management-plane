@@ -7,7 +7,8 @@ export interface IBindingParams {
         sectionID: string,
         kpiID: string,
         subKPI: string,
-        paragraph: string
+        paragraph: string,
+        reportID:string
     };
 }
 export interface IUserAPI {

@@ -5,11 +5,11 @@
     xmlns:core="sap.ui.core" height="100%">
     <Page id="Homepage" showFooter="false" showHeader="false" showNavButton="false" showSubHeader="false">
         <FlexBox direction="Row" id="fbUpload">
-            <GenericTile id="uploadTile" header="{i18n>uploadHeader}" class="sapUiLargeMarginBegin sapUiLargeMarginBottom sapUiLargeMarginTop sapUiLargeMarginEnd" press="onNavToKPIsOverview">
+            <GenericTile id="uploadTile" header="{i18n>reportHeader}" class="sapUiLargeMarginBegin sapUiLargeMarginBottom sapUiLargeMarginTop sapUiLargeMarginEnd" press="onNavToKPIsOverview">
                 <TileContent>
                     <FlexBox direction="Column">
                         <HBox justifyContent="Start">
-                            <core:Icon size="40px" src="sap-icon://upload" color="Neutral" class="sapUiSmallMarginBottom" />
+                            <core:Icon size="40px" src="sap-icon://document-text" color="Neutral" class="sapUiSmallMarginBottom" />
                         </HBox>
                     </FlexBox>
                 </TileContent>

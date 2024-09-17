@@ -2,14 +2,16 @@ using {
     Sections      as DBSections,
     KPIs          as DBKPIs,
     Documents     as DBDocuments,
-    ReportHistory as DBReportHistory
+    ReportHistory as DBReportHistory,
+    ReportSet     as DBReportSet
 } from '../db/data-models';
 
-@requires: 'authenticated-user'
+//@requires: 'authenticated-user'
 service ManagementPlane {
     entity Sections       as projection on DBSections;
     entity Documents      as projection on DBDocuments;
     entity ReportHistory  as projection on DBReportHistory;
+    entity ReportSet      as projection on DBReportSet;
 
     entity KPIs           as
         projection on DBKPIs {
@@ -76,6 +78,13 @@ service ManagementPlane {
         *,
         (select count(*) from Documents as doc where doc.kpiID = kpi.ID ) as documentCount : Integer
     };
+
+    entity VReportSet as projection on ReportSet as reportSet {
+        *,
+        (select count(*) from Documents as doc where doc.reportID = reportSet.reportID ) as documentCount : Integer
+    };
+
+
 
     entity VKPIStateCount as
         select from VKPIs as kpi {

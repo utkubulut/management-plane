@@ -46,8 +46,8 @@ export default class Homepage extends BaseController implements IPage {
     }
 
     public onNavToKPIsOverview(event: GenericTile$PressEvent) {
-        if(event.getSource().getHeader()=="Upload"){
-            this.getRouter().navTo("RouteUpload");
+        if(event.getSource().getHeader()=="Report Administration"){
+            this.getRouter().navTo("RouteReportAdministration");
         }
         else {
         const sectionID=((event.getSource().getBindingContext() as Context).getObject() as { ID: string }).ID;

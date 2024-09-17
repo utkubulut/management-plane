@@ -35,6 +35,24 @@ annotate service.Documents with {
     title          @Common.Label: '{i18n>docTitle}';
     type           @Common.Label: '{i18n>docType}';
     reportLine     @Common.Label: '{i18n>docReportLine}';
+    kpiID          @Common.Label: '{i18n>docKPIId}';
+    reportID       @Common.Label: '{i18n>docReportID}';
+    textLine       @Common.Label: '{i18n>docReportTextLine}';
+    page           @Common.Label: '{i18n>docReportPage}';
+    AIMatch        @Common.Label: '{i18n>docReportAIMatch}';
+    tags           @Common.Label: '{i18n>docReportTags}';
+    directory      @Common.Label: '{i18n>docReportDirectory}';
+    url            @Common.Label: '{i18n>docReportUrl}';
+    lastModified   @Common.Label: '{i18n>docReporLastModified}';
+
+}
+annotate service.ReportSet with {
+   
+    reportTitle          @Common.Label: '{i18n>reportTitle}';
+    description          @Common.Label: '{i18n>description}';
+    status               @Common.Label: '{i18n>status}';
+    lastModified         @Common.Label : '{i18n>lastModified}';
+    creator              @Common.Label: '{i18n>creator}';
 }
 
 

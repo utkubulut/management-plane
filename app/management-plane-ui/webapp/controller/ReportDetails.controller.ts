@@ -24,23 +24,18 @@ import ObjectPageSection from "sap/uxap/ObjectPageSection";
 /**
  * @namespace com.ndbs.managementplaneui.controller
  */
-export default class KPIDetails extends BaseController implements IPage {
+export default class ReportDetails extends BaseController implements IPage {
     public formatter = formatter;
-    private sectionID: string;
-    private kpiID: string;
-    private subKPI: string;
-    private paragraph:string;
-    public subChapterName: string;
+    private reportID: string;
     
-
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
     /* ======================================================================================================================= */
 
     public onInit() {
-        const page = new PageCL<KPIDetails>(this, Routes.KPI_DETAILS);
+        const page = new PageCL<ReportDetails>(this, Routes.REPORT_DETAILS);
         page.initialize();
-        const oOPL = (this.getView()as View).byId("oplKpi") as ObjectPageLayout;
+        const oOPL = (this.getView()as View).byId("oplReportDetails") as ObjectPageLayout;
         oOPL.attachBeforeNavigate(this.onBeforeNavigate.bind(this));
     }
 
@@ -51,37 +46,31 @@ export default class KPIDetails extends BaseController implements IPage {
     public onNavToHomepage(): void {
         this.getRouter().navTo("RouteHomepage");
     }
-
-    public onNavToKPIs() {
-        this.getRouter().navTo("RouteKPIs", {
-            sectionID: this.sectionID,
-            kpiID: this.kpiID
-        });
-    }
     public onBeforeRebindTable(event: SmartTable$BeforeRebindTableEvent) {
         const binding = event.getParameter("bindingParams") as IBindingParams;
-        const kpiFilters = new Filter("kpiID", FilterOperator.EQ, this.kpiID);
+        const kpiFilters = new Filter("reportID", FilterOperator.EQ, this.reportID);
         binding.filters.push(kpiFilters);
     }
+    public onBeforeRebindTreeTable(event: SmartTable$BeforeRebindTableEvent) {
+        const binding = event.getParameter("bindingParams") as IBindingParams;
+        const reportFilters = new Filter("reportID", FilterOperator.EQ, this.reportID);
+        binding.filters.push(reportFilters);
+    }
     public onBeforeNavigate(event: ObjectPageLayout$BeforeNavigateEvent) {
-        const oOPL = ((this.getView() as View).byId("oplKpi")as ObjectPageLayout);
+        const oOPL = ((this.getView() as View).byId("oplReportDetails")as ObjectPageLayout);
         const oSection = (event.getParameter("section")as ObjectPageSection);
         event.preventDefault();
         oOPL.setSelectedSection(oSection);
-
     }
 
     public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
         const oDataModel = this.getComponentModel();
         oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
-        this.sectionID = (event.getParameters() as IBindingParams).arguments.sectionID;
-        this.kpiID = (event.getParameters() as IBindingParams).arguments.kpiID;
-        this.subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
-        this.paragraph = (event.getParameters() as IBindingParams).arguments.paragraph;
+        this.reportID = (event.getParameters() as IBindingParams).arguments.reportID;
         const navigation = window.performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
-        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("KPI Details");
+        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("Report Details");
         (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
-
+        (this.byId("stTreeDocuments") as SmartTable).rebindTable(true);
 
         // if (navigation.type == "reload") {
         //     this.onNavToKPIs();
@@ -89,20 +78,20 @@ export default class KPIDetails extends BaseController implements IPage {
         //this.setReportChangeHistory();
 
         // (this.byId("kpiDetailTitle") as Title).setText(this.subKPI + "para." + this.paragraph);
-        (this.byId("sfKPIsReport") as SmartForm).bindElement("/VKPIsReports(kpiID=guid'" + this.kpiID + "',kpiParagraph='" + this.paragraph + "')");
+        (this.byId("sfReportDescription") as SmartForm).bindElement("/ReportSet(reportID=guid'" + this.reportID +"')");
 
-        ((this.getView() as View).getModel() as ODataModel).read("/KPIs(ID=guid'" + (this.kpiID) + "',paragraph='" + this.paragraph + "')", {
+        ((this.getView() as View).getModel() as ODataModel).read("/ReportSet(reportID=guid'" + this.reportID +"')", {
             urlParameters: {
                 "$expand": "documents",
             },
             success: (data: IKPIs) =>  {
-                this.subChapterName = data.subchapterName;
+                //this.subChapterName = data.subchapterName;
                 // (this.byId("sbKPIs") as ShellBar).setTitle("Details of " + this.subChapterName);
-                (this.byId("oplKpi") as ObjectPageLayout).bindElement({
-                    path: "/VKPIDocuments(ID=guid'" + (this.kpiID) + "',paragraph='" + this.paragraph + "')",
+                (this.byId("oplReportDetails") as ObjectPageLayout).bindElement({
+                    path: "/VReportSet(guid'" + (this.reportID) + "')",
                     events: {
                         dataReceived: () => {
-                            (this.byId("stDocuments") as SmartTable).rebindTable(true);
+                            (this.byId("stDataSources") as SmartTable).rebindTable(true);
                         }
                     }
                 });
@@ -118,21 +107,18 @@ export default class KPIDetails extends BaseController implements IPage {
     /* Private Functions                                                                                                       */
     /* ======================================================================================================================= */
 
-    private onMenuAction(event: Menu$ItemSelectEvent){
-        const action = ((event.getParameter("item")as any).getText()as string);
-        if(action ==="Change History"){
-            this.getRouter().navTo("RouteChangeHistory", {
-            layout: LayoutType.ThreeColumnsMidExpanded,
-            sectionID: this.sectionID,
-            kpiID: this.kpiID,
-            subKPI: this.subKPI,
-            paragraph: this.paragraph
-            });
-        }
-        else if(action==="Open Report"){
-            this.getRouter().navTo("RouteReportAdministration");
-        }
-    }
+    // private onMenuAction(event: Menu$ItemSelectEvent){
+    //     const action = ((event.getParameter("item")as any).getText()as string);
+    //     if(action ==="Change History"){
+    //         this.getRouter().navTo("RouteChangeHistory", {
+    //         layout: LayoutType.ThreeColumnsMidExpanded,
+    //         sectionID: this.sectionID,
+    //         kpiID: this.kpiID,
+    //         subKPI: this.subKPI,
+    //         paragraph: this.paragraph
+    //         });
+    //     }
+    // }
     
     private async setReportChangeHistory() {
         const user = new UserAPI(this);
@@ -151,7 +137,7 @@ export default class KPIDetails extends BaseController implements IPage {
     }
 
     private onCloseColumnLayout() {
-        this.onNavToKPIs();
+        this.getRouter().navTo("RouteReportAdministration");
     }
 }
 

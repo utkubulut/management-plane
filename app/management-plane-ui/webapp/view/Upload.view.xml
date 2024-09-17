@@ -1,46 +1,333 @@
-<mvc:View controllerName="com.ndbs.managementplaneui.controller.Upload"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
-    xmlns:u="sap.ui.unified"
+<mvc:View
+    controllerName="com.ndbs.managementplaneui.controller.Upload"
+    xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
-    xmlns:upload="sap.m.upload">
-    <Page id="uploadPage" showFooter="false" showHeader="false" showNavButton="false" showSubHeader="false">
-        <VBox>
-            <upload:UploadSet id="usFileAttachments" instantUpload="false" uploadEnabled="true" beforeItemAdded="onCheckFileCount" fileTypeMismatch="onFileTypeMismatch" fileTypes="XLSX,DOCX,PPT,PDF" multiple="true" httpRequestMethod="Put" mode="None" />
+    xmlns:u="sap.ui.unified"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:upload="sap.m.upload"
+    xmlns="sap.m"
+>
+    <NavContainer id="wizardNavContainer">
+        <pages>
+            <Page
+                id="wizardContentPage"
+                showHeader="false"
+            >
+                <content>
+                    <Wizard
+                        id="CreateReportWizard"
+                        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                        complete="wizardCompletedHandler"
+                    >
+                        <WizardStep
+                            id="ReportDetailsStep"
+                            title="Report Details"
+                            validated="false"
+                            activate="additionalInfoValidation"
+                        >
+                            <Text
+                                class="sapUiSmallMarginBottom"
+                                text="Specify the main parameters and describe the report."
+                            />
+                            <form:SimpleForm
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                            >
+                                <Label
+                                    text="Report Title"
+                                    required="true"
+                                />
+                                <Input
+                                    id="reportTitle"
+                                    placeholder="Enter the title of the report"
+                                    valueStateText="Enter report title"
+                                    valueState="{/reportTitleState}"
+                                    value="{/reportTitle}"
+                                    liveChange="additionalInfoValidation"
+                                />
+                                <Label
+                                    text="Keywords"
+                                    required="false"
+                                />
+                                <Input
+                                    id="reportKeyword"
+                                    placeholder="Enter the keywords"
+                                    value="{/reportKeywords}"
+                                />
+                                <Label
+                                    text="Description"
+                                    required="true"
+                                />
+                                <TextArea
+                                    id="reportDescription"
+                                    value="{/reportDescription}"
+                                    valueStateText="Enter report description"
+                                    valueState="{/reportDescriptionState}"
+                                    rows="2"
+                                    liveChange="additionalInfoValidation"
+                                />
+                            </form:SimpleForm>
+                        </WizardStep>
 
-            <HBox justifyContent="End">
-                <Button text="{i18n>btnExcelUpload}" press="onFileUpload"/>
-                <!-- <Button text="{i18n>btnClose}" press="onCloseFileUpload"/> -->
-            </HBox>
-            
-            <VBox >
-            
-                <Table id="fileTable" items="{/files}" mode="MultiSelect">
-                    <columns>
-                        <Column>
-                            <Text text="File Name"/>
-                        </Column>
-                        <Column>
-                            <Text text="Uploaded By"/>
-                        </Column>
-                        <Column>
-                            <Text text="File URL"/>
-                        </Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem>
-                            <cells>
-                                <Text text="{fileName}"/>
-                                <Text text="{uploadedBy}"/>
-                                <Link text="Download" target="_blank" href="{url}" />
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-                <HBox justifyContent="End">
-                <Button text="Delete Selected" press="onDeleteSelectedFiles" type="Reject"/>
-                </HBox>
-            </VBox>
-        </VBox>
-    </Page>
+                        <WizardStep
+                            id="ReportInfoStep"
+                            validated="false"
+                            title="Configure Data Sources"
+                            activate="additionalReportInfoValidation"
+                        >
+                            <Text
+                                text="Define the API (Application Programming Interface) source for the report in this step.
+                                After completing the definition, please verify the connection by clicking on the 'Connection Check' button."
+                            />
+                            <form:SimpleForm
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                            >
+                                <Label
+                                    text="API Title"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter API Title"
+                                    valueState="{/apiTitleState}"
+                                    id="apiTitle"
+                                    liveChange="additionalReportInfoValidation"
+                                    placeholder="Enter API Title"
+                                    value="{/apiTitle}"
+                                />
+                                <Label
+                                    text="Directory"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter directory"
+                                    valueState="{/dataDirectoryState}"
+                                    id="dataDirectory"
+                                    liveChange="additionalReportInfoValidation"
+                                    placeholder="Enter directory"
+                                    value="{/dataDirectory}"
+                                />
+                                <Label
+                                    text="URL address of API"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter URL address of API"
+                                    valueState="{/urlAddressState}"
+                                    id="urlAddress"
+                                    liveChange="additionalReportInfoValidation"
+                                    placeholder="Enter URL address"
+                                    value="{/urlAddress}"
+                                />
+                                <Label
+                                    text="Password"
+                                    required="true"
+                                />
+                                <Input
+                                    valueStateText="Enter URL address of API"
+                                    valueState="{/urlAddressState}"
+                                    id="passwordID"
+                                    liveChange="additionalReportInfoValidation"
+                                    placeholder="Input the password"
+                                    value="{/password}"
+                                />
+                            </form:SimpleForm>
+                        </WizardStep>
+                        <WizardStep
+                            id="UploadTagStep"
+                            validated="true"
+                            title="Upload and Tag Documents"
+                        >
+                            <Text
+                                text="Upload the document from your computer and tag it for better understanding of the document's topic."
+                            />
+                            <form:SimpleForm
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                            >
+                                <Label text="Upload the documents" />
+                                <VBox>
+                                    <upload:UploadSet
+                                        id="usFileAttachments"
+                                        instantUpload="false"
+                                        uploadEnabled="true"
+                                        beforeItemAdded="onCheckFileCount"
+                                        fileTypeMismatch="onFileTypeMismatch"
+                                        fileTypes="XLSX,DOCX,PPT,PDF"
+                                        multiple="true"
+                                        httpRequestMethod="Put"
+                                        mode="None"
+                                    />
+
+                                    <HBox justifyContent="End">
+                                        <Button
+                                            text="{i18n>btnExcelUpload}"
+                                            press="onFileUpload"
+                                        />
+                                        <!-- <Button text="{i18n>btnClose}" press="onCloseFileUpload"/> -->
+                                    </HBox>
+
+                                    <VBox>
+                                        <Table
+                                            id="fileTable"
+                                            items="{/files}"
+                                            mode="MultiSelect"
+                                        >
+                                            <columns>
+                                                <Column>
+                                                    <Text text="File Name" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Uploaded By" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="File URL" />
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <Text
+                                                            text="{fileName}"
+                                                        />
+                                                        <Text
+                                                            text="{uploadedBy}"
+                                                        />
+                                                        <Link
+                                                            text="Download"
+                                                            target="_blank"
+                                                            href="{url}"
+                                                        />
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                        <HBox justifyContent="End">
+                                            <Button
+                                                text="Delete Selected"
+                                                press="onDeleteSelectedFiles"
+                                                type="Reject"
+                                            />
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                            </form:SimpleForm>
+                        </WizardStep>
+                    </Wizard>
+                </content>
+                <footer>
+                    <OverflowToolbar>
+                        <ToolbarSpacer />
+                        <Button
+                            text="Cancel"
+                            press="handleWizardCancel"
+                        />
+                    </OverflowToolbar>
+                </footer>
+            </Page>
+            <Page
+                id="wizardReviewPage"
+                showHeader="false"
+            >
+                <content>
+                    <form:SimpleForm
+                        title="1. Report Details"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <form:content>
+                            <Label text="Report Title"  required="true"/>
+                            <Text
+                                id="ReportTitleWritten"
+                                text="{/reportTitle}"
+                            />
+                            <Label text="Keywords"  required="false"/>
+                            <Text
+                                id="ReportKeywordWritten"
+                                text="{/reportKeywords}"
+                            />
+                            <Label text="Description"  required="true"/>
+                            <Text
+                                id="ReportDescriptionWritten"
+                                text="{/reportDescription}"
+                            />
+                            <Link
+                                press="editStepOne"
+                                text="Edit"
+                            />
+                        </form:content>
+                    </form:SimpleForm>
+
+                    <form:SimpleForm
+                        title="2. Configure Data Sources"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <form:content>
+                            <Label text="API Title" required="true"/>
+                            <Text
+                                id="APITitleWritten"
+                                text="{/apiTitle}"
+                            />
+                            <Label text="Directory" required="true"/>
+                            <Text
+                                id="DirectoryWritten"
+                                text="{/dataDirectory}"
+                            />
+                            <Label text="URL address of API" required="true"/>
+                            <Text
+                                id="URLAddress"
+                                text="{/urlAddress}"
+                            />
+                            <Label text="Password" required="true" />
+                            <Text
+                                id="Password"
+                                text="{/password}"
+                            />
+                            <Link
+                                press="editStepTwo"
+                                text="Edit"
+                            />
+                        </form:content>
+                    </form:SimpleForm>
+
+                    <form:SimpleForm
+                        title="3. Upload and Tag Documents"
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <form:content>
+                            <Label text="Uploaded documents"/>
+                            <Text
+                                text="{/fileName}"
+                            />
+                            <Link
+                                press="editStepThree"
+                                text="Edit"
+                            />
+                        </form:content>
+                    </form:SimpleForm>
+                </content>
+                <footer>
+                    <Bar>
+                        <contentRight>
+                            <Button
+                                text="Create"
+                                press="handleWizardCreate"
+                                type="Emphasized"
+                            />
+                            <Button
+                                text="Save Draft"
+                                press="handleSaveDraft"
+                            />
+                            <Button
+                                text="Cancel"
+                                press="handleWizardCancel"
+                            />
+                        </contentRight>
+                    </Bar>
+                </footer>
+            </Page>
+        </pages>
+    </NavContainer>
 </mvc:View>

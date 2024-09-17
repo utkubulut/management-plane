@@ -36,6 +36,7 @@
                                             <m:MenuItem text="Export as PDF" icon="sap-icon://pdf-attachment" />
                                             <m:MenuItem text="Export Word" icon="sap-icon://excel-attachment" />
                                             <m:MenuItem text="Change History" icon="sap-icon://history" />
+                                            <m:MenuItem text="Open Report" icon="sap-icon://generate-shortcut" />
                                         </m:Menu>
                                     </m:menu>
                                 </m:OverflowToolbarMenuButton>
