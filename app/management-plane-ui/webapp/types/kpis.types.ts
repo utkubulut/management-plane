@@ -1,3 +1,4 @@
+import { array } from "@sap/cds";
 import Filter from "sap/ui/model/Filter";
 
 export interface IBindingParams {
@@ -33,4 +34,9 @@ export interface IKPIs {
     ID: string;
     subChapter: string;
     subchapterName: string;
+    documents: {
+        results: Array<{
+            reportID: string;
+        }>;
+    };
 }

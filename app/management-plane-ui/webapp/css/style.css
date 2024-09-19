@@ -6,3 +6,21 @@
 .marginLeft {
     margin-left: 8px;
 }
+.Success {
+    color: green;
+    font-weight: bold;
+}
+
+.Error {
+    color: red;
+    font-weight: bold;
+}
+
+.Warning {
+    color: orange;
+    font-weight: bold;
+}
+
+.Default {
+    color: black;
+}

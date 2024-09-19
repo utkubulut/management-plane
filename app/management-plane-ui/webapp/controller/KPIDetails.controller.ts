@@ -20,6 +20,8 @@ import PageCL from "../utils/common/PageCL";
 import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 import Component from "../Component";
 import ObjectPageSection from "sap/uxap/ObjectPageSection";
+import { URLHelper } from "sap/m/library";
+
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -29,9 +31,11 @@ export default class KPIDetails extends BaseController implements IPage {
     private sectionID: string;
     private kpiID: string;
     private subKPI: string;
-    private paragraph:string;
+    private paragraph: string;
     public subChapterName: string;
+    public reportID: string;
     
+
 
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
@@ -40,7 +44,7 @@ export default class KPIDetails extends BaseController implements IPage {
     public onInit() {
         const page = new PageCL<KPIDetails>(this, Routes.KPI_DETAILS);
         page.initialize();
-        const oOPL = (this.getView()as View).byId("oplKpi") as ObjectPageLayout;
+        const oOPL = (this.getView() as View).byId("oplKpi") as ObjectPageLayout;
         oOPL.attachBeforeNavigate(this.onBeforeNavigate.bind(this));
     }
 
@@ -64,8 +68,8 @@ export default class KPIDetails extends BaseController implements IPage {
         binding.filters.push(kpiFilters);
     }
     public onBeforeNavigate(event: ObjectPageLayout$BeforeNavigateEvent) {
-        const oOPL = ((this.getView() as View).byId("oplKpi")as ObjectPageLayout);
-        const oSection = (event.getParameter("section")as ObjectPageSection);
+        const oOPL = ((this.getView() as View).byId("oplKpi") as ObjectPageLayout);
+        const oSection = (event.getParameter("section") as ObjectPageSection);
         event.preventDefault();
         oOPL.setSelectedSection(oSection);
 
@@ -79,8 +83,8 @@ export default class KPIDetails extends BaseController implements IPage {
         this.subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
         this.paragraph = (event.getParameters() as IBindingParams).arguments.paragraph;
         const navigation = window.performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
-        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("KPI Details");
-        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
+        (((this.getOwnerComponent() as Component).getRootControl() as View).byId("sbApp") as ShellBar).setTitle("KPI Details");
+        (((this.getOwnerComponent() as Component).getRootControl() as View).byId("sbApp") as ShellBar).setShowNavButton(true);
 
 
         // if (navigation.type == "reload") {
@@ -95,8 +99,9 @@ export default class KPIDetails extends BaseController implements IPage {
             urlParameters: {
                 "$expand": "documents",
             },
-            success: (data: IKPIs) =>  {
+            success: (data: IKPIs) => {
                 this.subChapterName = data.subchapterName;
+                this.reportID = data.documents.results[0].reportID;
                 // (this.byId("sbKPIs") as ShellBar).setTitle("Details of " + this.subChapterName);
                 (this.byId("oplKpi") as ObjectPageLayout).bindElement({
                     path: "/VKPIDocuments(ID=guid'" + (this.kpiID) + "',paragraph='" + this.paragraph + "')",
@@ -118,27 +123,32 @@ export default class KPIDetails extends BaseController implements IPage {
     /* Private Functions                                                                                                       */
     /* ======================================================================================================================= */
 
-    private onMenuAction(event: Menu$ItemSelectEvent){
-        const action = ((event.getParameter("item")as any).getText()as string);
-        if(action ==="Change History"){
+    private onMenuAction(event: Menu$ItemSelectEvent) {
+        const action = ((event.getParameter("item") as any).getText() as string);
+        if (action === "Change History") {
             this.getRouter().navTo("RouteChangeHistory", {
-            layout: LayoutType.ThreeColumnsMidExpanded,
-            sectionID: this.sectionID,
-            kpiID: this.kpiID,
-            subKPI: this.subKPI,
-            paragraph: this.paragraph
+                layout: LayoutType.ThreeColumnsMidExpanded,
+                sectionID: this.sectionID,
+                kpiID: this.kpiID,
+                subKPI: this.subKPI,
+                paragraph: this.paragraph
             });
         }
-        else if(action==="Open Report"){
-            this.getRouter().navTo("RouteReportAdministration");
+        else if (action === "Open Report") {
+            const sUrl = this.getRouter().getURL("RouteReportDetails", {
+                layout: LayoutType.TwoColumnsMidExpanded,
+                reportID: this.reportID
+            });
+            const sAbsoluteUrl = window.location.origin + window.location.pathname + "#" + sUrl;
+            URLHelper.redirect(sAbsoluteUrl, true);
         }
     }
-    
+
     private async setReportChangeHistory() {
         const user = new UserAPI(this);
         const session = await user.getLoggedOnUser();
-        const userSession :IReportHistory = {
-            fullName: session.firstname + " "+session.lastname,
+        const userSession: IReportHistory = {
+            fullName: session.firstname + " " + session.lastname,
             modifiedType: "Regenerate the report",
             modifiedContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Curabitur aliquet quam id dui posuere blandit. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Proin eget tortor risus. Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat.",
             avatar: session.firstname.substring(0, 1) + session.lastname.substring(0, 1) as string,

@@ -209,6 +209,19 @@
                                                 type="Reject"
                                             />
                                         </HBox>
+                                        <Label text="Tags" />
+                                        <MultiComboBox
+                                            id="tagMultiComboBox"
+                                            placeholder="Select or enter tags"
+                                            items="{/availableTags}"
+                                            selectedKeys="{/selectedTags}"
+                                            selectionFinish="onTagSelectionFinish"
+                                        >
+                                            <core:Item
+                                                key="{key}"
+                                                text="{text}"
+                                            />
+                                        </MultiComboBox>
                                     </VBox>
                                 </VBox>
                             </form:SimpleForm>
@@ -236,17 +249,26 @@
                         layout="ResponsiveGridLayout"
                     >
                         <form:content>
-                            <Label text="Report Title"  required="true"/>
+                            <Label
+                                text="Report Title"
+                                required="true"
+                            />
                             <Text
                                 id="ReportTitleWritten"
                                 text="{/reportTitle}"
                             />
-                            <Label text="Keywords"  required="false"/>
+                            <Label
+                                text="Keywords"
+                                required="false"
+                            />
                             <Text
                                 id="ReportKeywordWritten"
                                 text="{/reportKeywords}"
                             />
-                            <Label text="Description"  required="true"/>
+                            <Label
+                                text="Description"
+                                required="true"
+                            />
                             <Text
                                 id="ReportDescriptionWritten"
                                 text="{/reportDescription}"
@@ -264,22 +286,34 @@
                         layout="ResponsiveGridLayout"
                     >
                         <form:content>
-                            <Label text="API Title" required="true"/>
+                            <Label
+                                text="API Title"
+                                required="true"
+                            />
                             <Text
                                 id="APITitleWritten"
                                 text="{/apiTitle}"
                             />
-                            <Label text="Directory" required="true"/>
+                            <Label
+                                text="Directory"
+                                required="true"
+                            />
                             <Text
                                 id="DirectoryWritten"
                                 text="{/dataDirectory}"
                             />
-                            <Label text="URL address of API" required="true"/>
+                            <Label
+                                text="URL address of API"
+                                required="true"
+                            />
                             <Text
                                 id="URLAddress"
                                 text="{/urlAddress}"
                             />
-                            <Label text="Password" required="true" />
+                            <Label
+                                text="Password"
+                                required="true"
+                            />
                             <Text
                                 id="Password"
                                 text="{/password}"
@@ -297,10 +331,8 @@
                         layout="ResponsiveGridLayout"
                     >
                         <form:content>
-                            <Label text="Uploaded documents"/>
-                            <Text
-                                text="{/fileName}"
-                            />
+                            <Label text="Uploaded documents" />
+                            <Text text="{/fileName}" />
                             <Link
                                 press="editStepThree"
                                 text="Edit"

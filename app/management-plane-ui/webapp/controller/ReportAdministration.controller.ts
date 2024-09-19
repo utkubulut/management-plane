@@ -10,10 +10,11 @@ import Table from "sap/m/Table";
 import MessageBox from "sap/m/MessageBox";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import ColumnListItem from "sap/m/ColumnListItem"
-import { ListItemBase$PressEventParameters } from "sap/m/ListItemBase";
+import ListItemBase, { ListItemBase$PressEventParameters } from "sap/m/ListItemBase";
 import Event from "sap/ui/base/Event";
 import Context from "sap/ui/model/Context";
 import { LayoutType } from "sap/f/library";
+import formatter from "../model/formatter";
 
 
 
@@ -21,7 +22,7 @@ import { LayoutType } from "sap/f/library";
  * @namespace com.ndbs.managementplaneui.controller
  */
 export default class ReportAdministration extends BaseController implements IPage {
-
+    public formatter = formatter;
     public onInit() {
         const page = new PageCL<ReportAdministration>(this, Routes.REPORT_ADMINISTRATION);
         page.initialize();

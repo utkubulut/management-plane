@@ -82,7 +82,7 @@
                                 <m:ObjectStatus
                                     text="{status}"
                                     class="sapMObjectStatusLarge"
-                                    state="Warning"
+                                    state="{path:'status', formatter:'.formatter.formatStatusHighlight'}"
                                 />
                             </m:VBox>
 

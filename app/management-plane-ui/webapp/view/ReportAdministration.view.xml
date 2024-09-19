@@ -44,9 +44,12 @@
                                         press="onItemPressed"
                                     >
                         <cells>
-                            <Text text="{reportTitle}" />
+                            <Link text="{reportTitle}" href="{reportURL}" target="_blank" />
                             <Text text="{description}" />
-                            <Text text="{status}" />
+                            <ObjectStatus
+                                    text="{status}"
+                                    state="{path:'status', formatter:'.formatter.formatStatusHighlight'}"
+                                />
                             <Text text="{path: 'lastModified',type: 'sap.ui.model.type.Date',formatOptions: {pattern: 'yyyy/MM/dd'}}" />
                             <Text text="{creator}" />
                         </cells>

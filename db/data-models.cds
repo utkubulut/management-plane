@@ -60,6 +60,7 @@ entity ReportHistory {
 entity ReportSet {
     key reportID     : UUID;
         reportTitle  : String(255);
+        reportURL    : String(255);
         description  : String(500);
         status       : String(20);
         lastModified : DateTime;
