@@ -214,60 +214,62 @@ export default class Upload extends BaseController implements IPage {
     }
     private additionalReportInfoValidation() {
         // Fetch values from inputs in the ReportInfoStep
-        const apiTitleInput = this.byId("apiTitle") as Input;
-        const dataDirectoryInput = this.byId("dataDirectory") as Input;
-        const urlAddressInput = this.byId("urlAddress") as Input;
-        const passwordInput = this.byId("passwordID") as Input;
+        // const apiTitleInput = this.byId("apiTitle") as Input;
+        // const dataDirectoryInput = this.byId("dataDirectory") as Input;
+        // const urlAddressInput = this.byId("urlAddress") as Input;
+        // const passwordInput = this.byId("passwordID") as Input;
 
-        const apiTitle = apiTitleInput.getValue();
-        const dataDirectory = dataDirectoryInput.getValue();
-        const urlAddress = urlAddressInput.getValue();
-        const password = passwordInput.getValue();
+        // const apiTitle = apiTitleInput.getValue();
+        // const dataDirectory = dataDirectoryInput.getValue();
+        // const urlAddress = urlAddressInput.getValue();
+        // const password = passwordInput.getValue();
 
-        let isValid = true;
+        // let isValid = true;
 
-        // Validate API Title
-        if (!apiTitle.trim()) {
-            this.model.setProperty("/apiTitleState", "Error");
-            isValid = false;
-        } else {
-            this.model.setProperty("/apiTitleState", "None");
-        }
+        // // Validate API Title
+        // if (!apiTitle.trim()) {
+        //     this.model.setProperty("/apiTitleState", "Error");
+        //     isValid = false;
+        // } else {
+        //     this.model.setProperty("/apiTitleState", "None");
+        // }
 
-        // Validate Data Directory
-        if (!dataDirectory.trim()) {
-            this.model.setProperty("/dataDirectoryState", "Error");
-            isValid = false;
-        } else {
-            this.model.setProperty("/dataDirectoryState", "None");
-        }
+        // // Validate Data Directory
+        // if (!dataDirectory.trim()) {
+        //     this.model.setProperty("/dataDirectoryState", "Error");
+        //     isValid = false;
+        // } else {
+        //     this.model.setProperty("/dataDirectoryState", "None");
+        // }
 
-        // Validate URL Address
-        if (!urlAddress.trim()) {
-            this.model.setProperty("/urlAddressState", "Error");
-            isValid = false;
-        } else {
-            this.model.setProperty("/urlAddressState", "None");
-        }
+        // // Validate URL Address
+        // if (!urlAddress.trim()) {
+        //     this.model.setProperty("/urlAddressState", "Error");
+        //     isValid = false;
+        // } else {
+        //     this.model.setProperty("/urlAddressState", "None");
+        // }
 
-        // Validate Password
-        if (!password.trim()) {
-            this.model.setProperty("/passwordState", "Error");
-            isValid = false;
-        } else {
-            this.model.setProperty("/passwordState", "None");
-        }
+        // // Validate Password
+        // if (!password.trim()) {
+        //     this.model.setProperty("/passwordState", "Error");
+        //     isValid = false;
+        // } else {
+        //     this.model.setProperty("/passwordState", "None");
+        // }
 
-        // Get the reference to the ReportInfoStep
+        // // Get the reference to the ReportInfoStep
+        // const reportInfoStep = this.byId("ReportInfoStep") as WizardStep;
+
+        // // Set step status based on validation result
+        // if (isValid) {
+        //     this._wizard.validateStep(reportInfoStep);
+        // } else {
+        //     this._wizard.invalidateStep(reportInfoStep);
+        //     this._wizard.setCurrentStep(reportInfoStep);  // Optionally return the user to the step if validation fails
+        // }
         const reportInfoStep = this.byId("ReportInfoStep") as WizardStep;
-
-        // Set step status based on validation result
-        if (isValid) {
-            this._wizard.validateStep(reportInfoStep);
-        } else {
-            this._wizard.invalidateStep(reportInfoStep);
-            this._wizard.setCurrentStep(reportInfoStep);  // Optionally return the user to the step if validation fails
-        }
+        this._wizard.validateStep(reportInfoStep);
     }
     private backToWizardContent() {
         this._oNavContainer.backToPage(this._oWizardContentPage.getId());
@@ -295,7 +297,9 @@ export default class Upload extends BaseController implements IPage {
         const creator = new ODataCreateCL<IReportSet>(this, "ReportSet");
         creator.setData(oNewReportEntry);
         creator.create();
-
+        this.getRouter().navTo("RouteReportAdministration");
+        this._handleNavigationToStep(0);
+        this._wizard.discardProgress(this._wizard.getSteps()[0], true);
     }
     public editStepOne () {
         this._handleNavigationToStep(0);
@@ -347,13 +351,4 @@ export default class Upload extends BaseController implements IPage {
             MessageBox.error(`Error occurred while deleting the file: ${error}`);
         }
     }
-    private _generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0;
-        const v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-    }
-   
-
 }
