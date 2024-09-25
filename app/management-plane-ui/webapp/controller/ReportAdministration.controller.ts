@@ -15,6 +15,9 @@ import Event from "sap/ui/base/Event";
 import Context from "sap/ui/model/Context";
 import { LayoutType } from "sap/f/library";
 import formatter from "../model/formatter";
+import JSONModel from "sap/ui/model/json/JSONModel";
+import SmartTable from "sap/ui/comp/smarttable/SmartTable";
+import Button from "sap/m/Button";
 
 
 
@@ -26,6 +29,8 @@ export default class ReportAdministration extends BaseController implements IPag
     public onInit() {
         const page = new PageCL<ReportAdministration>(this, Routes.REPORT_ADMINISTRATION);
         page.initialize();
+        const oDataModel = this.getComponentModel(); // Adjust based on your setup
+        (this.getView() as View).setModel(oDataModel);
 
     }
     public onNavToUploadReport() {
@@ -45,9 +50,47 @@ export default class ReportAdministration extends BaseController implements IPag
         const reportID = ((event.getSource().getBindingContext() as Context).getObject() as { reportID: string }).reportID;
         this.getRouter().navTo("RouteReportDetails", {
             layout: LayoutType.TwoColumnsMidExpanded,
-            reportID:reportID
+            reportID: reportID
         });
     }
+    public onEditReport() {
+        (this.byId("stReportTable") as SmartTable).setEditable(true);
+        (this.byId("editBtn") as Button).setVisible(false);
+        (this.byId("saveBtn") as Button).setVisible(true);
+        (this.byId("cancelBtn") as Button).setVisible(true);
+    }
+
+    public onSaveReport() {
+        let oModel = ((this.getView() as View).getModel() as ODataModel),
+            oReportTable = ((this.getView() as View).byId("stReportTable") as SmartTable);
+
+        if (oModel.hasPendingChanges()) {
+            oModel.setUseBatch(true);
+            oModel.submitChanges({
+                success: function (oResponse: Response) {
+                    MessageBox.success("Successfully edited.");
+                    oReportTable.setEditable(false);
+
+                }.bind(this)
+            });
+        }
+
+        (this.byId("editBtn") as Button).setVisible(true);
+        (this.byId("saveBtn") as Button).setVisible(false);
+        (this.byId("cancelBtn") as Button).setVisible(false);
+    }
+
+    public onCancelReportEdit() {
+        (this.byId("stReportTable") as SmartTable).setEditable(false);
+        (this.byId("editBtn") as Button).setVisible(true);
+        (this.byId("saveBtn") as Button).setVisible(false);
+        (this.byId("cancelBtn") as Button).setVisible(false);
+
+        MessageBox.information("Changes discarded.");
+    }
+
+
+
     public onDeleteReport() {
         const oTable = this.byId("reportTable") as Table;
         const aSelectedItems = oTable.getSelectedItems();

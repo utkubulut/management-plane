@@ -77,6 +77,7 @@
         "preload": true,
         "settings": {
           "operationMode": "Server",
+          "defaultBindingMode": "TwoWay",
           "autoExpandSelect": true,
           "earlyRequests": true
         }

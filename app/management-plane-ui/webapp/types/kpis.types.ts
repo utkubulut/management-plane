@@ -29,6 +29,15 @@ export interface IReportHistory {
     avatar:string;
     iconType:string;
 }
+export interface IReportSet {
+    reportID:string;
+    reportTitle:string;
+    reportURL: null,  
+    description:string;
+    status:string;
+    lastModified:string;
+    creator:string;
+}
 
 export interface IKPIs {
     ID: string;

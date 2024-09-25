@@ -1,4 +1,5 @@
-<mvc:View controllerName="com.ndbs.managementplaneui.controller.KPIDetails"
+<mvc:View
+    controllerName="com.ndbs.managementplaneui.controller.KPIDetails"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.uxap"
     xmlns:m="sap.m"
@@ -8,17 +9,39 @@
     xmlns:smartTable="sap.ui.comp.smarttable"
     xmlns:core="sap.ui.core"
     xmlns:smartForm="sap.ui.comp.smartform"
-    xmlns:smartField="sap.ui.comp.smartfield" displayBlock="true" height="100%">
-    <m:Page showHeader="false" enableScrolling="true" showFooter="false" showSubHeader="false" showNavButton="false">
-        <m:FlexBox justifyContent="Center" alignItems="Center">
+    xmlns:smartField="sap.ui.comp.smartfield"
+    displayBlock="true"
+    height="100%"
+>
+    <m:Page
+        showHeader="false"
+        enableScrolling="true"
+        showFooter="false"
+        showSubHeader="false"
+        showNavButton="false"
+    >
+        <m:FlexBox
+            justifyContent="Center"
+            alignItems="Center"
+        >
             <m:VBox width="95%">
-                <ObjectPageLayout id="oplKpi" showTitleInHeaderContent="true" upperCaseAnchorBar="false" navigate="onNavToKPIs" beforeNavigate="onBeforeNavigate" class="sapUiSmallMarginTop">
+                <ObjectPageLayout
+                    id="oplKpi"
+                    showTitleInHeaderContent="true"
+                    upperCaseAnchorBar="false"
+                    navigate="onNavToKPIs"
+                    beforeNavigate="onBeforeNavigate"
+                    class="sapUiSmallMarginTop"
+                >
                     <headerTitle>
                         <ObjectPageDynamicHeaderTitle>
                             <snappedHeading>
                                 <m:HBox>
                                     <m:VBox>
-                                        <m:Title text="{title}" wrapping="true" />
+                                        <m:Title
+                                            text="{title}"
+                                            wrapping="true"
+                                        />
                                         <m:Label text="{name}" />
                                     </m:VBox>
                                 </m:HBox>
@@ -27,72 +50,219 @@
                                 <m:Label text="{description}" />
                             </expandedContent>
                             <actions>
-                                <m:Button text="{i18n>EditBtn}" type="Emphasized" />
-                                <m:Button text="{i18n>DeleteBtn}" type="Default" />
+                                <m:Button
+                                    text="{i18n>EditBtn}"
+                                    type="Emphasized"
+                                />
+                                <m:Button
+                                    text="{i18n>DeleteBtn}"
+                                    type="Default"
+                                />
                                 <m:Button text="{i18n>RegenerateReportBtn}" />
-                                <m:OverflowToolbarMenuButton type="Transparent" icon="sap-icon://action" tooltip="Options" buttonMode="Split" text="Options" beforeMenuOpen="onBeforeMenuOpen" useDefaultActionOnly="true">
+                                <m:OverflowToolbarMenuButton
+                                    type="Transparent"
+                                    icon="sap-icon://action"
+                                    tooltip="Options"
+                                    buttonMode="Split"
+                                    text="Options"
+                                    beforeMenuOpen="onBeforeMenuOpen"
+                                    useDefaultActionOnly="true"
+                                >
                                     <m:menu>
                                         <m:Menu itemSelected="onMenuAction">
-                                            <m:MenuItem text="Export as PDF" icon="sap-icon://pdf-attachment" />
-                                            <m:MenuItem text="Export Word" icon="sap-icon://excel-attachment" />
-                                            <m:MenuItem text="Change History" icon="sap-icon://history" />
-                                            <m:MenuItem text="Open Report" icon="sap-icon://generate-shortcut" />
+                                            <m:MenuItem
+                                                text="Export as PDF"
+                                                icon="sap-icon://pdf-attachment"
+                                            />
+                                            <m:MenuItem
+                                                text="Export Word"
+                                                icon="sap-icon://excel-attachment"
+                                            />
+                                            <m:MenuItem
+                                                text="Change History"
+                                                icon="sap-icon://history"
+                                            />
+                                            <m:MenuItem
+                                                text="Open Report"
+                                                icon="sap-icon://generate-shortcut"
+                                            />
                                         </m:Menu>
                                     </m:menu>
                                 </m:OverflowToolbarMenuButton>
-                                <m:OverflowToolbarButton type="Transparent" icon="sap-icon://decline" press=".onCloseColumnLayout" tooltip="{i18n>closeColumnLayout}" />
+                                <m:OverflowToolbarButton
+                                    type="Transparent"
+                                    icon="sap-icon://decline"
+                                    press=".onCloseColumnLayout"
+                                    tooltip="{i18n>closeColumnLayout}"
+                                />
                             </actions>
                         </ObjectPageDynamicHeaderTitle>
                     </headerTitle>
                     <headerContent>
-                        <m:FlexBox id="fbKPIsHeader" wrap="Wrap" fitContainer="true">
-                            <m:VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
-                                <m:Avatar src="{path:'name', formatter:'.formatter.formatIcons'}" backgroundColor="{path:'name', formatter:'.formatter.formatIconColor'}" displayShape="Square" displaySize="L" />
+                        <m:FlexBox
+                            id="fbKPIsHeader"
+                            wrap="Wrap"
+                            fitContainer="true"
+                        >
+                            <m:VBox
+                                class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <m:Avatar
+                                    src="{path:'name', formatter:'.formatter.formatIcons'}"
+                                    backgroundColor="{path:'name', formatter:'.formatter.formatIconColor'}"
+                                    displayShape="Square"
+                                    displaySize="L"
+                                />
                             </m:VBox>
-                            <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
-                                <m:HBox class="sapUiTinyMarginBottom" renderType="Bare">
-                                    <m:Label text="{i18n>documentNumber}" class="sapUiTinyMarginEnd" />
+                            <m:VBox
+                                class="sapUiLargeMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <m:HBox
+                                    class="sapUiTinyMarginBottom"
+                                    renderType="Bare"
+                                >
+                                    <m:Label
+                                        text="{i18n>documentNumber}"
+                                        class="sapUiTinyMarginEnd"
+                                    />
                                     <m:Text text="{documentCount}" />
                                 </m:HBox>
-                                <m:HBox class="sapUiTinyMarginBottom" renderType="Bare">
-                                    <m:Label text="{i18n>lastUpdate}" class="sapUiTinyMarginEnd" />
-                                    <m:Text text="{				                path: 'reportDate',				                type: 'sap.ui.model.type.Date',				                formatOptions: {pattern: 'yyyy/MM/dd'}}" />
+                                <m:HBox
+                                    class="sapUiTinyMarginBottom"
+                                    renderType="Bare"
+                                >
+                                    <m:Label
+                                        text="{i18n>lastUpdate}"
+                                        class="sapUiTinyMarginEnd"
+                                    />
+                                    <m:Text
+                                        text="{				                path: 'reportDate',				                type: 'sap.ui.model.type.Date',				                formatOptions: {pattern: 'yyyy/MM/dd'}}"
+                                    />
                                 </m:HBox>
                                 <m:HBox>
-                                    <m:Label text="{i18n>lastChangedBy}" class="sapUiTinyMarginEnd" />
-                                    <m:Link text="{modifiedBy}" press="onExternalApplicationLinkPress" />
+                                    <m:Label
+                                        text="{i18n>lastChangedBy}"
+                                        class="sapUiTinyMarginEnd"
+                                    />
+                                    <m:Link
+                                        text="{modifiedBy}"
+                                        press="onExternalApplicationLinkPress"
+                                    />
                                 </m:HBox>
                             </m:VBox>
-                            <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
-                                <m:Title text="{i18n>kpiStatus}" class="sapUiTinyMarginBottom" />
-                                <m:ObjectStatus text="{state}" class="sapMObjectStatusLarge" state="Success" />
+                            <m:VBox
+                                class="sapUiLargeMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <m:Title
+                                    text="{i18n>kpiStatus}"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                                <m:ObjectStatus
+                                    text="{state}"
+                                    class="sapMObjectStatusLarge"
+                                    state="Success"
+                                />
                             </m:VBox>
-                            <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
-                                <m:Title text="{i18n>userStatus}" class="sapUiTinyMarginBottom" />
-                                <m:ObjectStatus text="{userStatus}" state="Warning" class="sapMObjectStatusLarge" />
+                            <m:VBox
+                                class="sapUiLargeMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <m:Title
+                                    text="{i18n>userStatus}"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                                <m:ObjectStatus
+                                    text="{userStatus}"
+                                    state="Warning"
+                                    class="sapMObjectStatusLarge"
+                                />
                             </m:VBox>
-                            <m:VBox class="sapUiLargeMarginEnd sapUiSmallMarginBottom">
-                                <m:Title text="{i18n>totalStatus}" class="sapUiTinyMarginBottom" />
-                                <m:ObjectStatus text="{totalStatus}" class="sapMObjectStatusLarge" />
+                            <m:VBox
+                                class="sapUiLargeMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <m:Title
+                                    text="{i18n>totalStatus}"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                                <m:ObjectStatus
+                                    text="{totalStatus}"
+                                    class="sapMObjectStatusLarge"
+                                />
+                            </m:VBox>
+                            <m:VBox
+                                class="sapUiLargeMarginEnd sapUiSmallMarginBottom"
+                            >
+                                <m:Panel>
+                                    <m:VBox>
+                                        <m:HBox>
+                                            <m:Label
+                                                text="E1-2"
+                                                design="Bold"
+                                            />
+                                            <m:Label
+                                                text=": Policies related to climate change mitigation and adaptation"
+                                            />
+                                        </m:HBox>
+
+                                        <m:HBox>
+                                            <m:Label
+                                                text="§13"
+                                                design="Bold"
+                                            />
+                                            <m:Label
+                                                text=": When changes in the preparation and presentation of sustainability information occur compared to the previous reporting period(s), (see ESRS 1 section 7.4 Changes in preparation or presentation in sustainability information), the undertaking shall"
+                                            />
+                                        </m:HBox>
+
+                                        <m:HBox>
+                                            <m:Label
+                                                text="(c)"
+                                                design="Bold"
+                                            />
+                                            <m:Label
+                                                text=" disclose the difference between the figure disclosed in the preceding period and the revised comparative figure."
+                                            />
+                                        </m:HBox>
+                                    </m:VBox>
+                                </m:Panel>
                             </m:VBox>
                         </m:FlexBox>
                     </headerContent>
                     <sections>
-                        <ObjectPageSection titleUppercase="false" id="generatedReports">
+                        <ObjectPageSection
+                            titleUppercase="false"
+                            id="generatedReports"
+                        >
                             <subSections>
-                                <ObjectPageSubSection title="{i18n>generatedReports}" showTitle="false">
+                                <ObjectPageSubSection
+                                    title="{i18n>generatedReports}"
+                                    showTitle="false"
+                                >
                                     <blocks>
-                                        <m:Panel headerText="{i18n>reportOfTheKPI}" class="sapUiNoMarginBegin">
-                                            <smartForm:SmartForm id="sfKPIsReport">
+                                        <m:Panel
+                                            headerText="{i18n>reportOfTheKPI}"
+                                            class="sapUiNoMarginBegin"
+                                        >
+                                            <smartForm:SmartForm
+                                                id="sfKPIsReport"
+                                            >
                                                 <smartForm:layout>
-                                                    <smartForm:ColumnLayout emptyCellsLarge="4" columnsL="2" columnsM="2" columnsXL="2" />
+                                                    <smartForm:ColumnLayout
+                                                        emptyCellsLarge="4"
+                                                        columnsL="2"
+                                                        columnsM="2"
+                                                        columnsXL="2"
+                                                    />
                                                 </smartForm:layout>
                                                 <smartForm:Group>
                                                     <smartForm:GroupElement>
-                                                        <smartField:SmartField value="{contentAI}" />
+                                                        <smartField:SmartField
+                                                            value="{contentAI}"
+                                                        />
                                                     </smartForm:GroupElement>
                                                     <smartForm:GroupElement>
-                                                        <smartField:SmartField value="{contentEdited}" />
+                                                        <smartField:SmartField
+                                                            value="{contentEdited}"
+                                                        />
                                                     </smartForm:GroupElement>
                                                 </smartForm:Group>
                                             </smartForm:SmartForm>
@@ -101,39 +271,104 @@
                                 </ObjectPageSubSection>
                             </subSections>
                         </ObjectPageSection>
-                        <ObjectPageSection titleUppercase="false" id="aiAnalyzedDocuments">
+                        <ObjectPageSection
+                            titleUppercase="false"
+                            id="aiAnalyzedDocuments"
+                        >
                             <subSections>
-                                <ObjectPageSubSection title="{i18n>AIAnalyzedDocuments}" showTitle="false">
+                                <ObjectPageSubSection
+                                    title="{i18n>AIAnalyzedDocuments}"
+                                    showTitle="false"
+                                >
                                     <blocks>
-                                        <smartTable:SmartTable id="stDocuments" smartFilterId="sfbDocuments" header="{i18n>stDocuments}" tableType="ResponsiveTable" entitySet="Documents" enableAutoBinding="false" class="sapUiResponsiveContentPadding" showPasteButton="true" showFullScreenButton="true" beforeRebindTable="onBeforeRebindTable" requestAtLeastFields="kpiID">
-                                            <m:Table id="idDocumentTable" growing="true" growingThreshold="20" growingScrollToLoad="true" sticky="ColumnHeaders">
+                                        <smartTable:SmartTable
+                                            id="stDocuments"
+                                            smartFilterId="sfbDocuments"
+                                            header="{i18n>stDocuments}"
+                                            tableType="ResponsiveTable"
+                                            entitySet="Documents"
+                                            enableAutoBinding="false"
+                                            class="sapUiResponsiveContentPadding"
+                                            showPasteButton="true"
+                                            showFullScreenButton="true"
+                                            beforeRebindTable="onBeforeRebindTable"
+                                            requestAtLeastFields="kpiID"
+                                        >
+                                            <m:Table
+                                                id="idDocumentTable"
+                                                growing="true"
+                                                growingThreshold="20"
+                                                growingScrollToLoad="true"
+                                                sticky="ColumnHeaders"
+                                            >
                                                 <m:columns>
                                                     <m:Column>
                                                         <m:customData>
-                                                            <core:CustomData key="p13nData" value='\{"columnKey": "AIMatch", "leadingProperty": "AIMatch", "columnIndex": 1}'                                                            />
+                                                            <core:CustomData
+                                                                key="p13nData"
+                                                                value='\{"columnKey": "AIMatch", "leadingProperty": "AIMatch", "columnIndex": 1}'
+                                                            />
                                                         </m:customData>
-                                                        <m:Text text="{i18n>AIMatch}" />
+                                                        <m:Text
+                                                            text="{i18n>AIMatch}"
+                                                        />
                                                     </m:Column>
                                                     <m:Column>
                                                         <m:customData>
-                                                            <core:CustomData key="p13nData" value='\{"columnKey": "page", "leadingProperty": "page,textLine", "columnIndex": 99}'                                                            />
+                                                            <core:CustomData
+                                                                key="p13nData"
+                                                                value='\{"columnKey": "page", "leadingProperty": "page,textLine", "columnIndex": 99}'
+                                                            />
                                                         </m:customData>
-                                                        <m:Text text="{i18n>textLineAndPage}" />
+                                                        <m:Text
+                                                            text="{i18n>textLineAndPage}"
+                                                        />
                                                     </m:Column>
                                                 </m:columns>
                                                 <m:items>
-                                                    <m:ColumnListItem type="Navigation" press="onNavToDetails" highlight="{path:'AIMatch', formatter:'.formatter.formatRowHighlight'}">
-                                                        <m:ObjectStatus text="{AIMatch}%" state="{path:'AIMatch', formatter:'.formatter.formatRowHighlight'}" class="sapMObjectStatusMedium" />
-                                                        <m:ObjectStatus text="{parts:['page','textLine'], formatter:'.formatter.formatPageTextLine'}" state="Information" class="sapMObjectStatusMedium" />
+                                                    <m:ColumnListItem
+                                                        type="Navigation"
+                                                        press="onNavToDetails"
+                                                        highlight="{path:'AIMatch', formatter:'.formatter.formatRowHighlight'}"
+                                                    >
+                                                        <m:ObjectStatus
+                                                            text="{AIMatch}%"
+                                                            state="{path:'AIMatch', formatter:'.formatter.formatRowHighlight'}"
+                                                            class="sapMObjectStatusMedium"
+                                                        />
+                                                        <m:ObjectStatus
+                                                            text="{parts:['page','textLine'], formatter:'.formatter.formatPageTextLine'}"
+                                                            state="Information"
+                                                            class="sapMObjectStatusMedium"
+                                                        />
                                                     </m:ColumnListItem>
                                                 </m:items>
                                             </m:Table>
                                             <smartTable:customToolbar>
-                                                <m:OverflowToolbar design="Transparent">
+                                                <m:OverflowToolbar
+                                                    design="Transparent"
+                                                >
                                                     <m:ToolbarSpacer />
-                                                    <m:Input width="200px" placeholder="Search" valueHelpIconSrc="sap-icon://search" showValueHelp="true" />
-                                                    <m:Button id="createButton" text="{i18n>CreateBtn}" type="Default" press="onPressCreate" enabled="{= ${viewModel>/bHasSelection}}" />
-                                                    <m:Button id="deleteButton" text="{i18n>DeleteBtn}" type="Transparent" press="onPressDelete" enabled="{= ${viewModel>/bHasSelection}}" />
+                                                    <m:Input
+                                                        width="200px"
+                                                        placeholder="Search"
+                                                        valueHelpIconSrc="sap-icon://search"
+                                                        showValueHelp="true"
+                                                    />
+                                                    <m:Button
+                                                        id="createButton"
+                                                        text="{i18n>CreateBtn}"
+                                                        type="Default"
+                                                        press="onPressCreate"
+                                                        enabled="{= ${viewModel>/bHasSelection}}"
+                                                    />
+                                                    <m:Button
+                                                        id="deleteButton"
+                                                        text="{i18n>DeleteBtn}"
+                                                        type="Transparent"
+                                                        press="onPressDelete"
+                                                        enabled="{= ${viewModel>/bHasSelection}}"
+                                                    />
                                                 </m:OverflowToolbar>
                                             </smartTable:customToolbar>
                                         </smartTable:SmartTable>

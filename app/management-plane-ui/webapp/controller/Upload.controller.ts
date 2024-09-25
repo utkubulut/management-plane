@@ -7,6 +7,7 @@ import PageCL from "../utils/common/PageCL";
 import { IPage, Routes } from "../types/global.types";
 import Model, { Model$RequestFailedEvent } from "sap/ui/model/Model";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
+import { IReportSet } from "../types/kpis.types";
 import Component from "../Component";
 import View from "sap/ui/core/mvc/View";
 import ShellBar from "sap/f/ShellBar";
@@ -17,6 +18,7 @@ import Wizard from "sap/m/Wizard";
 import WizardStep from "sap/m/WizardStep";
 import NavContainer from "sap/m/NavContainer";
 import Page from "sap/m/Page";
+import ODataCreateCL from "ui5/antares/odata/v2/ODataCreateCL";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -276,6 +278,25 @@ export default class Upload extends BaseController implements IPage {
     public handleWizardCancel() {
         this._handleMessageBoxOpen("Are you sure you want to cancel your report?", "warning");
     }
+    private async handleWizardCreate(){
+        const oModel = ((this.getView()as View).getModel() as JSONModel);
+        const oWizardData = oModel.getData();
+        const user = new UserAPI(this);
+        const session = await user.getLoggedOnUser();
+        const oNewReportEntry :IReportSet= {
+            reportID: window.crypto.randomUUID(),
+            reportTitle: oWizardData.reportTitle,
+            reportURL: null,  
+            description: oWizardData.reportDescription,
+            status: "In Preparation", 
+            lastModified: new Date().toISOString(),  
+            creator: session.firstname + " " + session.lastname
+        };
+        const creator = new ODataCreateCL<IReportSet>(this, "ReportSet");
+        creator.setData(oNewReportEntry);
+        creator.create();
+
+    }
     public editStepOne () {
         this._handleNavigationToStep(0);
     }
@@ -326,5 +347,13 @@ export default class Upload extends BaseController implements IPage {
             MessageBox.error(`Error occurred while deleting the file: ${error}`);
         }
     }
+    private _generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+    }
+   
 
 }

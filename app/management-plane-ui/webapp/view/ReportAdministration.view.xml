@@ -2,8 +2,10 @@
     controllerName="com.ndbs.managementplaneui.controller.ReportAdministration"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
+    xmlns:core="sap.ui.core"
     xmlns:smartTable="sap.ui.comp.smarttable"
     xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
     <Page
         title="Report Overview"
@@ -16,45 +18,100 @@
             useToolbar="true"
         />
         <smartTable:SmartTable
-            id="smartTable"
+            id="stReportTable"
             entitySet="ReportSet"
-            tableType="Table"
             enableExport="true"
             header="Reportings"
             showRowCount="true"
+            tableType="Table"
             useVariantManagement="true"
             enableAutoBinding="true"
             enableCopy="false"
+            app:useSmartToggle="true"
         >
             <smartTable:customToolbar>
                 <OverflowToolbar design="Transparent">
                     <ToolbarSpacer />
-                    <Button text="Create" type="Emphasized" press="onNavToUploadReport"/>
-                    <Button text="Delete" type="Transparent" press="onDeleteReport"/>
-                    <Button text="Edit" type="Transparent" press="onEditReport"/>
+                    <Button
+                        text="Create"
+                        type="Emphasized"
+                        press="onNavToUploadReport"
+                    />
+                    <Button
+                        text="Delete"
+                        type="Transparent"
+                        press="onDeleteReport"
+                    />
+                    <Button
+                        id="editBtn"
+                        text="Edit"
+                        type="Transparent"
+                        press="onEditReport"
+                    />
+                    <Button
+                        id="saveBtn"
+                        text="Save"
+                        type="Emphasized"
+                        press="onSaveReport"
+                        visible="false"
+                    />
+                    <Button
+                        id="cancelBtn"
+                        text="Cancel"
+                        type="Reject"
+                        press="onCancelReportEdit"
+                        visible="false"
+                    />
                 </OverflowToolbar>
             </smartTable:customToolbar>
             <Table
                 id="reportTable"
                 mode="MultiSelect"
+                sticky="ColumnHeaders,HeaderToolbar"
             >
-                <items>
-                    <ColumnListItem
-                                        type="Navigation"
-                                        press="onItemPressed"
-                                    >
+                <columns>
+                    <Column>
+                        <customData>
+                            <core:CustomData
+                                key="p13nData"
+                                value='\{"columnKey": "reportTitle", "leadingProperty": "reportTitle", "columnIndex": 0}'
+                            />
+                        </customData>
+                        <Text text="{i18n>reportTitle}" />
+                    </Column>
+                    <Column>
+                        <customData>
+                            <core:CustomData
+                                key="p13nData"
+                                value='\{"columnKey": "status", "leadingProperty": "status", "columnIndex": 2}'
+                            />
+                        </customData>
+                        <Text text="{i18n>status}" />
+                    </Column>
+                    <Column>
+                        <customData>
+                            <core:CustomData
+                                key="p13nData"
+                                value='\{"columnKey": "creator", "leadingProperty": "creator", "columnIndex": 4}'
+                            />
+                        </customData>
+                        <Text text="{i18n>creator}" />
+                    </Column>
+                </columns>
+                    <ColumnListItem type="Active">
                         <cells>
-                            <Link text="{reportTitle}" href="{reportURL}" target="_blank" />
-                            <Text text="{description}" />
+                            <Link
+                                text="{reportTitle}"
+                                href="{reportURL}"
+                                target="_blank"
+                            />
                             <ObjectStatus
-                                    text="{status}"
-                                    state="{path:'status', formatter:'.formatter.formatStatusHighlight'}"
-                                />
-                            <Text text="{path: 'lastModified',type: 'sap.ui.model.type.Date',formatOptions: {pattern: 'yyyy/MM/dd'}}" />
+                                text="{status}"
+                                state="{path:'status', formatter:'.formatter.formatStatusHighlight'}"
+                            />
                             <Text text="{creator}" />
                         </cells>
                     </ColumnListItem>
-                </items>
             </Table>
         </smartTable:SmartTable>
     </Page>
