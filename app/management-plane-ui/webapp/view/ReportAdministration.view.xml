@@ -98,7 +98,8 @@
                         <Text text="{i18n>creator}" />
                     </Column>
                 </columns>
-                    <ColumnListItem type="Active">
+                    <ColumnListItem type="Navigation"
+                                        press="onItemPressed">
                         <cells>
                             <Link
                                 text="{reportTitle}"
