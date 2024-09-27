@@ -1,18 +1,20 @@
 using {managed} from '@sap/cds/common';
 
 entity Sections {
-    key ID      : UUID;
-        type    : String;
-        name    : String;
-        sapIcon : String;
-        toKPIs  : Association to many KPIs
-                      on toKPIs.sectionID = $self.ID;
+    key ID       : UUID;
+        type     : String;
+        name     : String;
+        sapIcon  : String;
+        reportID : UUID;
+        toKPIs   : Association to many KPIs
+                       on toKPIs.sectionID = $self.ID;
 }
 
 entity KPIs : managed {
     key ID             : UUID;
     key paragraph      : String;
         sectionID      : UUID;
+        reportID       : UUID;
         chapterID      : String;
         chapterName    : String;
         subchapterID   : String;
@@ -51,6 +53,7 @@ entity ReportHistory {
     key ID              : UUID;
     key fullName        : String;
     key modifiedType    : String;
+        reportID        : UUID;
         reportDate      : DateTime @cds.on.insert: $now;
         modifiedContent : String;
         avatar          : String;
@@ -67,4 +70,6 @@ entity ReportSet {
         creator      : String(100);
         documents    : Association to many Documents
                            on documents.reportID = $self.reportID;
+        toSections   : Association to many Sections
+                           on toSections.reportID = $self.reportID;
 }

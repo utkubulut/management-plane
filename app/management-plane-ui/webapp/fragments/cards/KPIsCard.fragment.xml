@@ -55,6 +55,10 @@
                             class="sapUiTinyMarginBegin"
                         >
                             <customData>
+                             <core:CustomData
+                                    key="reportID"
+                                    value="{reportID}"
+                                />
                                 <core:CustomData
                                     key="sectionID"
                                     value="{sectionID}"

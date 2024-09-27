@@ -18,6 +18,7 @@ import formatter from "../model/formatter";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import SmartTable from "sap/ui/comp/smarttable/SmartTable";
 import Button from "sap/m/Button";
+import { Link$PressEvent } from "sap/m/Link";
 
 
 
@@ -52,6 +53,13 @@ export default class ReportAdministration extends BaseController implements IPag
             layout: LayoutType.TwoColumnsMidExpanded,
             reportID: reportID
         });
+    }
+    public onLinkPress(event:Link$PressEvent){
+        const reportID = ((event.getSource().getBindingContext() as Context).getObject() as { reportID: string }).reportID;
+        this.getRouter().navTo("RouteSections", {
+            reportID: reportID
+        });
+        event.preventDefault();
     }
     public onEditReport() {
         (this.byId("stReportTable") as SmartTable).setEditable(true);

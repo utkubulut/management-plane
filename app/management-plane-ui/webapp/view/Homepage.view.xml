@@ -5,7 +5,7 @@
     xmlns:core="sap.ui.core" height="100%">
     <Page id="Homepage" showFooter="false" showHeader="false" showNavButton="false" showSubHeader="false">
         <FlexBox direction="Row" id="fbUpload">
-            <GenericTile id="uploadTile" header="{i18n>reportHeader}" class="sapUiLargeMarginBegin sapUiLargeMarginBottom sapUiLargeMarginTop sapUiLargeMarginEnd" press="onNavToKPIsOverview">
+            <GenericTile id="reportTile" header="{i18n>reportHeader}" class="sapUiLargeMarginBegin sapUiLargeMarginBottom sapUiLargeMarginTop sapUiLargeMarginEnd" press="onNavToKPIsOverview">
                 <TileContent>
                     <FlexBox direction="Column">
                         <HBox justifyContent="Start">
@@ -14,17 +14,6 @@
                     </FlexBox>
                 </TileContent>
             </GenericTile>
-            <FlexBox direction="Row" id="fbSections" items="{path:'/Sections'}">
-                <GenericTile id="genericTiles" header="{name}" class="sapUiLargeMarginBegin sapUiLargeMarginBottom sapUiLargeMarginTop sapUiLargeMarginEnd" press="onNavToKPIsOverview">
-                    <TileContent footer="{type}">
-                        <FlexBox direction="Column">
-                            <HBox justifyContent="Start">
-                                <core:Icon size="40px" src="{sapIcon}" color="Positive" class="sapUiSmallMarginBottom" />
-                            </HBox>
-                        </FlexBox>
-                    </TileContent>
-                </GenericTile>
-            </FlexBox>
         </FlexBox>
     </Page>
 </mvc:View>

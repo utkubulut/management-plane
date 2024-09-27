@@ -26,6 +26,7 @@ import ShellBar from "sap/f/ShellBar";
 export default class KPIsOverview extends BaseController implements IPage {
     public formatter = formatter;
     private sectionID: string;
+    private reportID: string;
     private sectionType: string;
     private sectionName: string;
     /* ======================================================================================================================= */
@@ -46,9 +47,12 @@ export default class KPIsOverview extends BaseController implements IPage {
     }
 
     public onCardPress(event: Button$PressEvent) {
-        const sectionID = event.getSource().getCustomData()[0].getValue();
-        const kpiID = event.getSource().getCustomData()[1].getValue();
+        const reportID = event.getSource().getCustomData()[0].getValue();
+        const sectionID = event.getSource().getCustomData()[1].getValue();
+        const kpiID = event.getSource().getCustomData()[2].getValue();
+
         this.getRouter().navTo('RouteKPIs', {
+            reportID: reportID,
             sectionID: sectionID,
             kpiID: kpiID
         });
@@ -66,25 +70,37 @@ export default class KPIsOverview extends BaseController implements IPage {
         });
     }
 
-    public onBeforerebindChart(event: SmartChart$BeforeRebindChartEvent) {
-        const binding = event.getParameter("bindingParams") as IBindingParams
+    public onBeforeRebindChart(event: SmartChart$BeforeRebindChartEvent) {
+        const binding = event.getParameter("bindingParams") as IBindingParams;
         const sectionFilter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
-        binding.filters.push(sectionFilter);
+        const reportFilter = new Filter("reportID", FilterOperator.EQ, this.reportID); // Assuming this.reportID is available
+        const combinedFilter = new Filter({
+            filters: [sectionFilter, reportFilter],
+            and: true // Use AND logic
+        });
+        binding.filters.push(combinedFilter);
     }
 
     public onBeforeRebindTable(event: SmartTable$BeforeRebindTableEvent) {
-        const binding = event.getParameter("bindingParams") as IBindingParams
+        const binding = event.getParameter("bindingParams") as IBindingParams;
         const sectionFilter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
-        binding.filters.push(sectionFilter);
+        const reportFilter = new Filter("reportID", FilterOperator.EQ, this.reportID); // Assuming this.reportID is available
+        const combinedFilter = new Filter({
+            filters: [sectionFilter, reportFilter],
+            and: true
+        });
+        binding.filters.push(combinedFilter);
     }
+
     public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
         const oDataModel = this.getComponentModel();
         oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
+        this.reportID = (event.getParameters().arguments as { reportID: string }).reportID;
         this.applySectionFilter();
         this.rebindSmartComponent();
-        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("KPI Overview");
-        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
+        (((this.getOwnerComponent() as Component).getRootControl() as View).byId("sbApp") as ShellBar).setTitle("KPI Overview");
+        (((this.getOwnerComponent() as Component).getRootControl() as View).byId("sbApp") as ShellBar).setShowNavButton(true);
 
     }
 
@@ -107,10 +123,14 @@ export default class KPIsOverview extends BaseController implements IPage {
     private applySectionFilter(): void {
         const listBinding = (((this.getView() as View).byId("fbKPIsOverview") as Card).getBinding("items") as ListBinding);
         const tileBinding = (((this.getView() as View).byId("fbKPIsDetail") as Card).getBinding("items") as ListBinding);
-        const filter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
-
-        tileBinding.filter(filter);
-        listBinding.filter(filter);
+        const sectionFilter = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
+        const reportFilter = new Filter("reportID", FilterOperator.EQ, this.reportID); // Assuming this.reportID is available
+        const combinedFilter = new Filter({
+            filters: [sectionFilter, reportFilter],
+            and: true
+        });
+        tileBinding.filter(combinedFilter);
+        listBinding.filter(combinedFilter);
     }
 
     private rebindSmartComponent() {

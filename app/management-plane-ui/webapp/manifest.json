@@ -108,22 +108,29 @@
           ]
         },
         {
+          "name": "RouteSections",
+          "pattern": "Sections/reportID={reportID}",
+          "target": [
+            "TargetSections"
+          ]
+        },
+        {
           "name": "RouteKPIsOverview",
-          "pattern": "KPIsOverview/sectionID={sectionID}",
+          "pattern": "KPIsOverview/reportID={reportID}&sectionID={sectionID}",
           "target": [
             "TargetKPIsOverview"
           ]
         },
         {
           "name": "RouteKPIs",
-          "pattern": "KPIs/sectionID={sectionID}&kpiID={kpiID}",
+          "pattern": "KPIs/reportID={reportID}&sectionID={sectionID}&kpiID={kpiID}",
           "target": [
             "TargetKPIs"
           ]
         },
         {
           "name": "RouteKPIDetails",
-          "pattern": "KPIdetails/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
+          "pattern": "KPIdetails/reportID={reportID}&sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
           "layout": "TwoColumnsMidExpanded",
           "target": [
             "TargetKPIDetails",
@@ -132,7 +139,7 @@
         },
         {
           "name": "RouteChangeHistory",
-          "pattern": "TimeLine/sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
+          "pattern": "TimeLine/reportID={reportID}&sectionID={sectionID}&kpiID={kpiID}&subKPI={subKPI}&paragraph={paragraph}&{layout}",
           "layout":"ThreeColumnsMidExpanded",
           "target": [
             "TargetChangeHistory",
@@ -173,6 +180,14 @@
           "viewId": "Homepage",
           "viewType": "XML",
           "viewName": "Homepage",
+          "transition": "slide",
+          "controlAggregation": "beginColumnPages"
+        },
+        "TargetSections": {
+          "type" :"Component",
+          "viewType": "XML",
+          "viewId": "Sections",
+          "viewName": "Sections",
           "transition": "slide",
           "controlAggregation": "beginColumnPages"
         },

@@ -22,6 +22,7 @@ import Component from "../Component";
  */
 export default class KPIs extends BaseController implements IPage {
     public formatter = formatter;
+    private reportID:string;
     private sectionID: string;
     private kpiID: string;
     
@@ -56,6 +57,7 @@ export default class KPIs extends BaseController implements IPage {
         const paragraph = ((event.getSource().getBindingContext() as Context).getObject() as { paragraph: string }).paragraph;
         this.getRouter().navTo("RouteKPIDetails", {
             layout: LayoutType.TwoColumnsMidExpanded,
+            reportID:this.reportID,
             sectionID: this.sectionID,
             kpiID: this.kpiID,
             subKPI: subKPI,
@@ -66,6 +68,7 @@ export default class KPIs extends BaseController implements IPage {
     public async onObjectMatched(event: Route$PatternMatchedEvent): Promise<void> {
         const oDataModel = this.getComponentModel();
         oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
+        this.reportID = (event.getParameters().arguments as { reportID: string }).reportID;
         this.sectionID = (event.getParameters().arguments as { sectionID: string }).sectionID;
         this.kpiID = (event.getParameters().arguments as { kpiID: string }).kpiID;
         const smartTable = this.byId("stKPIs") as SmartTable;

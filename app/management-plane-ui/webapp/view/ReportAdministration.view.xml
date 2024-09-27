@@ -105,6 +105,7 @@
                                 text="{reportTitle}"
                                 href="{reportURL}"
                                 target="_blank"
+                                press="onLinkPress"
                             />
                             <ObjectStatus
                                 text="{status}"

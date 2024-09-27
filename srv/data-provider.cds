@@ -55,6 +55,7 @@ service ManagementPlane {
 
             key kpi.ID             as kpiID             : UUID,
                 kpi.sectionID      as sectionID         : UUID,
+                kpi.reportID       as reportID          :UUID,
                 sec.type           as sectionType       : String,
                 sec.name           as sectionName       : String,
                 kpi.chapterID      as kpiChapterID      : String,

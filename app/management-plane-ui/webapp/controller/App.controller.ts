@@ -6,6 +6,7 @@ import JSONModel from "sap/ui/model/json/JSONModel";
 import { FlexibleColumnLayout$StateChangeEvent } from "sap/f/FlexibleColumnLayout";
 import ShellBar from "sap/f/ShellBar";
 import { LayoutType } from "sap/f/library";
+import { report } from "process";
 
 /**
  * @namespace com.ndbs.managementplaneui.controller
@@ -17,6 +18,7 @@ export default class App extends Controller {
     private kpiID: string;
     private subKPI:string;
     private paragraph:string;
+    private reportID:string;
 
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
@@ -44,6 +46,7 @@ export default class App extends Controller {
         this.kpiID = (event.getParameters().arguments as { kpiID: string }).kpiID;
         this.subKPI = (event.getParameters().arguments as { subKPI: string }).subKPI;
         this.paragraph = (event.getParameters().arguments as { paragraph: string }).paragraph;
+        this.reportID=(event.getParameters().arguments as { reportID: string }).reportID;
     }
 
     public onStateChanged(event: FlexibleColumnLayout$StateChangeEvent) {
@@ -72,14 +75,21 @@ export default class App extends Controller {
         switch (this.currentRouteName) {
             case "RouteKPIs":
                 (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteKPIsOverview",{
+                        reportID:this.reportID,
                         sectionID: this.sectionID
                     });
                 break;
+            case "RouteSections":
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteReportAdministration");
+            break;
             case "RouteKPIsOverview":
-                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteHomepage");
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteSections",{
+                    reportID:this.reportID
+                });
                 break;
             case "RouteKPIDetails":
                 (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteKPIs", {
+                    reportID:this.reportID,
                     sectionID: this.sectionID,
                     kpiID:this.kpiID
                 });

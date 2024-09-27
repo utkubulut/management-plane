@@ -27,7 +27,8 @@ export enum Routes {
     KPIS_OVERVIEW = "RouteKPIsOverview",
     UPLOAD="RouteUploadReport",
     REPORT_ADMINISTRATION ="RouteReportAdministration",
-    REPORT_DETAILS="RouteReportDetails"
+    REPORT_DETAILS="RouteReportDetails",
+    SECTIONS="RouteSections"
 }
 
 export enum ApplicationGroups {
@@ -38,5 +39,6 @@ export enum ApplicationGroups {
     KPIS_OVERVIEW = "KPIsIOverview",
     UPLOAD="Upload",
     REPORT_ADMINISTRATION="ReportAdministration",
-    REPORT_DETAILS="ReportDetails"
+    REPORT_DETAILS="ReportDetails",
+    SECTIONS="Sections"
 }
