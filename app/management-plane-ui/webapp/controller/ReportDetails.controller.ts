@@ -143,7 +143,32 @@ export default class ReportDetails extends BaseController implements IPage {
             this._oUploadDialog.close();
         }
     }
+    public onPressDeleteDataSource() {
+        const oTable = (this.byId("iddDocumentTable") as Table);
+        const aSelectedItems = oTable.getSelectedItems();
 
+        if (aSelectedItems.length === 0) {
+            MessageBox.error("Please select at least one report to delete.");
+            return;
+        }
+        MessageBox.confirm("Are you sure you want to delete the selected document(s)?", {
+            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+            onClose: (oAction: string) => {
+                if (oAction === MessageBox.Action.YES) {
+                    const oModel = (this.getView() as View).getModel() as ODataModel;
+                    const aSelectedPaths = aSelectedItems
+                        .map((item: ListItemBase) => {
+                            const oBindingContext = (item as ColumnListItem).getBindingContext();
+                            return oBindingContext?.getPath() || null;  // Use optional chaining and fallback to null
+                        })
+                        .filter((path): path is string => path !== null);
+                    this._deleteDocumentsFromOData(oModel, aSelectedPaths);
+                    oTable.removeSelections();
+                }
+            }
+        });
+
+    }
     public onPressDelete() {
         const oTable = (this.byId("iddTreeDocumentTable") as Table);
         const aSelectedItems = oTable.getSelectedItems();

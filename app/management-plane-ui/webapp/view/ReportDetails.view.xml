@@ -274,7 +274,7 @@
                                                         id="deleteeButton"
                                                         text="{i18n>DeleteBtn}"
                                                         type="Transparent"
-                                                        press="onPressDelete"
+                                                        press="onPressDeleteDataSource"
                                                     />
                                                 </m:OverflowToolbar>
                                             </smartTable:customToolbar>
