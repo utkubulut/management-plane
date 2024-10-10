@@ -9,7 +9,8 @@ export interface IBindingParams {
         kpiID: string,
         subKPI: string,
         paragraph: string,
-        reportID:string
+        reportID:string,
+        customerID:string
     };
 }
 export interface IUserAPI {
@@ -31,13 +32,23 @@ export interface IReportHistory {
 }
 export interface IReportSet {
     reportID:string;
+    customerID:string;
     reportTitle:string;
-    reportURL: null,  
+    reportURL: null,
+    keywords:string,
     description:string;
     status:string;
     lastModified:string;
     creator:string;
 }
+export interface IDocuments {
+    ID: string;                
+    reportID: string;     
+    title: string;        
+    type: string;         
+    lastModified: string; 
+}
+
 
 export interface IKPIs {
     ID: string;

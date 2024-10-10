@@ -136,7 +136,7 @@
                                         class="sapUiTinyMarginEnd"
                                     />
                                     <m:Text
-                                        text="{				                path: 'reportDate',				                type: 'sap.ui.model.type.Date',				                formatOptions: {pattern: 'yyyy/MM/dd'}}"
+                                        text="{path: 'reportDate',type: 'sap.ui.model.type.Date',formatOptions: {pattern: 'yyyy/MM/dd'}}"
                                     />
                                 </m:HBox>
                                 <m:HBox>
@@ -195,31 +195,19 @@
                                     <m:VBox>
                                         <m:HBox>
                                             <m:Label
-                                                text="E1-2"
+                                                text="{subChapter}"
                                                 design="Bold"
                                             />
-                                            <m:Label
-                                                text=": Policies related to climate change mitigation and adaptation"
-                                            />
+                                            <m:Label text=": {topic}" />
                                         </m:HBox>
 
                                         <m:HBox>
                                             <m:Label
-                                                text="§13"
+                                                text="§{paragraph}"
                                                 design="Bold"
                                             />
                                             <m:Label
                                                 text=": When changes in the preparation and presentation of sustainability information occur compared to the previous reporting period(s), (see ESRS 1 section 7.4 Changes in preparation or presentation in sustainability information), the undertaking shall"
-                                            />
-                                        </m:HBox>
-
-                                        <m:HBox>
-                                            <m:Label
-                                                text="(c)"
-                                                design="Bold"
-                                            />
-                                            <m:Label
-                                                text=" disclose the difference between the figure disclosed in the preceding period and the revised comparative figure."
                                             />
                                         </m:HBox>
                                     </m:VBox>
@@ -242,8 +230,43 @@
                                             headerText="{i18n>reportOfTheKPI}"
                                             class="sapUiNoMarginBegin"
                                         >
+                                            <m:headerToolbar>
+                                                <!-- Correct toolbar placement -->
+                                                <m:Toolbar>
+                                                    <m:ToolbarSpacer />
+
+                                                    <m:Button
+                                                        id="reportEditBtn"
+                                                        text="{i18n>EditBtn}"
+                                                        press="onEditReportPress"
+                                                        icon="sap-icon://edit"
+                                                    />
+                                                    <m:Button
+                                                        id="reportSaveBtn"
+                                                        text="{i18n>SaveBtn}"
+                                                        press="onSaveReportPress"
+                                                        type="Emphasized"
+                                                        icon="sap-icon://save"
+                                                        visible="false"
+                                                    />
+                                                    <m:Button
+                                                        id="reportCancelBtn"
+                                                        text="Cancel"
+                                                        type="Reject"
+                                                        press="onCancelReportEdit"
+                                                        visible="false"
+                                                    />
+                                                    <m:Button
+                                                        text="{i18n>RegenerateReportBtn}"
+                                                        press="onRegenerateReportPress"
+                                                        icon="sap-icon://refresh"
+                                                    />
+                                                </m:Toolbar>
+                                            </m:headerToolbar>
+
                                             <smartForm:SmartForm
                                                 id="sfKPIsReport"
+                                                editable="{viewModel>/isEditable}"
                                             >
                                                 <smartForm:layout>
                                                     <smartForm:ColumnLayout
@@ -257,11 +280,14 @@
                                                     <smartForm:GroupElement>
                                                         <smartField:SmartField
                                                             value="{contentAI}"
+                                                            editable="{viewModel>/isEditable}"
+                                                            width="100%"
                                                         />
                                                     </smartForm:GroupElement>
                                                     <smartForm:GroupElement>
                                                         <smartField:SmartField
                                                             value="{contentEdited}"
+                                                            editable="{viewModel>/isEditable}"
                                                         />
                                                     </smartForm:GroupElement>
                                                 </smartForm:Group>

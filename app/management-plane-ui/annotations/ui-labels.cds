@@ -5,6 +5,7 @@ annotate service.KPIs with {
     chapterID       @Common.Label: '{i18n>chapterID}';
     chapterName    @Common.Label: '{i18n>chapterName}';
     subChapter     @Common.Label: '{i18n>subChapter}';
+    topic          @Common.Label: '{i18n>topic}';
     subchapterID   @Common.Label: '{i18n>subchapterID}';
     subchapterName @Common.Label: '{i18n>subchapterName}';
     subDescription @Common.Label: '{i18n>subDescription}';

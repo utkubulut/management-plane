@@ -17,7 +17,7 @@ service ManagementPlane {
         projection on DBKPIs {
             *,
             (
-                subchapterID || ' para. ' || paragraph
+                subchapterID
             )     as subChapter : String,
             case
                 when

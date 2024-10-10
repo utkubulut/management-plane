@@ -47,7 +47,7 @@ export default class KPIs extends BaseController implements IPage {
 
     public onBeforeRebindTable(event: SmartTable$BeforeRebindTableEvent) {
         const binding = event.getParameter("bindingParams") as IBindingParams;
-        const filters = new Filter("sectionID", FilterOperator.EQ, this.sectionID);
+        const filters = new Filter("ID", FilterOperator.EQ, this.kpiID);
         binding.filters.push(filters);
         // this.addBindingListener(binding, "dataReceived", this.onBindingDataReceivedListener.bind(this));
     }

@@ -13,6 +13,7 @@ entity Sections {
 entity KPIs : managed {
     key ID             : UUID;
     key paragraph      : String;
+        topic          : String;
         sectionID      : UUID;
         reportID       : UUID;
         chapterID      : String;
@@ -62,7 +63,9 @@ entity ReportHistory {
 
 entity ReportSet {
     key reportID     : UUID;
+        customerID   : UUID;
         reportTitle  : String(255);
+        keywords     : String;
         reportURL    : String(255);
         description  : String(500);
         status       : String(20);

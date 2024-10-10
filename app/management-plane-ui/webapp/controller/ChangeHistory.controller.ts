@@ -21,7 +21,9 @@ export default class ChangeHistory extends BaseController implements IPage {
     private kpiID: string;
     private subKPI: string;
     private paragraph: string;
+    private reportID: string;
     public subChapterName: string;
+
 
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
@@ -43,8 +45,9 @@ export default class ChangeHistory extends BaseController implements IPage {
         this.kpiID = (event.getParameters() as IBindingParams).arguments.kpiID;
         this.subKPI = (event.getParameters() as IBindingParams).arguments.subKPI;
         this.paragraph = (event.getParameters() as IBindingParams).arguments.paragraph;
-        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("Change History");
-        (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
+        this.reportID = (event.getParameters() as IBindingParams).arguments.reportID;
+        (((this.getOwnerComponent() as Component).getRootControl() as View).byId("sbApp") as ShellBar).setTitle("Change History");
+        (((this.getOwnerComponent() as Component).getRootControl() as View).byId("sbApp") as ShellBar).setShowNavButton(true);
 
     }
 
@@ -54,6 +57,7 @@ export default class ChangeHistory extends BaseController implements IPage {
 
     public onNavToKPIsDetails() {
         this.getRouter().navTo("RouteKPIDetails", {
+            reportID: this.reportID,
             layout: LayoutType.TwoColumnsMidExpanded,
             sectionID: this.sectionID,
             kpiID: this.kpiID,

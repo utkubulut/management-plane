@@ -31,6 +31,10 @@ export default class Component extends BaseComponent {
         this.setModel(new JSONModel, "userSessionInfo")
         this.setModel(createDeviceModel(), "device");
         this.setModel(new JSONModel(), "flexibleColumnLayout");
+        const oAppModel = new JSONModel({
+            customerID: null // Initialize with null or a default value
+        });
+        this.setModel(oAppModel, "appModel");
     }
 
     public getHelper(): FlexibleColumnLayoutSemanticHelper {

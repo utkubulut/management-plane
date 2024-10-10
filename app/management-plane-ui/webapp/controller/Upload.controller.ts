@@ -7,7 +7,7 @@ import PageCL from "../utils/common/PageCL";
 import { IPage, Routes } from "../types/global.types";
 import Model, { Model$RequestFailedEvent } from "sap/ui/model/Model";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
-import { IReportSet } from "../types/kpis.types";
+import { IBindingParams, IReportSet } from "../types/kpis.types";
 import Component from "../Component";
 import View from "sap/ui/core/mvc/View";
 import ShellBar from "sap/f/ShellBar";
@@ -26,6 +26,7 @@ import ODataCreateCL from "ui5/antares/odata/v2/ODataCreateCL";
 export default class Upload extends BaseController implements IPage {
     private _wizard: Wizard;
     private model: JSONModel;
+    private customerID:string;
     private _oNavContainer: NavContainer;
     private _oWizardContentPage: Page;
 
@@ -38,7 +39,7 @@ export default class Upload extends BaseController implements IPage {
         this.model = new JSONModel();
 
     }
-    private async onFileUpload(event: UploadCollection$UploadTerminatedEvent) {
+    private async onFileUpload(reportID:string,customerID:string) {
         const user = new UserAPI(this);
         const session = await user.getLoggedOnUser();
         const uploadItems = (this.byId("usFileAttachments") as UploadSet).getIncompleteItems();
@@ -53,7 +54,7 @@ export default class Upload extends BaseController implements IPage {
             const fileName = item.getProperty("fileName");
             const fileType = item.getProperty("mediaType");
             this.model.setProperty("/fileName", `${fileName}`);
-            const blobName = `${session.email}|||${fileName}`;
+            const blobName = `${customerID}|||${reportID}|||${session.email}|||${fileName}`;
             const uploadURL = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
             const headers = new Headers();
             headers.append('x-ms-blob-type', 'BlockBlob');
@@ -113,11 +114,11 @@ export default class Upload extends BaseController implements IPage {
 
                 const fileList = [];
                 for (let i = 0; i < blobs.length; i++) {
-                    if ((blobs[i].getElementsByTagName("Name")[0].textContent as string).split("|||")[0] === session.email) {
+                    if ((blobs[i].getElementsByTagName("Name")[0].textContent as string).split("|||")[2] === session.email) {
                         const fileName = (blobs[i].getElementsByTagName("Name")[0].textContent as string);
                         fileList.push({
-                            fileName: fileName.split("|||")[1], // Split the blob name to get the actual file name
-                            uploadedBy: fileName.split("|||")[0], // Split to get the user's email
+                            fileName: fileName.split("|||")[3], // Split the blob name to get the actual file name
+                            uploadedBy: fileName.split("|||")[2], // Split to get the user's email
                             url: `https://${storageAccountName}.blob.core.windows.net/${containerName}/${fileName}?${sasToken}`
                         });
                     }
@@ -285,8 +286,12 @@ export default class Upload extends BaseController implements IPage {
         const oWizardData = oModel.getData();
         const user = new UserAPI(this);
         const session = await user.getLoggedOnUser();
+        const reportID=window.crypto.randomUUID();
+        const customerID = ((this.getOwnerComponent()as Component).getModel("appModel")as JSONModel).getProperty("/customerID");
         const oNewReportEntry :IReportSet= {
-            reportID: window.crypto.randomUUID(),
+            reportID: reportID,
+            customerID:customerID,
+            keywords:oWizardData.reportKeywords,
             reportTitle: oWizardData.reportTitle,
             reportURL: null,  
             description: oWizardData.reportDescription,
@@ -297,7 +302,10 @@ export default class Upload extends BaseController implements IPage {
         const creator = new ODataCreateCL<IReportSet>(this, "ReportSet");
         creator.setData(oNewReportEntry);
         creator.create();
-        this.getRouter().navTo("RouteReportAdministration");
+        this.onFileUpload(reportID,customerID);
+        this.getRouter().navTo("RouteReportAdministration",{
+            customerID:this.customerID
+        });
         this._handleNavigationToStep(0);
         this._wizard.discardProgress(this._wizard.getSteps()[0], true);
     }

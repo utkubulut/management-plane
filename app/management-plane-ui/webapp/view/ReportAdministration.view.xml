@@ -97,23 +97,58 @@
                         </customData>
                         <Text text="{i18n>creator}" />
                     </Column>
+                    <Column>
+                        <customData>
+                            <core:CustomData
+                                key="p13nData"
+                                value='\{"columnKey": "lastModified", "leadingProperty": "lastModified", "columnIndex": 3}'
+                            />
+                        </customData>
+                        <Text text="{i18n>lastModified}" />
+                    </Column>
                 </columns>
-                    <ColumnListItem type="Navigation"
-                                        press="onItemPressed">
+                <items>
+                    <ColumnListItem
+                        type="Navigation"
+                        press="onItemPressed"
+                    >
                         <cells>
-                            <Link
-                                text="{reportTitle}"
-                                href="{reportURL}"
-                                target="_blank"
-                                press="onLinkPress"
-                            />
-                            <ObjectStatus
-                                text="{status}"
-                                state="{path:'status', formatter:'.formatter.formatStatusHighlight'}"
-                            />
+                            <HBox>
+                                <Link
+                                    text="{reportTitle}"
+                                    href="{reportURL}"
+                                    target="_blank"
+                                    visible="true"
+                                    press="onLinkPress"
+                                />
+                                <Input
+                                    value="{reportTitle}"
+                                    visible="false"
+                                    width="100%"
+                                    editable="{ui>/editMode}"
+                                />
+                            </HBox>
+
+                            <HBox>
+                                <ObjectStatus
+                                    text="{status}"
+                                    state="{path:'status', formatter:'.formatter.formatStatusHighlight'}"
+                                    visible="true"
+                                />
+                                <Input
+                                    value="{status}"
+                                    visible="false"
+                                    width="100%"
+                                    editable="{ui>/editMode}"
+                                />
+                            </HBox>
                             <Text text="{creator}" />
+                            <Text
+                                text="{path:'lastModified', type: 'sap.ui.model.type.Date', formatOptions:{pattern:'dd MMMM y'}}"
+                            />
                         </cells>
                     </ColumnListItem>
+                </items>
             </Table>
         </smartTable:SmartTable>
     </Page>

@@ -158,15 +158,6 @@
                                         httpRequestMethod="Put"
                                         mode="None"
                                     />
-
-                                    <HBox justifyContent="End">
-                                        <Button
-                                            text="{i18n>btnExcelUpload}"
-                                            press="onFileUpload"
-                                        />
-                                        <!-- <Button text="{i18n>btnClose}" press="onCloseFileUpload"/> -->
-                                    </HBox>
-
                                     <VBox>
                                         <Table
                                             id="fileTable"

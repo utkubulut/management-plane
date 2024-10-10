@@ -24,6 +24,7 @@ import FilterOperator from "sap/ui/model/FilterOperator";
 export default class SECTIONS extends BaseController implements IPage {
     public formatter=formatter
     private reportID:string;
+    private customerID:string;
 
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
@@ -44,6 +45,7 @@ export default class SECTIONS extends BaseController implements IPage {
         const oDataModel = this.getComponentModel();
         oDataModel.attachRequestFailed({}, this.onODataRequestFail, this);
         this.reportID=(event.getParameters().arguments as { reportID: string }).reportID;
+        this.customerID=(event.getParameters().arguments as { customerID: string }).customerID;
         (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setTitle("Sections");
         (((this.getOwnerComponent() as Component).getRootControl() as View ).byId("sbApp") as ShellBar).setShowNavButton(true);
         this.applySectionFilter();
@@ -63,6 +65,7 @@ export default class SECTIONS extends BaseController implements IPage {
         const reportID = ((event.getSource().getBindingContext() as Context).getObject() as { reportID: string }).reportID;
         const sectionID=((event.getSource().getBindingContext() as Context).getObject() as { ID: string }).ID;
         this.getRouter().navTo("RouteKPIsOverview", {
+            customerID:this.customerID,
             reportID: reportID,
             sectionID: sectionID
         });

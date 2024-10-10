@@ -67,6 +67,10 @@
                                     key="kpiID"
                                     value="{ID}"
                                 />
+                                <core:CustomData
+                                    key="subchapterID"
+                                    value="{subchapterID}"
+                                />
                             </customData>
                         </Button>
                     </HBox>

@@ -19,6 +19,7 @@ export default class App extends Controller {
     private subKPI:string;
     private paragraph:string;
     private reportID:string;
+    private customerID:string;
 
     /* ======================================================================================================================= */
     /* Lifecycle methods                                                                                                       */
@@ -47,6 +48,7 @@ export default class App extends Controller {
         this.subKPI = (event.getParameters().arguments as { subKPI: string }).subKPI;
         this.paragraph = (event.getParameters().arguments as { paragraph: string }).paragraph;
         this.reportID=(event.getParameters().arguments as { reportID: string }).reportID;
+        this.customerID=(event.getParameters().arguments as { customerID: string }).customerID;
     }
 
     public onStateChanged(event: FlexibleColumnLayout$StateChangeEvent) {
@@ -69,9 +71,6 @@ export default class App extends Controller {
     }
 
     public onNavToView(target: string): void {
-       
-  
- 
         switch (this.currentRouteName) {
             case "RouteKPIs":
                 (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteKPIsOverview",{
@@ -80,10 +79,13 @@ export default class App extends Controller {
                     });
                 break;
             case "RouteSections":
-                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteReportAdministration");
+                (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteReportAdministration",{
+                    customerID:this.customerID
+                });
             break;
             case "RouteKPIsOverview":
                 (this.getOwnerComponent() as UIComponent).getRouter().navTo("RouteSections",{
+                    customerID:this.customerID,
                     reportID:this.reportID
                 });
                 break;

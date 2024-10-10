@@ -21,6 +21,9 @@ import { Model$RequestFailedEvent } from "sap/ui/model/Model";
 import Component from "../Component";
 import ObjectPageSection from "sap/uxap/ObjectPageSection";
 import { URLHelper } from "sap/m/library";
+import JSONModel from "sap/ui/model/json/JSONModel";
+import Button from "sap/m/Button";
+import MessageBox from "sap/m/MessageBox";
 
 
 /**
@@ -34,7 +37,7 @@ export default class KPIDetails extends BaseController implements IPage {
     private paragraph: string;
     public subChapterName: string;
     public reportID: string;
-    
+
 
 
     /* ======================================================================================================================= */
@@ -46,6 +49,12 @@ export default class KPIDetails extends BaseController implements IPage {
         page.initialize();
         const oOPL = (this.getView() as View).byId("oplKpi") as ObjectPageLayout;
         oOPL.attachBeforeNavigate(this.onBeforeNavigate.bind(this));
+        var oViewModel = new JSONModel({
+            isEditable: false,
+            contentAI: "",       // Original AI-generated content
+            contentEdited: ""    // User-edited content
+        });
+        (this.getView() as View).setModel(oViewModel, "viewModel");
     }
 
     /* ======================================================================================================================= */
@@ -58,6 +67,7 @@ export default class KPIDetails extends BaseController implements IPage {
 
     public onNavToKPIs() {
         this.getRouter().navTo("RouteKPIs", {
+            reportID:this.reportID,
             sectionID: this.sectionID,
             kpiID: this.kpiID
         });
@@ -119,6 +129,40 @@ export default class KPIDetails extends BaseController implements IPage {
         this.openMessagePopover();
     }
 
+    public onEditReportPress() {
+        (this.byId("reportEditBtn") as Button).setVisible(false);
+        (this.byId("reportSaveBtn") as Button).setVisible(true);
+        (this.byId("reportCancelBtn") as Button).setVisible(true);
+        const oViewModel = ((this.getView() as View).getModel("viewModel") as JSONModel);
+        const bEditable = oViewModel.getProperty("/isEditable");
+        oViewModel.setProperty("/isEditable", !bEditable);
+    }
+    public onCancelReportEdit() {
+        (this.byId("sfKPIsReport") as SmartForm).setEditable(false);
+        (this.byId("reportEditBtn") as Button).setVisible(true);
+        (this.byId("reportSaveBtn") as Button).setVisible(false);
+        (this.byId("reportCancelBtn") as Button).setVisible(false);
+    }
+    public onSaveReportPress() {
+        let oModel = ((this.getView() as View).getModel() as ODataModel),
+            oReportForm = ((this.getView() as View).byId("sfKPIsReport") as SmartForm);
+
+        if (oModel.hasPendingChanges()) {
+            oModel.setUseBatch(true);
+            oModel.submitChanges({
+                success: function (oResponse: Response) {
+                    MessageBox.success("Successfully edited.");
+                    oReportForm.setEditable(false);
+
+                }.bind(this)
+            });
+        }
+
+        (this.byId("reportEditBtn") as Button).setVisible(true);
+        (this.byId("reportSaveBtn") as Button).setVisible(false);
+        (this.byId("reportCancelBtn") as Button).setVisible(false);
+    }
+
     /* ======================================================================================================================= */
     /* Private Functions                                                                                                       */
     /* ======================================================================================================================= */
@@ -127,6 +171,7 @@ export default class KPIDetails extends BaseController implements IPage {
         const action = ((event.getParameter("item") as any).getText() as string);
         if (action === "Change History") {
             this.getRouter().navTo("RouteChangeHistory", {
+                reportID:this.reportID,
                 layout: LayoutType.ThreeColumnsMidExpanded,
                 sectionID: this.sectionID,
                 kpiID: this.kpiID,
